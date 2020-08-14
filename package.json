@@ -1,0 +1,22 @@
+{
+  "name": "emam-website",
+  "version": "1.0.0",
+  "description": "Emam core website based expressjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emamindonesia/emam-website.git"
+  },
+  "author": "Ala Rai AbdiAllah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emamindonesia/emam-website/issues"
+  },
+  "homepage": "https://github.com/emamindonesia/emam-website#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
