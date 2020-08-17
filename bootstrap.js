@@ -3,6 +3,9 @@ const app = express()
 const path = require('path')
 const bodyParser = require('body-parser')
 
+//Security
+app.disable('x-powered-by')
+
 //load body parser
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())

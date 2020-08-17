@@ -1,0 +1,35 @@
+<%- include('./partials/header.html') %>
+<%- include('./partials/navbar.html') %>
+
+<div class="container" style="margin-top: 10px;">
+    <a href="/admin/places/new" class="btn">New Place</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Place name</th>
+                <th>Location</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="active">
+                <td>Sokko Coffe</td>
+                <td>Bandung</td>
+                <td>
+                    <button class="btn">Edit</button>
+                    <button class="btn">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <ul class="pagination">
+        <li class="page-item disabled">
+          <a href="#" tabindex="-1">Previous</a>
+        </li>
+        <li class="page-item">
+          <a href="#">Next</a>
+        </li>
+      </ul>
+</div>
+
+<%- include('./partials/footer.html') %>
