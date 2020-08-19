@@ -17,6 +17,13 @@ const gallerySchema = new Schema({
     path: String
 });
 
+const operationalTimeSchema = new Schema({
+    day: String,
+    openTime: String,
+    closeTime: String,
+    options: Schema.Types.Mixed
+});
+
 const schema = new Schema({
     name: String,
     slug: {type: String, unique: true},
@@ -24,6 +31,7 @@ const schema = new Schema({
     city: String,
     cuisines: [String],
     type: [String],
+    operational_times: [operationalTimeSchema],
     facilities: [facilitySchema],
     medias: [mediaSchema],
     call_to_actions: [callToActionSchema],
