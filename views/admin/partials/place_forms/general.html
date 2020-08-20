@@ -1,0 +1,73 @@
+<div v-if="sideMenuIndex == 0">
+    <h1>General</h1>
+    <div class="columns">
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label" for="name">Place Name*</label>
+                <input class="form-input" type="text" id="name" v-model="form.name" required placeholder="Ex: Kogarashi cafe">
+            </div>
+        </div>
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label" for="slug">Slug*</label>
+                <input class="form-input" type="text" id="slug" readonly required v-model="form.slug" placeholder="kogarasi-cafe">
+            </div>
+        </div>
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label" for="city">City*</label>
+                <select class="form-select" id="city" v-model="form.city" required>
+                    <option value="" selected>Choose an option</option>
+                    <option value="bandung">Bandung</option>
+                    <option value="Jakarta">Jakarta</option>
+                  </select>
+            </div>
+        </div>
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label" for="address">Address*</label>
+                <input class="form-input" type="text" id="address" required v-model="form.address" placeholder="Ex: Jln. XXXX">
+            </div>
+        </div>
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label" for="type">Place Type*</label>
+                <select class="form-select" id="type" v-model="form.type" required>
+                    <option value="" selected>Choose an option</option>
+                    <option v-for="type in formFieldValues.place_categories" v-bind:value="type">{{type}}</option>
+                </select>
+            </div>
+            
+        </div>
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label" for="cuisine">Cuisine</label>
+                <vue-tags-input
+                    v-model="formTmp.cuisine"
+                    :tags="form.cuisines"
+                    :autocomplete-items="formFieldValues.cuisines"
+                    :placeholder="'Chinese'"
+                    @tags-changed="t => form.cuisines = t" />
+            </div>
+        </div>
+
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label" for="payments">Payments</label>
+                <vue-tags-input
+                    v-model="formTmp.payment"
+                    :tags="form.payments"
+                    :autocomplete-items="formFieldValues.payments"
+                    :placeholder="'Kartu Kredit'"
+                    @tags-changed="t => form.payments = t" />
+            </div>
+        </div>
+
+        <div class="column col-12">
+            <div class="form-group">
+                <label class="form-label" for="description">Description*</label>
+                <textarea v-model="form.description" id="description" class="form-input" placeholder="Tell about your place" rows="5"></textarea>  
+            </div>
+        </div>
+    </div>
+</div>

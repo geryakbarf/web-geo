@@ -5,7 +5,7 @@ const baseKeyValSchema = {
 }
 
 const baseTypeValSchema = {
-    name: String,
+    type: String,
     value: String,
     options: Schema.Types.Mixed
 }

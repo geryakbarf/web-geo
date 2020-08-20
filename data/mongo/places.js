@@ -31,7 +31,7 @@ const schema = new Schema({
     city: String,
     address: String,
     cuisines: [String],
-    type: [String],
+    type: String,
     payments: Schema.Types.Mixed,
     operational_times: [operationalTimeSchema],
     facilities: [facilitySchema],

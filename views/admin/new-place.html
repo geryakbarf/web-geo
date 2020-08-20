@@ -1,30 +1,29 @@
 <%- include('./partials/header.html') %>
 <%- include('./partials/navbar.html') %>
 
-<div class="container">
+<div class="container" >
     <h1>New place</h1>
-    <div class="columns">
+    <div class="columns" id="form-place">
         <div class="column col-2" style="border-right: 1px solid #eee;">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a href="javascript:void(0)">General</a>
-                    <ul class="nav">
-                        <li class="nav-item"><a href="javascript:void(0)">Facilities</a></li>
-                        <li class="nav-item"><a href="javascript:void(0)">Operational times</a></li>
-                        <li class="nav-item"><a href="javascript:void(0)">Banners</a></li>
-                        <li class="nav-item"><a href="javascript:void(0)">Medias</a></li>
-                        <li class="nav-item"><a href="javascript:void(0)">Call to Actions</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item"><a href="javascript:void(0)">Menus</a></li>
-                <li class="nav-item"><a href="javascript:void(0)">Galleries</a></li>
-                <li class="nav-item"><a href="javascript:void(0)">Covid-19</a></li>
-            </ul>
+            <%- include('./partials/place_form_nav.html') %>
         </div>
         <div class="column col-10">
-            
+            <%- include('./partials/place_forms/general.html') %>
+            <%- include('./partials/place_forms/facilities.html') %>
+            <%- include('./partials/place_forms/operational_times.html') %>
+            <%- include('./partials/place_forms/banners.html') %>
+            <%- include('./partials/place_forms/medias.html') %>
+            <%- include('./partials/place_forms/cta.html') %>
+            <%- include('./partials/place_forms/menus.html') %>
+            <%- include('./partials/place_forms/galleries.html') %>
+            <%- include('./partials/place_forms/covid.html') %>
+            <div style="clear: both;"></div>
+            <div style="float:right; margin-top: 10px;">
+                <button class="btn">Cancel</button>
+                <button class="btn">Save</button>
+                <button class="btn" v-on:click="onSave">Save & Close</button>
+            </div>
         </div>
     </div>
 </div>
-
 <%- include('./partials/footer.html') %>

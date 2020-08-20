@@ -15,8 +15,14 @@ router.get('/places', (req, res) => {
     res.render('admin/places')
 })
 
-router.get('/places/new', (req, res) => {
-    res.render('admin/new-place')
+
+router.get('/places/new', async (req, res) => {
+    const loadJS = [
+        {src:"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        {src:"https://unpkg.com/@johmun/vue-tags-input@2.1.0/dist/vue-tags-input.js"},
+        {src:"/assets/js/admin/form_place.js"},
+    ];
+    res.render('admin/new-place',{loadJS})
 })
 
 module.exports = router
