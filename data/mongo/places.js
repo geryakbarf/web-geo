@@ -32,6 +32,8 @@ const schema = new Schema({
     address: String,
     cuisines: [String],
     type: String,
+    partner: Boolean,
+    is_draft: Boolean,
     payments: Schema.Types.Mixed,
     operational_times: [operationalTimeSchema],
     facilities: [facilitySchema],
