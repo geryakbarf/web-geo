@@ -33,6 +33,7 @@ var app = new Vue({
             cuisine: '',
             payment: '',
             photo: null,
+            galleries: []
         },
         formFieldValues: {
             place_categories: [],
@@ -110,6 +111,38 @@ var app = new Vue({
             formData.cuisines = formData.cuisines.map(e => (e.text));
             formData.payments = formData.payments.map(e => ({code: e.code, name: e.text})); 
             console.log(formData);
+            console.log([...this.formTmp.galleries]);
+        },
+        addGalleryFile: function(e, groupId){
+            let _this = this;
+            const files = e.target.files || e.dataTransfer.files;
+            ([...files]).forEach(function(f){
+                let idx = _this.formTmp.galleries.findIndex(e => e.id == groupId);
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    _this.formTmp.galleries[idx].images.push({file: f, imgData: e.target.result});
+                }
+                reader.readAsDataURL(f);
+            });
+            
+        },
+        deleteGalleryFile: function(groupId, idx){
+            this.formTmp.galleries.map(e => {
+                if(e.id == groupId)
+                    e.images = e.images.filter((e1,i) => (i != idx));
+
+                return e;
+            })
+            
+        },
+        addGalleryGroup: function(){
+            let id = CryptoJS.MD5(new Date().toTimeString()).toString();
+            this.formTmp.galleries.push(
+                {id, category:'', images:[]}
+            )
+        },
+        deleteGalleryGroup: function(groupId){
+            this.formTmp.galleries = this.formTmp.galleries.filter((e) => (e.id != groupId));
         },
         loadPlaceCategories: async function(){
             const ctx = this;
@@ -136,7 +169,13 @@ var app = new Vue({
             const ctx = this;
             fetch('/api/v1/covid-protocols').then(res => res.json())
             .then(res => ctx.formFieldValues.covid_prot = res);
-        }
+        },
+        leaving: function (event) {
+            // Cancel the event as stated by the standard.
+            event.preventDefault();
+            // Chrome requires returnValue to be set.
+            event.returnValue = '';
+        },
     },
     mounted() {
         this.loadPlaceCategories()
@@ -144,5 +183,11 @@ var app = new Vue({
         this.loadPayments()
         this.loadFacilities()
         this.loadCovidProtocols()
+        window.addEventListener('beforeunload', function (event) {
+            // Cancel the event as stated by the standard.
+            event.preventDefault();
+            // Chrome requires returnValue to be set.
+            event.returnValue = '';
+        });
     }
 })
