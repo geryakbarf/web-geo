@@ -106,12 +106,20 @@ var app = new Vue({
             }
             
         },
-        onSave: function(){
+        onSave: function(close = false){
             let formData = {...this.form};
             formData.cuisines = formData.cuisines.map(e => (e.text));
             formData.payments = formData.payments.map(e => ({code: e.code, name: e.text})); 
             console.log(formData);
             console.log([...this.formTmp.galleries]);
+            if(close){
+                window.removeEventListener('beforeunload', ()=>{
+                    
+                });
+                setTimeout(()=>{window.location = '/admin/places';}, 300)
+                
+            }
+            
         },
         addGalleryFile: function(e, groupId){
             let _this = this;
