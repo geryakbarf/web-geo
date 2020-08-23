@@ -63,6 +63,19 @@
             </div>
         </div>
 
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label">Photo</label>
+                <input type="file" v-on:change="onPhotoChange" id="photo" style="display:none;"/>
+                <button class="btn btn-primary btn-upload">
+                    <label for="photo">Click me to upload image</label>
+                </button>
+                <br />
+                <br />
+                <img ref="photo" v-show="formTmp.photo" width="200">
+            </div>
+        </div>
+
         <div class="column col-12">
             <div class="form-group">
                 <label class="form-label" for="description">Description*</label>

@@ -20,8 +20,24 @@ const PaymentSchema = new Schema({
 
 const Payment = mongo.model('Payment', PaymentSchema);
 
+const FacilitySchema = new Schema({
+    name: String,
+    options: Schema.Types.Mixed
+},{ timestamps:{} });
+
+const Facility = mongo.model('Facility', FacilitySchema);
+
+const CovidProtSchema = new Schema({
+    name: String,
+    options: Schema.Types.Mixed
+},{ timestamps:{} });
+
+const CovidProtocol = mongo.model('CovidProtocol', CovidProtSchema);
+
 module.exports = {
     PlaceCategory,
     Cuisine,
-    Payment
+    Payment,
+    Facility,
+    CovidProtocol
 };
