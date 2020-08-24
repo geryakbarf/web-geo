@@ -1,6 +1,6 @@
 const mongo = require('./index');
 const mongoose_delete = require('mongoose-delete');
-const {baseKeyValSchema} = require('./extra');
+const {baseTypeValSchema} = require('./extra');
 const {Schema} = mongo;
 const modelName = 'Place';
 

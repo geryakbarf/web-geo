@@ -75,7 +75,23 @@
                 <img ref="photo" v-show="formTmp.photo" width="200">
             </div>
         </div>
+        <div class="column col-3">
+            <div class="form-group">
+                <label class="form-switch">
+                  <input type="checkbox" v-model="form.is_draft">
+                  <i class="form-icon"></i> Draft
+                </label>
+            </div>
+        </div>
 
+        <div class="column col-3">
+            <div class="form-group">
+                <label class="form-switch">
+                  <input type="checkbox" v-model="form.is_partner">
+                  <i class="form-icon"></i> Partner
+                </label>
+            </div>
+        </div>
         <div class="column col-12">
             <div class="form-group">
                 <label class="form-label" for="description">Description*</label>

@@ -28,7 +28,7 @@ app.use('/assets', express.static('public'))
 
 //load middleware
 app.use(require('./middlewares/ejs_default'))
-app.use(require('./middlewares/logger'))
+// app.use(require('./middlewares/logger'))
 
 require('./routers')(app)
 
