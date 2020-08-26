@@ -1,3 +1,5 @@
+const mongo = require('./index');
+const {Schema} = mongo;
 const baseKeyValSchema = {
     name: String,
     value: String,

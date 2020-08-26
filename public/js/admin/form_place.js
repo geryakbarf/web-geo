@@ -10,6 +10,8 @@ var app = new Vue({
             address: '',
             type: '',
             description: '',
+            is_draft: false,
+            is_partner: false,
             cuisines: [],
             payments: [],
             facilities: [],
@@ -109,17 +111,12 @@ var app = new Vue({
         onSave: function(close = false){
             let formData = {...this.form};
             formData.cuisines = formData.cuisines.map(e => (e.text));
-            formData.payments = formData.payments.map(e => ({code: e.code, name: e.text})); 
-            console.log(formData);
-            console.log([...this.formTmp.galleries]);
+            formData.payments = formData.payments.map(e => ({code: e.code, name: e.text}));
+            this.createPlace(formData);
             if(close){
-                window.removeEventListener('beforeunload', ()=>{
-                    
-                });
-                setTimeout(()=>{window.location = '/admin/places';}, 300)
-                
+                window.removeEventListener('beforeunload',this.leaving, true)
+                window.location = "/admin/places"
             }
-            
         },
         addGalleryFile: function(e, groupId){
             let _this = this;
@@ -152,38 +149,63 @@ var app = new Vue({
         deleteGalleryGroup: function(groupId){
             this.formTmp.galleries = this.formTmp.galleries.filter((e) => (e.id != groupId));
         },
+        createPlace: async function(formData){
+            try {
+                const res = await fetch('/api/v1/places',{method: "POST", body: JSON.stringify(formData), headers:{'Content-Type':"application/json"}});
+                console.log(await res.json());
+            } catch (error) {
+                console.log(error);
+            }
+        },
         loadPlaceCategories: async function(){
-            const ctx = this;
-            fetch('/api/v1/place_categories')
-            .then(res => res.json()).then(res => res.map(e => (e.name)))
-            .then(res => ctx.formFieldValues.place_categories = res);
+            try {
+                const res = await fetch('/api/v1/place-categories');
+                const data = await res.json();
+                this.formFieldValues.place_categories = data.map(e => (e.name))    
+            } catch (error) {
+                console.log(error);
+            }
         },
         loadCuisines: async function(){
-            const ctx = this;
-            fetch('/api/v1/cuisines').then(res => res.json()).then(res => res.map(e => ({text: e.name})))
-            .then(res => ctx.formFieldValues.cuisines = res);
+            try {
+                const res = await fetch('/api/v1/cuisines');
+                const data = await res.json();
+                this.formFieldValues.cuisines = data.map(e => ({text: e.name}))    
+            } catch (error) {
+                console.log(error);
+            }
         },
-        loadPayments: async function(){
-            const ctx = this;
-            fetch('/api/v1/payments').then(res => res.json()).then(res => res.map(e => ({code:e.code, text: e.name})))
-            .then(res => ctx.formFieldValues.payments = res);
+        loadPayments:  async function(){
+            try {
+                const res = await fetch('/api/v1/payments');
+                const data = await res.json();
+                this.formFieldValues.payments = data.map(e => ({code:e.code, text: e.name}))   
+            } catch (error) {
+                console.log(error);
+            }
         },
         loadFacilities: async function(){
-            const ctx = this;
-            fetch('/api/v1/facilities').then(res => res.json()).then(res => res.map(e => (e.name)))
-            .then(res => ctx.formFieldValues.facilities = res);
+            try {
+                const res = await fetch('/api/v1/facilities');
+                const data = await res.json();
+                this.formFieldValues.facilities = data.map(e => (e.name))   
+            } catch (error) {
+                console.log(error);
+            }
         },
         loadCovidProtocols: async function(){
-            const ctx = this;
-            fetch('/api/v1/covid-protocols').then(res => res.json())
-            .then(res => ctx.formFieldValues.covid_prot = res);
+            try {
+                const res = await fetch('/api/v1/covid-protocols');
+                const data = await res.json();
+                this.formFieldValues.covid_prot = data   
+            } catch (error) {
+                console.log(error);
+            }
         },
         leaving: function (event) {
-            // Cancel the event as stated by the standard.
             event.preventDefault();
-            // Chrome requires returnValue to be set.
             event.returnValue = '';
-        },
+        }
     },
     mounted() {
         this.loadPlaceCategories()
@@ -191,11 +213,6 @@ var app = new Vue({
         this.loadPayments()
         this.loadFacilities()
         this.loadCovidProtocols()
-        window.addEventListener('beforeunload', function (event) {
-            // Cancel the event as stated by the standard.
-            event.preventDefault();
-            // Chrome requires returnValue to be set.
-            event.returnValue = '';
-        });
+        window.addEventListener('beforeunload', this.leaving, true);
     }
 })
