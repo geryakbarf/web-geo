@@ -10,5 +10,10 @@
   <link rel="stylesheet" href="/assets/styles/admin/app.css">
   <link rel="shortcut icon" href="/assets/images/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+  <% if(locals.loadCSS){ %>
+      <% locals.loadCSS.forEach(e =>{ %>
+        <link rel="stylesheet" href="<%= e.src %>">  
+      <% }) %>
+  <% } %>
 </head>
 <body>

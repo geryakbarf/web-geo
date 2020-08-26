@@ -1,5 +1,4 @@
 const Place = require('../../data/mongo/places');
-const { response } = require('express');
 
 const createPlace = async(req,res) => {
     try {
@@ -12,7 +11,7 @@ const createPlace = async(req,res) => {
         });    
     } catch (error) {
         console.log(error);
-        res.json({
+        res.status(500).json({
             message: "Terjadi kesalahan, mohon hubungi admin."
         })
     }

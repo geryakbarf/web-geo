@@ -34,7 +34,10 @@ const schema = new Schema({
     is_partner: Boolean,
     is_draft: Boolean,
     payments: Schema.Types.Mixed,
-    photo: String,
+    photo: {
+        path: String,
+        options: Schema.Types.Mixed
+    },
     operational_times: [operationalTimeSchema],
     facilities: [facilitySchema],
     call_to_actions: [callToActionSchema],

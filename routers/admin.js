@@ -24,9 +24,14 @@ router.get('/places/new', async (req, res) => {
         {src:"https://cdn.jsdelivr.net/npm/slugify-js@0.0.2/src/slugify.min.js"},
         {src:"https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"},
         {src:"https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"},
+        {src:"https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
+        {src:"https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
         {src:"/assets/js/admin/form_place.js"},
     ];
-    res.render('admin/new-place',{loadJS})
+    const loadCSS = [
+        {src: "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"}
+    ]
+    res.render('admin/new-place',{loadJS, loadCSS})
 })
 
 module.exports = router

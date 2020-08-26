@@ -108,14 +108,20 @@ var app = new Vue({
             }
             
         },
-        onSave: function(close = false){
+        onSave: async function(close = false){
+            await this.uploadGalleryImage();
             let formData = {...this.form};
             formData.cuisines = formData.cuisines.map(e => (e.text));
             formData.payments = formData.payments.map(e => ({code: e.code, name: e.text}));
-            this.createPlace(formData);
+            const res = await this.createPlace(formData);
+            toastr.success(res.message)
             if(close){
-                window.removeEventListener('beforeunload',this.leaving, true)
-                window.location = "/admin/places"
+                let _this = this
+                setTimeout(() =>{
+                    window.removeEventListener('beforeunload', _this.leaving, true)
+                    window.location = "/admin/places"
+                }, 1000)
+                
             }
         },
         addGalleryFile: function(e, groupId){
@@ -149,12 +155,55 @@ var app = new Vue({
         deleteGalleryGroup: function(groupId){
             this.formTmp.galleries = this.formTmp.galleries.filter((e) => (e.id != groupId));
         },
+        uploadGalleryImage: async function() {
+            let uploads = [];
+            this.formTmp.galleries.forEach(e => {
+                e.images.forEach(e1 => {
+                    uploads.push({category: e.category, file: e1.file })
+                })
+            })
+
+            uploads = uploads.map(async (e)=> {
+                try {
+                    let formData = new FormData();
+                    formData.append('file', e.file)
+                    const params = { method: 'POST', body: formData};
+                    const res = await fetch('/api/v1/upload-image-s3', params);
+                    if(res.status != 200) throw Error("Upload gallery gagal!");
+                    const data = await res.json();
+                    const { path, options } = data.data;
+                    return Promise.resolve({category: e.category, path, options});    
+                } catch (error) {
+                    return Promise.reject(error);
+                }
+            });
+
+            this.form.galleries = await Promise.all(uploads);
+        },
+        photoUpload: async function(){
+            try {
+                let formData = new FormData();
+                formData.append('file', this.formTmp.photo)
+                const params = { method: 'POST', body: formData};
+                const res = await fetch('/api/v1/upload-image-s3', params);
+                if(res.status != 200) throw Error("Upload photo gagal!");
+                const data = await res.json();
+                return Promise.resolve(data.data);
+            } catch (error) {
+                return Promise.reject(error);
+            }
+            
+        },
         createPlace: async function(formData){
             try {
+                if (this.formTmp.photo)
+                    formData.photo = await this.photoUpload();
                 const res = await fetch('/api/v1/places',{method: "POST", body: JSON.stringify(formData), headers:{'Content-Type':"application/json"}});
-                console.log(await res.json());
+                const data = await res.json();
+                return Promise.resolve(data);
             } catch (error) {
                 console.log(error);
+                return Promise.reject(error);
             }
         },
         loadPlaceCategories: async function(){
