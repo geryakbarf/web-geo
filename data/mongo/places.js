@@ -12,7 +12,8 @@ const callToActionSchema = new Schema(baseTypeValSchema);
 
 const gallerySchema = new Schema({
     category: String,
-    path: String
+    path: String,
+    options: Schema.Types.Mixed
 });
 
 const operationalTimeSchema = new Schema({
