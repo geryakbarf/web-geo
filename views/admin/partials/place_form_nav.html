@@ -16,9 +16,11 @@
             </li>
         </ul>
     </li>
-    <li v-bind:class="[isActiveSideMenu(6) ? 'active' : '', 'nav-item']">
-        <a href="javascript:void(0)" v-on:click="setSideMenuIndex(6)">Menus</a>
-    </li>
+    <% if(locals.id){ %>
+        <li v-bind:class="[isActiveSideMenu(6) ? 'active' : '', 'nav-item']">
+            <a href="javascript:void(0)" v-on:click="setSideMenuIndex(6)">Menus</a>
+        </li>
+    <%}%>
     <li v-bind:class="[isActiveSideMenu(7) ? 'active' : '', 'nav-item']">
         <a href="javascript:void(0)" v-on:click="setSideMenuIndex(7)">Galleries</a>
     </li>

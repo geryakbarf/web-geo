@@ -16,7 +16,9 @@ v1.get('/cuisines', cuisineHandler.getAll)
 v1.get('/payments', paymentHandler.getAll)
 v1.get('/facilities', facilityHandler.getAll)
 v1.get('/covid-protocols', covidHandler.getAll)
+v1.get('/places', placeHandler.getPlaces)
 v1.post('/places', placeHandler.createPlace)
+v1.delete('/places/:id', placeHandler.deletePlace)
 v1.post('/upload-image-s3', imageHandler.uploadImageS3)
 
 router.use('/v1', v1);
