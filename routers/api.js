@@ -17,9 +17,12 @@ v1.get('/payments', paymentHandler.getAll)
 v1.get('/facilities', facilityHandler.getAll)
 v1.get('/covid-protocols', covidHandler.getAll)
 v1.get('/places', placeHandler.getPlaces)
+v1.get('/places/:id', placeHandler.getOnePlace)
 v1.post('/places', placeHandler.createPlace)
+v1.put('/places', placeHandler.updatePlace)
 v1.delete('/places/:id', placeHandler.deletePlace)
 v1.post('/upload-image-s3', imageHandler.uploadImageS3)
+v1.delete('/delete-images', imageHandler.deleteImages)
 
 router.use('/v1', v1);
 
