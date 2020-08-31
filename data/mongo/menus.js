@@ -1,14 +1,8 @@
 const mongo = require('./index');
-const {baseKeyValSchema, baseKeyValSchema} = require('./extra');
+const mongoose_delete = require('mongoose-delete');
 const {Schema} = mongo;
 
 const modelName = 'Menu';
-
-const photoSchema = new Schema({
-    name: String,
-    path: String,
-    primary: {type: Boolean, default: false}
-});
 
 const coffeeInfoSchema = new Schema({
     label: String,
@@ -18,10 +12,8 @@ const coffeeInfoSchema = new Schema({
 const schema = new Schema({
     name: String,
     description: String,
-    category: {
-        id: Number,
-        name: String
-    },
+    placeId: String,
+    category: String,
     prices: {
         normal_price: Number,
         sale_price: Number,
@@ -29,7 +21,11 @@ const schema = new Schema({
     },
     ingredients: [String],
     coffee_infos: [coffeeInfoSchema],
-    photos: [photoSchema],
+    photo: {
+        path: String,
+        options: Schema.Types.Mixed
+    },
+    is_draft: Boolean
 },{ timestamps:{} });
 
 schema.plugin(mongoose_delete, {overrideMethods: 'all', deletedAt: true})

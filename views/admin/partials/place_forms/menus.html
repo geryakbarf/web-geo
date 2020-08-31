@@ -1,3 +1,15 @@
 <div v-if="sideMenuIndex == 6">
     <h1>Menus</h1>
+    <a v-bind:href="'/admin/places/'+form._id+'/menus/new'" class="btn btn-primary">New Menu</a>
+    <div class="columns" style="margin-top: 10px;">
+        <div class="column col-3" v-for="menu in menus">
+            <div class="card" v-on:click="editMenu(form._id,menu._id)">
+                <div class="card-image"><img class="img-responsive" v-bind:src="menu.photo.path" v-bind:alt="menu.name"></div>
+                <div class="card-header">
+                  <!-- <button class="btn btn-primary float-right"><i class="icon icon-plus"></i></button> -->
+                  <div class="card-title h5">{{menu.name}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -59,10 +59,40 @@ const getOnePlace = async(req, res) => {
     }
 }
 
+const getMenuCategoriesPlace = async(req, res) => {
+    try {
+        let data = await Place.findOne({_id: req.params.id});
+        data = data.menu_categories ? data.menu_categories: []; 
+        return res.json({message: "Success to retrive menu categories", data})
+    } catch (error) {
+        console.log(error);
+        if(error.code)
+            return res.status(error.code).json(error.message);
+        return res.status(500).json({message: serverErrMsg});
+    }
+}
+
 const deletePlace = async(req, res) => {
     try {
-        await Place.deleteOne({_id: req.params.id});
+        const place = await Place.findOne({_id: req.params.id});
+        await place.delete();
         return res.json({message: "Success to delete places"})
+    } catch (error) {
+        console.log(error);
+        if(error.code)
+            return res.status(error.code).json(error.message);
+        return res.status(500).json({message: serverErrMsg});
+    }
+}
+
+const saveMenuCategoriesPlace = async(req, res) => {
+    try {
+        const {categories} = req.body;
+        const place = await Place.findOne({_id: req.params.id});
+        if(!place) throw {code: 404, message:"Place not found"};
+        place.menu_categories = categories;
+        await place.save();
+        return res.json({message: "Success to save menu categories"})
     } catch (error) {
         console.log(error);
         if(error.code)
@@ -76,5 +106,7 @@ module.exports = {
     getOnePlace,
     createPlace,
     updatePlace,
-    deletePlace
+    deletePlace,
+    getMenuCategoriesPlace,
+    saveMenuCategoriesPlace
 }

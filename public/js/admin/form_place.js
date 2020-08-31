@@ -45,7 +45,8 @@ var app = new Vue({
             payments: [],
             facilities: [],
             covid_prot: []
-        }
+        },
+        menus: []
     },
     watch: {
         'form.name': {
@@ -378,9 +379,24 @@ var app = new Vue({
                 console.log(error);
             }
         },
+        loadMenus: async function(){
+            if(!placeId) return;
+            try {
+                const res = await fetch(`/api/v1/places/${placeId}/menus`);
+                const data = await res.json();
+                this.menus = data.data;
+            } catch (error) {
+                console.log(error);
+            }
+        },
         leaving: function (event) {
             event.preventDefault();
             event.returnValue = '';
+        },
+        editMenu: function(placeId, menuId){
+            // console.log(`/admin/places/${placeId}/menus/${menuId}`);
+            window.removeEventListener('beforeunload', this.leaving, true)
+            window.location = `/admin/places/${placeId}/menus/${menuId}`
         }
     },
     mounted() {
@@ -390,6 +406,7 @@ var app = new Vue({
         this.loadPayments()
         this.loadFacilities()
         this.loadCovidProtocols()
+        this.loadMenus()
         window.addEventListener('beforeunload', this.leaving, true);
     }
 })

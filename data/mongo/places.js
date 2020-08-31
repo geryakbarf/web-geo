@@ -38,6 +38,7 @@ const schema = new Schema({
         path: String,
         options: Schema.Types.Mixed
     },
+    menu_categories: [String],
     operational_times: [operationalTimeSchema],
     facilities: [facilitySchema],
     call_to_actions: [callToActionSchema],
