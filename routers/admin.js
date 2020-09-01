@@ -1,5 +1,6 @@
 const express = require('express');
-
+const session = require('express-session')
+const adm_auth = require('../middlewares/sess_adm_auth')
 const Place = require('../data/mongo/places');
 const Menu = require('../data/mongo/menus');
 
@@ -21,13 +22,38 @@ const formPageCSS = [
 
 const router = express.Router()
 
+router.use(session({
+    secret: process.env.SESSION_KEY,
+}))
+
 router.use((req,res,next) => {
     res.locals.title = "Admin | Emam Indonesia"
     next();
 });
 
+router.get('/login', (req, res) => {
+    return res.render('admin/login')
+})
+
+router.post('/login', (req, res) => {
+    const {ADMIN_USER, ADMIN_PASS} = process.env;
+    const {email, password} = req.body;
+    if(ADMIN_USER == email && ADMIN_PASS == password){
+        req.session.isAuthenticated = true;
+        return res.redirect('/admin');
+    }
+    return res.render('admin/login',{errMsg: "username or password invalid"});
+})
+
+router.use(adm_auth);
+
 router.get('/', (req, res) => {
-    res.render('admin/index')
+    return res.render('admin/index')
+})
+
+router.get('/logout', (req, res) => {
+    delete req.session.isAuthenticated
+    return res.redirect('admin/login')
 })
 
 router.get('/places', (req, res) => {
@@ -41,18 +67,17 @@ router.get('/places', (req, res) => {
     const loadCSS = [
         ...formPageCSS
     ]
-    res.render('admin/places', {loadJS, loadCSS})
+    return res.render('admin/places', {loadJS, loadCSS})
 })
 
 router.get('/places/:id/edit', (req, res) => {
     const { id } = req.params;
-    res.render('admin/edit-place',{loadJS: formPageJS, loadCSS: formPageCSS, id})
+    return res.render('admin/edit-place',{loadJS: formPageJS, loadCSS: formPageCSS, id})
 })
 
 
 router.get('/places/new', async (req, res) => {
-    
-    res.render('admin/new-place', {loadJS: formPageJS, loadCSS: formPageCSS})
+    return res.render('admin/new-place', {loadJS: formPageJS, loadCSS: formPageCSS})
 })
 
 router.get('/places/:placeId/menus/new', async (req, res) => {
@@ -68,9 +93,9 @@ router.get('/places/:placeId/menus/new', async (req, res) => {
             {src:"https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
             {src:"/assets/js/admin/form_menu.js"},
         ]
-        res.render('admin/new-menu', {loadJS, loadCSS: formPageCSS, placeId})    
+        return res.render('admin/new-menu', {loadJS, loadCSS: formPageCSS, placeId})    
     } catch (error) {
-        res.redirect('/admin/places');
+        return res.redirect('/admin/places');
     }
     
 })
@@ -90,9 +115,9 @@ router.get('/places/:placeId/menus/:menuId', async (req, res) => {
             {src:"https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
             {src:"/assets/js/admin/form_menu.js"},
         ]
-        res.render('admin/edit-menu', {loadJS, loadCSS: formPageCSS, placeId, menuId})    
+        return res.render('admin/edit-menu', {loadJS, loadCSS: formPageCSS, placeId, menuId})    
     } catch (error) {
-        res.redirect('/admin/places');
+        return res.redirect('/admin/places');
     }
     
 })
