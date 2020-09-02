@@ -2,7 +2,7 @@
 <%- include('./partials/navbar.html') %>
 
 <div class="container" >
-    <h1>New place</h1>
+    <h1>Edit place</h1>
     <div class="columns" id="form-place">
         <div class="column col-2" style="border-right: 1px solid #eee;">
             <%- include('./partials/place_form_nav.html') %>
@@ -13,6 +13,7 @@
             <%- include('./partials/place_forms/operational_times.html') %>
             <!-- <%- include('./partials/place_forms/banners.html') %> -->
             <%- include('./partials/place_forms/cta.html') %>
+            <%- include('./partials/place_forms/menus.html') %>
             <%- include('./partials/place_forms/galleries.html') %>
             <%- include('./partials/place_forms/covid.html') %>
             <div style="clear: both;"></div>
@@ -25,6 +26,6 @@
     </div>
 </div>
 <script>
-    var placeId = null;    
+    var placeId = '<%= id %>';    
 </script>
 <%- include('./partials/footer.html') %>

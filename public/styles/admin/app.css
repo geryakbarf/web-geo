@@ -1,6 +1,19 @@
+html, body{
+    height: 100%;
+}
 .adm-logo {
     padding: 10px 0;
     width: 50px;
+}
+
+.btn-upload{
+    padding: 0!important;
+    height: auto!important;
+}
+
+.btn-upload label{
+    padding: 8px;
+    cursor: pointer;
 }
 
 .container {
@@ -8,7 +21,22 @@
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
-  }
+}
+
+.upload-zone {
+    width: 100%; 
+    height:300px; 
+    border: 1px solid #000; 
+    display: block;
+    overflow-y: auto;
+}
+
+.flex-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 @media (min-width: 768px) {
     .container {
         width: 750px;
@@ -24,5 +52,6 @@
         width: 1170px;
     }
 }
+
 
 

@@ -1,35 +1,31 @@
 <%- include('./partials/header.html') %>
 <%- include('./partials/navbar.html') %>
 
-<div class="container" style="margin-top: 10px;">
+<div class="container" style="margin-top: 10px;" id="list-place">
     <a href="/admin/places/new" class="btn">New Place</a>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Place name</th>
-                <th>Location</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="active">
-                <td>Sokko Coffe</td>
-                <td>Bandung</td>
-                <td>
-                    <button class="btn">Edit</button>
-                    <button class="btn">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <ul class="pagination">
-        <li class="page-item disabled">
-          <a href="#" tabindex="-1">Previous</a>
-        </li>
-        <li class="page-item">
-          <a href="#">Next</a>
-        </li>
-      </ul>
+    <div class="columns" style="margin: 10px 0;">
+        <div class="column col-2">
+            <div class="form-group">
+                <label class="form-label" for="filter">Filter</label>
+                <input class="form-input" type="text" id="filter" placeholder="filter..." v-model="filter">
+            </div>
+        </div>
+    </div>
+    <div style="max-height: 300px;overflow-y: auto;overflow-x: hidden;">
+        <datatable :columns="placeCols" :data="places" class="table" :filter="filter">
+            <template scope="{ row, column, index }">
+                <tr>
+                    <td class="text-center">{{ index + 1 }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.city | capitalize }}</td>
+                    <td class="text-center">
+                        <a v-bind:href="'/admin/places/'+row._id+'/edit'" class="btn">Update</a>
+                        <button class="btn btn-primary" v-on:click="onDeleteData(row._id)">Delete</button>
+                    </td>
+                </tr>
+            </template>
+        </datatable>
+    </div>
 </div>
 
 <%- include('./partials/footer.html') %>

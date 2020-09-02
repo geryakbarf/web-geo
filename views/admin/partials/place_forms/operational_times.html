@@ -1,0 +1,24 @@
+<div v-if="sideMenuIndex == 2">
+    <h1>Operational Times</h1>
+
+    <div v-for="(op, idx) in form.operational_times"class="columns">
+        <div class="column col-3">
+            <div class="form-group">
+                <label class="form-label" v-bind:for="'day-'+idx">Hari</label>
+                <input class="form-input" type="text" v-bind:id="'day-'+idx" readonly v-model="op.day">
+            </div>
+        </div>
+        <div class="column col-2">
+            <div class="form-group">
+                <label class="form-label" v-bind:for="'openTime-'+idx">Jam Buka</label>
+                <input class="form-input" type="time" v-bind:id="'openTime-'+idx" v-model="op.openTime">
+            </div>
+        </div>
+        <div class="column col-2">
+            <div class="form-group">
+                <label class="form-label" v-bind:for="'closeTime-'+idx">Jam Tutup</label>
+                <input class="form-input" type="time" v-bind:id="'closeTime-'+idx" v-model="op.closeTime">
+            </div>
+        </div>
+    </div>
+</div>

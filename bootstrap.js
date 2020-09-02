@@ -1,7 +1,20 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const path = require('path')
 const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload');
+const mongo = require('./data/mongo/index')
+
+const db = mongo.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+    console.log("Connection Established");
+});
+
+
+// upload
+app.use(fileUpload())
 
 //Security
 app.disable('x-powered-by')
@@ -20,7 +33,7 @@ app.use('/assets', express.static('public'))
 
 //load middleware
 app.use(require('./middlewares/ejs_default'))
-app.use(require('./middlewares/logger'))
+// app.use(require('./middlewares/logger'))
 
 require('./routers')(app)
 
