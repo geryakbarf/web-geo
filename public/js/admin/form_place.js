@@ -9,9 +9,10 @@ var app = new Vue({
             city: '',
             address: '',
             type: '',
-            description: '',
-            is_draft: false,
+            // description: '',
+            is_draft: true,
             is_partner: false,
+            is_halal: true,
             photo: null,
             cuisines: [],
             payments: [],
@@ -19,18 +20,22 @@ var app = new Vue({
             covid: [],
             galleries: [],
             operational_times: [
-                {day: 'Senin', openTime: '00:00', closeTime: '00:00'},
-                {day: 'Selasa', openTime: '00:00', closeTime: '00:00'},
-                {day: 'Rabu', openTime: '00:00', closeTime: '00:00'},
-                {day: 'Kamis', openTime: '00:00', closeTime: '00:00'},
-                {day: 'Jumat', openTime: '00:00', closeTime: '00:00'},
-                {day: 'Sabtu', openTime: '00:00', closeTime: '00:00'},
-                {day: 'Minggu', openTime: '00:00', closeTime: '00:00'},
+                {day: 'Senin', openTime: '00:00', closeTime: '00:00', is_open: false},
+                {day: 'Selasa', openTime: '00:00', closeTime: '00:00', is_open: false},
+                {day: 'Rabu', openTime: '00:00', closeTime: '00:00', is_open: false},
+                {day: 'Kamis', openTime: '00:00', closeTime: '00:00', is_open: false},
+                {day: 'Jumat', openTime: '00:00', closeTime: '00:00', is_open: false},
+                {day: 'Sabtu', openTime: '00:00', closeTime: '00:00', is_open: false},
+                {day: 'Minggu', openTime: '00:00', closeTime: '00:00', is_open: false},
             ],
             call_to_actions: [
                 {type: "gmaps", value: ''},
                 {type: "whatsapp", value: ''},
-                {type: "instagram", value: ''}
+                {type: "instagram", value: ''},
+                {type: "web", value: ''},
+                {type: "grabfood", value: ''},
+                {type: "gofood", value: ''},
+                {type: "checkin", value: ''},
             ]
         },
         formTmp: {
@@ -55,13 +60,59 @@ var app = new Vue({
             let _this = this;
             if(this.form._id == null)
                 setTimeout(function(){
-                    let uniqStr = CryptoJS.MD5(new Date().toString()).toString().substring(0,5);
-                    if(_this.form.name.length > 3)
-                        _this.form.slug = slugify(val+' '+uniqStr);
-                    else _this.form.slug = ''
+                    if(val.length > 3){
+                        let [firstWordAddr] = _this.form.address.split(' ');
+                        let s = val;
+                        if(firstWordAddr && firstWordAddr.length > 0) s += ' ' + firstWordAddr;
+                        if(_this.form.city.length > 0) s += ' '+_this.form.city;
+                        _this.form.slug = slugify(s);
+                    } else {
+                        _this.form.slug = ''
+                    }    
+                    
                 },300);
             
           }
+        },
+        'form.address': {
+            deep: true,
+            handler: function(val){
+              let _this = this;
+              if(this.form._id == null)
+                  setTimeout(function(){
+                      if(_this.form.name.length > 3){
+                          let [firstWordAddr] = val.split(' ');
+                          let s = _this.form.name;
+                          if(firstWordAddr && firstWordAddr.length > 0) s += ' ' + firstWordAddr;
+                          if(_this.form.city.length > 0) s += ' '+_this.form.city;
+                          _this.form.slug = slugify(s);
+                      } else {
+                          _this.form.slug = ''
+                      }    
+                      
+                  },300);
+              
+            }
+        },
+        'form.city': {
+            deep: true,
+            handler: function(val){
+              let _this = this;
+              if(this.form._id == null)
+                  setTimeout(function(){
+                      if(_this.form.name.length > 3){
+                          let [firstWordAddr] = _this.form.address.split(' ');
+                          let s = _this.form.name;
+                          if(firstWordAddr && firstWordAddr.length > 0) s += ' ' + firstWordAddr;
+                          if(val.length > 0) s += ' '+val;
+                          _this.form.slug = slugify(s);
+                      } else {
+                          _this.form.slug = ''
+                      }    
+                      
+                  },100);
+              
+            }
         }
     },
     methods: {

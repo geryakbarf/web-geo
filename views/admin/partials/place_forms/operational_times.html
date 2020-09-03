@@ -20,5 +20,13 @@
                 <input class="form-input" type="time" v-bind:id="'closeTime-'+idx" v-model="op.closeTime">
             </div>
         </div>
+        <div class="column col-3" style="padding-top: 38px;">
+            <div class="form-group">
+                <label class="form-switch">
+                  <input type="checkbox" v-model="op.is_open">
+                  <i class="form-icon"></i> Open
+                </label>
+            </div>
+        </div>
     </div>
 </div>

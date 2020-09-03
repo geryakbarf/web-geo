@@ -92,11 +92,19 @@
                 </label>
             </div>
         </div>
-        <div class="column col-12">
+        <div class="column col-3">
+            <div class="form-group">
+                <label class="form-switch">
+                  <input type="checkbox" v-model="form.is_halal">
+                  <i class="form-icon"></i> Halal
+                </label>
+            </div>
+        </div>
+        <!-- <div class="column col-12">
             <div class="form-group">
                 <label class="form-label" for="description">Description*</label>
                 <textarea v-model="form.description" id="description" class="form-input" placeholder="Tell about your place" rows="5"></textarea>  
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
