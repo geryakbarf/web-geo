@@ -8,7 +8,8 @@ var app = new Vue({
             slug: '',
             city: '',
             address: '',
-            type: '',
+            categories: [],
+            parkir: '',
             // description: '',
             is_draft: true,
             is_partner: false,
@@ -39,7 +40,7 @@ var app = new Vue({
             ]
         },
         formTmp: {
-            cuisine: '',
+            place_categories: '',
             payment: '',
             photo: null,
             galleries: []
@@ -49,7 +50,17 @@ var app = new Vue({
             cuisines: [],
             payments: [],
             facilities: [],
-            covid_prot: []
+            covid_prot: [],
+            parkirs: [
+                {
+                    id:"5f54e8aa62288f9dcff1c9dd",
+                    name: "Motor"
+                },
+                {
+                    id:"5f54e8cb62288f9dcff1ce82",
+                    name: "Motor & Mobil"
+                }
+            ]
         },
         menus: []
     },
@@ -113,7 +124,7 @@ var app = new Vue({
                   },100);
               
             }
-        }
+        },
     },
     methods: {
         setSideMenuIndex: function(idx) {
@@ -165,7 +176,9 @@ var app = new Vue({
             let formData = {...this.form};
             let photoTmp = this.formTmp.photo;
             let photo = formData.photo;
-            formData.cuisines = formData.cuisines.map(e => (e.text));
+            let [parkir] = this.formFieldValues.parkirs.filter(e => (e.id == formData.parkir));
+            formData.parkir = parkir;
+            formData.categories = formData.categories.map(e => ({id: e.id, name: e.text}));
             formData.payments = formData.payments.map(e => ({code: e.code, name: e.text}));
             formData.galleries = await this.uploadGalleryImage();
             if(photoTmp){
@@ -185,10 +198,8 @@ var app = new Vue({
             try {
                 const formData = await this._onSaveParams();
                 let res = null;
-                if(formData._id)
-                    res = await this.updatePlace(formData);
-                else
-                    res = await this.createPlace(formData);
+                if(formData._id) res = await this.updatePlace(formData);
+                else res = await this.createPlace(formData);
                 toastr.success(res.message)
                 if(close){
                     let _this = this
@@ -198,7 +209,8 @@ var app = new Vue({
                     }, 1000)
                 }    
             } catch (error) {
-                toastr.success("Duh ada error, coba tanya Ala Rai")
+                console.log(error);
+                toastr.error("Duh ada error, coba tanya Ala Rai")
             }
             
         },
@@ -329,7 +341,7 @@ var app = new Vue({
             try {
                 const res = await fetch('/api/v1/place-categories');
                 const data = await res.json();
-                this.formFieldValues.place_categories = data.map(e => (e.name))    
+                this.formFieldValues.place_categories = data.map(e => ({id: e._id, text: e.name}))    
             } catch (error) {
                 console.log(error);
             }
@@ -422,6 +434,8 @@ var app = new Vue({
                 const data = await res.json();
                 this.form = data.data;
                 this.form.payments = this.form.payments.map(e => ({code: e.code, text: e.name}));
+                this.form.parkir = this.form.parkir.id;
+                this.form.categories = this.form.categories.map(e => ({id: e._id, text: e.name}));
                 this.formFieldValues.payments = this.form.payments; 
                 this.formFieldValues.cuisines = this.form.cuisines;
                 this.loadGalleriesFromData();
