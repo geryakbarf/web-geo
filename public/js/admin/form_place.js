@@ -433,11 +433,11 @@ var app = new Vue({
                 const res = await fetch(`/api/v1/places/${placeId}`);
                 const data = await res.json();
                 this.form = data.data;
+                this.form.categories = this.form.categories.map(e => ({id: e.id, text: e.name}));
                 this.form.payments = this.form.payments.map(e => ({code: e.code, text: e.name}));
-                this.form.parkir = this.form.parkir.id;
-                this.form.categories = this.form.categories.map(e => ({id: e._id, text: e.name}));
+                if(this.form.parkir)
+                    this.form.parkir = this.form.parkir;
                 this.formFieldValues.payments = this.form.payments; 
-                this.formFieldValues.cuisines = this.form.cuisines;
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
             } catch (error) {
