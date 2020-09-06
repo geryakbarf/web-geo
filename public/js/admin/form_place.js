@@ -8,10 +8,12 @@ var app = new Vue({
             slug: '',
             city: '',
             address: '',
-            type: '',
-            description: '',
-            is_draft: false,
+            categories: [],
+            parkir: '',
+            // description: '',
+            is_draft: true,
             is_partner: false,
+            is_halal: true,
             photo: null,
             cuisines: [],
             payments: [],
@@ -19,22 +21,26 @@ var app = new Vue({
             covid: [],
             galleries: [],
             operational_times: [
-                {day: 'Senin', openTime: '00:00', closeTime: '00:00'},
-                {day: 'Selasa', openTime: '00:00', closeTime: '00:00'},
-                {day: 'Rabu', openTime: '00:00', closeTime: '00:00'},
-                {day: 'Kamis', openTime: '00:00', closeTime: '00:00'},
-                {day: 'Jumat', openTime: '00:00', closeTime: '00:00'},
-                {day: 'Sabtu', openTime: '00:00', closeTime: '00:00'},
-                {day: 'Minggu', openTime: '00:00', closeTime: '00:00'},
+                {day: 'Senin', openTime: '00:00', closeTime: '00:00', is_open: true},
+                {day: 'Selasa', openTime: '00:00', closeTime: '00:00', is_open: true},
+                {day: 'Rabu', openTime: '00:00', closeTime: '00:00', is_open: true},
+                {day: 'Kamis', openTime: '00:00', closeTime: '00:00', is_open: true},
+                {day: 'Jumat', openTime: '00:00', closeTime: '00:00', is_open: true},
+                {day: 'Sabtu', openTime: '00:00', closeTime: '00:00', is_open: true},
+                {day: 'Minggu', openTime: '00:00', closeTime: '00:00', is_open: true},
             ],
             call_to_actions: [
                 {type: "gmaps", value: ''},
                 {type: "whatsapp", value: ''},
-                {type: "instagram", value: ''}
+                {type: "instagram", value: ''},
+                {type: "web", value: ''},
+                {type: "grabfood", value: ''},
+                {type: "gofood", value: ''},
+                {type: "checkin", value: ''},
             ]
         },
         formTmp: {
-            cuisine: '',
+            place_categories: '',
             payment: '',
             photo: null,
             galleries: []
@@ -44,7 +50,17 @@ var app = new Vue({
             cuisines: [],
             payments: [],
             facilities: [],
-            covid_prot: []
+            covid_prot: [],
+            parkirs: [
+                {
+                    id:"5f54e8aa62288f9dcff1c9dd",
+                    name: "Motor"
+                },
+                {
+                    id:"5f54e8cb62288f9dcff1ce82",
+                    name: "Motor & Mobil"
+                }
+            ]
         },
         menus: []
     },
@@ -55,14 +71,60 @@ var app = new Vue({
             let _this = this;
             if(this.form._id == null)
                 setTimeout(function(){
-                    let uniqStr = CryptoJS.MD5(new Date().toString()).toString().substring(0,5);
-                    if(_this.form.name.length > 3)
-                        _this.form.slug = slugify(val+' '+uniqStr);
-                    else _this.form.slug = ''
+                    if(val.length > 3){
+                        let [firstWordAddr] = _this.form.address.split(' ');
+                        let s = val;
+                        if(firstWordAddr && firstWordAddr.length > 0) s += ' ' + firstWordAddr;
+                        if(_this.form.city.length > 0) s += ' '+_this.form.city;
+                        _this.form.slug = slugify(s);
+                    } else {
+                        _this.form.slug = ''
+                    }    
+                    
                 },300);
             
           }
-        }
+        },
+        'form.address': {
+            deep: true,
+            handler: function(val){
+              let _this = this;
+              if(this.form._id == null)
+                  setTimeout(function(){
+                      if(_this.form.name.length > 3){
+                          let [firstWordAddr] = val.split(' ');
+                          let s = _this.form.name;
+                          if(firstWordAddr && firstWordAddr.length > 0) s += ' ' + firstWordAddr;
+                          if(_this.form.city.length > 0) s += ' '+_this.form.city;
+                          _this.form.slug = slugify(s);
+                      } else {
+                          _this.form.slug = ''
+                      }    
+                      
+                  },300);
+              
+            }
+        },
+        'form.city': {
+            deep: true,
+            handler: function(val){
+              let _this = this;
+              if(this.form._id == null)
+                  setTimeout(function(){
+                      if(_this.form.name.length > 3){
+                          let [firstWordAddr] = _this.form.address.split(' ');
+                          let s = _this.form.name;
+                          if(firstWordAddr && firstWordAddr.length > 0) s += ' ' + firstWordAddr;
+                          if(val.length > 0) s += ' '+val;
+                          _this.form.slug = slugify(s);
+                      } else {
+                          _this.form.slug = ''
+                      }    
+                      
+                  },100);
+              
+            }
+        },
     },
     methods: {
         setSideMenuIndex: function(idx) {
@@ -114,7 +176,9 @@ var app = new Vue({
             let formData = {...this.form};
             let photoTmp = this.formTmp.photo;
             let photo = formData.photo;
-            formData.cuisines = formData.cuisines.map(e => (e.text));
+            let [parkir] = this.formFieldValues.parkirs.filter(e => (e.id == formData.parkir));
+            formData.parkir = parkir;
+            formData.categories = formData.categories.map(e => ({id: e.id, name: e.text}));
             formData.payments = formData.payments.map(e => ({code: e.code, name: e.text}));
             formData.galleries = await this.uploadGalleryImage();
             if(photoTmp){
@@ -134,10 +198,8 @@ var app = new Vue({
             try {
                 const formData = await this._onSaveParams();
                 let res = null;
-                if(formData._id)
-                    res = await this.updatePlace(formData);
-                else
-                    res = await this.createPlace(formData);
+                if(formData._id) res = await this.updatePlace(formData);
+                else res = await this.createPlace(formData);
                 toastr.success(res.message)
                 if(close){
                     let _this = this
@@ -147,7 +209,8 @@ var app = new Vue({
                     }, 1000)
                 }    
             } catch (error) {
-                toastr.success("Duh ada error, coba tanya Ala Rai")
+                console.log(error);
+                toastr.error("Duh ada error, coba tanya Ala Rai")
             }
             
         },
@@ -278,7 +341,7 @@ var app = new Vue({
             try {
                 const res = await fetch('/api/v1/place-categories');
                 const data = await res.json();
-                this.formFieldValues.place_categories = data.map(e => (e.name))    
+                this.formFieldValues.place_categories = data.map(e => ({id: e._id, text: e.name}))    
             } catch (error) {
                 console.log(error);
             }
@@ -371,6 +434,8 @@ var app = new Vue({
                 const data = await res.json();
                 this.form = data.data;
                 this.form.payments = this.form.payments.map(e => ({code: e.code, text: e.name}));
+                this.form.parkir = this.form.parkir.id;
+                this.form.categories = this.form.categories.map(e => ({id: e._id, text: e.name}));
                 this.formFieldValues.payments = this.form.payments; 
                 this.formFieldValues.cuisines = this.form.cuisines;
                 this.loadGalleriesFromData();

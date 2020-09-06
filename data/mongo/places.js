@@ -20,6 +20,7 @@ const operationalTimeSchema = new Schema({
     day: String,
     openTime: String,
     closeTime: String,
+    is_open: Boolean,
     options: Schema.Types.Mixed
 });
 
@@ -30,9 +31,11 @@ const schema = new Schema({
     city: String,
     address: String,
     cuisines: [String],
-    type: String,
+    parkir: Schema.Types.Mixed,
+    categories: Schema.Types.Mixed,
     is_partner: Boolean,
     is_draft: Boolean,
+    is_halal: Boolean,
     payments: Schema.Types.Mixed,
     photo: {
         path: String,

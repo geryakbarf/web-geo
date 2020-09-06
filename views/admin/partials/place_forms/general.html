@@ -31,23 +31,13 @@
         </div>
         <div class="column col-6">
             <div class="form-group">
-                <label class="form-label" for="type">Place Type*</label>
-                <select class="form-select" id="type" v-model="form.type" required>
-                    <option value="" selected>Choose an option</option>
-                    <option v-for="type in formFieldValues.place_categories" v-bind:value="type">{{type}}</option>
-                </select>
-            </div>
-            
-        </div>
-        <div class="column col-6">
-            <div class="form-group">
-                <label class="form-label" for="cuisine">Cuisine</label>
+                <label class="form-label" for="categories">Categories*</label>
                 <vue-tags-input
-                    v-model="formTmp.cuisine"
-                    :tags="form.cuisines"
-                    :autocomplete-items="formFieldValues.cuisines"
-                    :placeholder="'Chinese'"
-                    @tags-changed="t => form.cuisines = t" />
+                    v-model="formTmp.place_categories"
+                    :tags="form.categories"
+                    :autocomplete-items="formFieldValues.place_categories"
+                    :placeholder="'Cafe'"
+                    @tags-changed="t => form.categories = t" />
             </div>
         </div>
 
@@ -62,7 +52,15 @@
                     @tags-changed="t => form.payments = t" />
             </div>
         </div>
-
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label" for="parkir">Parkir*</label>
+                <select class="form-select" id="parkir" v-model="form.parkir" required>
+                    <option value="" selected>Choose an option</option>
+                    <option v-for="parkir in formFieldValues.parkirs" v-bind:value="parkir.id">{{parkir.name}}</option>
+                  </select>
+            </div>
+        </div>
         <div class="column col-6">
             <div class="form-group">
                 <label class="form-label">Photo</label>
@@ -75,28 +73,40 @@
                 <img ref="photo" v-show="formTmp.photo" width="200">
             </div>
         </div>
-        <div class="column col-3">
-            <div class="form-group">
-                <label class="form-switch">
-                  <input type="checkbox" v-model="form.is_draft">
-                  <i class="form-icon"></i> Draft
-                </label>
-            </div>
-        </div>
-
-        <div class="column col-3">
-            <div class="form-group">
-                <label class="form-switch">
-                  <input type="checkbox" v-model="form.is_partner">
-                  <i class="form-icon"></i> Partner
-                </label>
-            </div>
-        </div>
         <div class="column col-12">
+            <div class="columns">
+                <div class="column col-3">
+                    <div class="form-group">
+                        <label class="form-switch">
+                          <input type="checkbox" v-model="form.is_draft">
+                          <i class="form-icon"></i> Draft
+                        </label>
+                    </div>
+                </div>
+        
+                <div class="column col-3">
+                    <div class="form-group">
+                        <label class="form-switch">
+                          <input type="checkbox" v-model="form.is_partner">
+                          <i class="form-icon"></i> Partner
+                        </label>
+                    </div>
+                </div>
+                <div class="column col-3">
+                    <div class="form-group">
+                        <label class="form-switch">
+                          <input type="checkbox" v-model="form.is_halal">
+                          <i class="form-icon"></i> Halal
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="column col-12">
             <div class="form-group">
                 <label class="form-label" for="description">Description*</label>
                 <textarea v-model="form.description" id="description" class="form-input" placeholder="Tell about your place" rows="5"></textarea>  
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
