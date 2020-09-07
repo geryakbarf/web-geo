@@ -42,7 +42,7 @@ router.get('/coming-soon', (req, res) => {
     res.render('coming-soon')
 })
 
-router.get('/:slug', common.commingsoon, web.placeDetailPage)
+router.get('/p/:slug', common.commingsoon, web.placeDetailPage)
 
 router.get('/images/:key', imageHandler.getImage)
 
