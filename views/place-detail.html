@@ -4,12 +4,18 @@
     <div class="container">
        <div class="row">
           <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-12 pt-3 mb-3">
-             <img class="gambar-header-tempat" src="images/database/tempatmakan/emam-bubur-jamika-cover.png" alt="">
+             <img class="gambar-header-tempat" src="<%= place.photo ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>" alt="Photo <%= place.name %>">
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-12 pt-3 mb-3">
-             <h2 class="textheader3">Bubur Malam Jamika</h2>
+             <h2 class="textheader3"><%= place.name %></h2>
+             <p class="no-sp" style="font-weight: bold; font-size: 14pt;"><%= place.categories.map(e => (e.name)).join(', ') %></p>
+             <% if(place.is_halal){ %>
+               <p>No Pork / No Lard</p>
+             <% }else{ %>
+               <p>Pork / Lard</p>
+             <% } %>
              <!-- <p class="no-sp">(Halal)</p> -->
-             <p class="no-sp">Jl. Jamika No.259, Kota Bandung.</p>
+             <p class="no-sp"><%= place.address %></p>
              <p class="mb-3">
                 <!-- validasi no telp -->
                 <a href="tel:"></a>
@@ -18,170 +24,64 @@
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                    <!-- Buka Tutup -->
-                   <h5 class='txt-jambukatutup inlineblock mr-1 text-green' id='kondisibukatutup'>Tutup</h5>
-                   <h5 class="txt-jambukatutup inline">| Buka jam 10:30 PM - 04:00 AM</h5>
+                   <h5 class='txt-jambukatutup inlineblock mr-1 <%= isTodayOpen ? "text-green": "text-red" %>' id='kondisibukatutup'><%= isTodayOpen ? "Buka": "Tutup" %></h5>
+                   <h5 class="txt-jambukatutup inline">| Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime %></h5>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" disabled>
                    <h5 class="mb-3">Jadwal Tempat</h5>
                    <table class="jadwal-table">
                       <tbody>
-                         <tr>
-                            <td>
-                               <p class="no-sp">Senin&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp">10:30 PM - 04:00 AM</p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td>
-                               <p class="no-sp">Selasa&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp text-red"> Tutup </p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td>
-                               <p class="no-sp">Rabu&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp">10:30 PM - 04:00 AM</p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td>
-                               <p class="no-sp">Kamis&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp">10:30 PM - 04:00 AM</p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td>
-                               <p class="no-sp">Jumat&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp">10:30 PM - 04:00 AM</p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td>
-                               <p class="no-sp">Sabtu&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp">10:30 PM - 04:00 AM</p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td>
-                               <p class="no-sp text-bold">Minggu&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp text-bold">10:30 PM - 04:00 AM</p>
-                            </td>
-                         </tr>
+                         <% if(place.operational_times){ %>
+                           <% for(optime of place.operational_times){ %>
+                           <tr>
+                              <td>
+                                 <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.day %>&nbsp;</p>
+                              </td>
+                              <td>&nbsp;</td>
+                              <td>
+                                 <% if(optime.is_open){ %>
+                                    <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.openTime %> - <%= optime.closeTime %></p>
+                                 <% }else{ %>
+                                    <p class="no-sp text-red"></p>
+                                 <% } %>
+                              </td>
+                           </tr>
+                           <% } %>
+                        <% } %>
+                        
                       </tbody>
                    </table>
                 </div>
              </div>
              <h5 class="no-sp txt-pembayaran text-grey">Pembayaran :</h5>
-             <h5 class="no-sp txt-pembayaran">Cash Only</h5>
+             <h5 class="no-sp txt-pembayaran"><%= payments %></h5>
              <h5 class="no-sp txt-parkir text-grey">Parkir :</h5>
-             <h5 class="no-sp txt-parkir mb-2">Motor & Mobil</h5>
-             <div class="social-media-box">
-             </div>
-             <a name="btngooglemaps" href="https://goo.gl/maps/kmBbNyAixFxtnAVo8
-                "
+             <h5 class="no-sp txt-parkir mb-2"><%= place.parkir ? place.parkir.name : "Belum ada informasi" %></h5>
+             <% if(ctas.gmaps){ %>
+               <a name="btngooglemaps" href="<%= ctas.gmaps %>"
                 class="btn btn-googlemaps mr-2 my-2" id="googlemaps" target="_blank"><img class="ic-gmaps mr-2"
                 src="/assets/images/icon/emam-host-googlemaps.svg">Telusuri Lokasi</a>
-             <a name="btnwhatsapp" href="https://wa.me/628986174553" class="btn btn-whatsapp" id="whatsapp"
+             <% } %>
+             <% if(ctas.whatsapp){ %>
+               <a name="btnwhatsapp" href="https://wa.me/62<%=ctas.whatsapp%>" class="btn btn-whatsapp" id="whatsapp"
                 target="_blank"><img class="ic-wa mr-2" src="/assets/images/icon/emam-host-whatsapp.svg">Chat Whatsapp</a>
+             <% } %>
+             <div class="social-media-box">
+               <% if(ctas.grabfood){ %>
+                  <a target="_blank" href="<%= ctas.grabfood %>" style="margin-right: 5px;"><img src="/assets/images/icon/emam-host-grabfood.png" style="max-width: 40px;" alt="Emam - Link Grabfood <%= place.name %>"></a>
+               <% } %>
+               <% if(ctas.gofood){ %>
+                  <a target="_blank" href="<%= ctas.gofood %>" style="margin-right: 5px;"><img src="/assets/images/icon/emam-host-gofood.png" style="max-width: 30px;" alt="Emam - Link Gofood <%= place.name %>"></a>
+               <% } %>
+               <% if(ctas.instagram){ %>
+                  <a target="_blank" href="<%= ctas.instagram %>" style="margin-right: 5px;"><img src="/assets/images/icon/emam_host_instagram.svg" style="max-width: 30px;" alt="Emam - Link Instagram <%= place.name %>"></a>
+               <% } %>
+               <% if(ctas.web){ %>
+                  <a target="_blank" href="<%= ctas.web %>" style="margin-right: 5px;"><img src="/assets/images/icon/emam-host-website.svg" style="max-width: 30px;" alt="Emam - Link Website <%= place.name %>"></a>
+               <% } %>
+             </div>
              <p class="no-sp txt-lastupdate">last update</p>
-             <p class="no-sp txt-waktu-lastupdate">25-07-2020 03:30 PM</p>
-             <!-- <p class="no-sp txt-waktu-lastupdate"> 25-07-2020 Hari ini, 10:00 AM | Kemarin, 10:00 AM | Rabu, 27-05-2020 10:00 AM</?>   -->
-             <!-- <button class="btn button-jadwal" type="button" data-toggle="collapse" data-target="#jadwalfull"
-                aria-expanded="true" aria-controls="collapseExample">
-                <h5 class="inlineblock mr-1 text-red" id="kondisibukatutup">Tutup</h5>
-                <h5 class="inline">| Buka jam 11:30 PM - 04:00 AM</h5>&nbsp;<i class="fa fa-caret-down"></i>
-                </button>
-                
-                <div class="collapse show" id="jadwalfull" style="">
-                <table class="jadwal-table">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <h5>Senin&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5>11:30 PM - 04:00 AM</h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>Selasa&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5 class="text-red"> Tutup </h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>Rabu&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5>11:30 PM - 04:00 AM</h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>Kamis&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5>11:30 PM - 04:00 AM</h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>Jumat&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5>11:30 PM - 04:00 AM</h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>Sabtu&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5>11:30 PM - 04:00 AM</h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>Minggu&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5>11:30 PM - 04:00 AM</h5>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                </div> -->
+             <p class="no-sp txt-waktu-lastupdate"><%= lastUpdate %></p>
           </div>
        </div>
     </div>
@@ -216,7 +116,7 @@
              <div class="tab-content">
                 <p class="no-sp text-center txt-pesaninformasi">Kami selalu berusaha supaya informasi kami tepat dan akurat. <a href="kasihtau.php?id=Bubur-Malam-Jamika-Bandung">Kasih tahu</a> ya kalau ada yang salah.</p>
                 <div class="tab-pane fade show active" id="layout-tab-menu">
-                   <!-- <div class="scrollmenu">
+                   <div class="scrollmenu" style="overflow-y: auto;">
                       <a class="nav-menu active" href="#home">Home</a>
                       <a class="nav-menu" href="#news">News</a>
                       <a class="nav-menu" href="#contact">Contact</a>
@@ -237,7 +137,7 @@
                       <a class="nav-menu" href="#partners">Partners</a>
                       <a class="nav-menu" href="#people">People</a>
                       <a class="nav-menu" href="#work">Work</a>
-                      </div> -->
+                      </div>
                    <div class="row box-category">
                       <div class="col-12">
                          <h2 class="title-category">Bubur</h2>
