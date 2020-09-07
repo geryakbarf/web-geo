@@ -26,9 +26,14 @@ const placeDetailPage = async(req, res) => {
         const place = await Place.findOne({is_draft: false, slug});
         let menus = await Menu.find({placeId: place._id});
         menus = place.menu_categories.map(e => {
-            let menu_docs = menus.filter(e1 => (e == e1.category));
+            let menu_docs = menus.filter(e1 => (e == e1.category)).map(e1=>{
+                let doc = e1._doc;
+                doc.prices.normal_price = new Intl.NumberFormat().format(doc.prices.normal_price).replace(',','.');
+                doc.prices.sale_price = new Intl.NumberFormat().format(doc.prices.sale_price).replace(',','.');
+                return doc;
+            });
             return {category: e, menus: menu_docs};
-        });
+        }).filter(e => (e.menus.length > 0));
         const day = dtlib.getTodayId();
         const [todayOT] = place.operational_times.filter(e => (e.day == day));
         const isTodayOpen = dtlib.isPlaceOpen(todayOT);
