@@ -412,7 +412,7 @@ var app = new Vue({
                 this.form.categories = this.form.categories.map(e => ({id: e.id, text: e.name}));
                 this.form.payments = this.form.payments.map(e => ({code: e.code, text: e.name}));
                 if(this.form.parkir)
-                    this.form.parkir = this.form.parkir;
+                    this.form.parkir = this.form.parkir.id;
                 this.formFieldValues.payments = this.form.payments; 
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
