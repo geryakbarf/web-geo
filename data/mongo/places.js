@@ -49,6 +49,8 @@ const schema = new Schema({
     covid: [String]
 },{ timestamps:{} });
 
+schema.index({name: 'text', address:'text', city: 'text'})
+
 schema.plugin(mongoose_delete, {overrideMethods: 'all', deletedAt: true})
 
 const Model = mongo.model(modelName, schema);

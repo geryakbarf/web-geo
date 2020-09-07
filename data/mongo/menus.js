@@ -28,6 +28,8 @@ const schema = new Schema({
     is_draft: Boolean
 },{ timestamps:{} });
 
+schema.index({name: 'text'})
+
 schema.plugin(mongoose_delete, {overrideMethods: 'all', deletedAt: true})
 
 const Model = mongo.model(modelName, schema);
