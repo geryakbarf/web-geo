@@ -1,6 +1,13 @@
 const express = require('express')
 const imageHandler = require('../handlers/v1/images');
+const common = require('../middlewares/common');
 const router = express.Router()
+
+router.get('/coming-soon', (req, res) => {
+    res.render('coming-soon')
+})
+
+router.use(common.commingsoon)
 
 router.get('/', (req, res) => {
     const loadJS = [
