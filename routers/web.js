@@ -6,6 +6,8 @@ const router = express.Router()
 
 router.get('/', common.commingsoon, web.homePage)
 
+router.get('/explore', web.allPlace)
+
 router.post('/fetch_food.php', (req, res) => {
     res.send(`
     <div class="show-search" align="left">
