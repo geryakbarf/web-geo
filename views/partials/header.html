@@ -35,6 +35,11 @@
 
     <!-- style css -->
     <link rel="stylesheet" href="/assets/styles/main-style.css">
+    <% if(locals.loadCSS){ %>
+        <% locals.loadCSS.forEach(e =>{ %>
+          <link rel="stylesheet" href="<%= e.src %>">  
+        <% }) %>
+    <% } %>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-170625997-1"></script>

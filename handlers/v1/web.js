@@ -14,7 +14,7 @@ const homePage = async (req, res) => {
             .sort({createdAt: -1})
             .select('name slug photo address');
         const category = await PlaceCategory.find({}).limit(4).select('name image');
-        return res.render('index', {loadJS, newPlaces, category})
+        return res.render('index', {loadJS, newPlaces, category, path:req.route.path})
     } catch (error) {
         console.log(error);
         return res.send('');
@@ -94,9 +94,18 @@ const claimBusiness = async (req, res) => {
 }
 
 const placeDetailPage = async (req, res) => {
+    const loadJS = [
+        { src: "https://unpkg.com/swiper/swiper-bundle.min.js" },
+        { src: "/assets/js/side-nav-bar.js" },
+    ];
+    const loadCSS = [
+        {src: "https://unpkg.com/swiper/swiper-bundle.min.css"},
+        {src: "/assets/styles/side-nav-bar.css"},
+    ];
     try {
         const {slug} = req.params;
         const place = await Place.findOne({is_draft: false, slug});
+        if(!place) throw {code: 404, message: "404 Not Found"}; 
         let menus = await Menu.find({placeId: place._id});
         menus = place.menu_categories.map(e => {
             let menu_docs = menus.filter(e1 => (e == e1.category)).map(e1 => {
@@ -117,9 +126,11 @@ const placeDetailPage = async (req, res) => {
             if (e.value != '') ctas[e.type] = e.value;
         })
         payments = payments.length > 0 ? payments.join(', ') : 'Belum ada informasi';
-        return res.render('place-detail', {place, menus, day, todayOT, isTodayOpen, lastUpdate, payments, ctas});
+        return res.render('place-detail', {place, menus, day, todayOT, isTodayOpen, lastUpdate, payments, ctas, loadJS, loadCSS});
     } catch (error) {
         console.log(error);
+        if(error.code == 404)
+            return res.status(error.code).send(error.message)
         return res.send('');
     }
 }

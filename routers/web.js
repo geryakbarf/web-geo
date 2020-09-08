@@ -1,45 +1,58 @@
-const express = require('express')
-const imageHandler = require('../handlers/v1/images');
-const placeHandler = require('../handlers/v1/places');
-const common = require('../middlewares/common');
-const web = require('../handlers/v1/web');
-const router = express.Router()
+const express = require("express");
+const imageHandler = require("../handlers/v1/images");
+const common = require("../middlewares/common");
+const web = require("../handlers/v1/web");
+const router = express.Router();
 
-router.get('/', common.commingsoon, web.homePage)
 
-router.get('/explore', web.allPlace)
+router.get("/", common.routePath, common.commingsoon, web.homePage);
 
-router.get('/search-places', placeHandler.searchPlacesAndMenus)
-router.get('/claim', web.claimBusiness)
-router.get('/explore/category/:category', web.getPlaceCategory)
-router.get('/explore/category', web.categoryPage)
+router.get("/explore", web.allPlace);
 
-router.get('/about', common.commingsoon, (req, res) => {
-    res.redirect('/under-construction')
-})
+router.get("/claim", web.claimBusiness);
 
-router.get('/blog', common.commingsoon, (req, res) => {
-    res.redirect('/under-construction')
-})
+router.get("/explore/category/:category", web.getPlaceCategory);
 
-router.get('/business', common.commingsoon, (req, res) => {
-    res.redirect('/under-construction')
-})
+router.get("/explore/category", web.categoryPage);
 
-router.get('/contact-us', common.commingsoon, (req, res) => {
-    res.redirect('/under-construction')
-})
+router.post("/fetch_food.php", (req, res) => {
+    res.send(`
+    <div class="show-search" align="left">
+        <a href="detailtempat.php?id=Didago-Cafe-Dago-Bandung">
+            <img src="https://emam.id/images/database/tempatmakan/emam-didago-cover.png" style="width:50px; height:50px; float:left; margin-right:6px;" />
+            <div class="text-info-tempat" style=""><span class="name">Di<strong>dago</strong> Cafe</span>&nbsp;<br />Jl. Ir. H. Juanda No.21, Kota Bandung (setelah DEKRANASDA Jawa Barat)<br /></div>
+        </a>
+    </div>
 
-router.get('/under-construction', common.commingsoon, (req, res) => {
-    res.render('underconstruction')
-})
+    `);
+});
 
-router.get('/coming-soon', (req, res) => {
-    res.render('coming-soon')
-})
+router.get("/about", common.routePath, (req, res) => {
+    res.render("about");
+});
 
-router.get('/p/:slug', common.commingsoon, web.placeDetailPage)
+router.get("/blog", common.commingsoon, (req, res) => {
+    res.redirect("/under-construction");
+});
 
-router.get('/images/:key', imageHandler.getImage)
+router.get("/business", common.commingsoon, (req, res) => {
+    res.redirect("/under-construction");
+});
 
-module.exports = router
+router.get("/contact-us", common.commingsoon, (req, res) => {
+    res.render('about');
+});
+
+router.get("/under-construction", common.commingsoon, (req, res) => {
+    res.render("underconstruction");
+});
+
+router.get("/coming-soon", (req, res) => {
+    res.render("coming-soon");
+});
+
+router.get("/p/:slug", common.commingsoon, web.placeDetailPage);
+
+router.get("/images/:key", imageHandler.getImage);
+
+module.exports = router;
