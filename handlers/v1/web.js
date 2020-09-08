@@ -62,7 +62,7 @@ const allPlace = async (req, res) => {
             allMenus = await _searchMenus(search_menu);
             allPlaces = [];
         }
-        return res.render('place-all', {loadJS, allPlaces, allMenus})
+        return res.render('place-all', {allPlaces, allMenus})
     } catch (error) {
         console.log(error);
         return res.send('');
