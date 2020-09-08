@@ -134,30 +134,23 @@
              <div class="tab-content">
                 <p class="no-sp text-center txt-pesaninformasi">Kami selalu berusaha supaya informasi kami tepat dan akurat. <a href="kasihtau.php?id=Bubur-Malam-Jamika-Bandung">Kasih tahu</a> ya kalau ada yang salah.</p>
                 <div class="tab-pane fade show active" id="layout-tab-menu">
-                   <!-- <div class="scrollmenu" style="overflow-y: auto;">
-                      <a class="nav-menu active" href="#home">Home</a>
-                      <a class="nav-menu" href="#news">News</a>
-                      <a class="nav-menu" href="#contact">Contact</a>
-                      <a class="nav-menu" href="#about">About</a>
-                      <a class="nav-menu" href="#support">Support</a>
-                      <a class="nav-menu" href="#blog">Blog</a>
-                      <a class="nav-menu" href="#tools">Tools</a>  
-                      <a class="nav-menu" href="#base">Base</a>
-                      <a class="nav-menu" href="#custom">Custom</a>
-                      <a class="nav-menu" href="#more">More</a>
-                      <a class="nav-menu" href="#logo">Logo</a>
-                      <a class="nav-menu" href="#friends">Friends</a>
-                      <a class="nav-menu" href="#partners">Partners</a>
-                      <a class="nav-menu" href="#people">People</a>
-                      <a class="nav-menu" href="#work">Work</a>
-                      <a class="nav-menu" href="#logo">Logo</a>
-                      <a class="nav-menu" href="#friends">Friends</a>
-                      <a class="nav-menu" href="#partners">Partners</a>
-                      <a class="nav-menu" href="#people">People</a>
-                      <a class="nav-menu" href="#work">Work</a>
-                    </div> -->
-                   <% for(menu of menus){ %>
-                     <div class="row box-category">
+                   <br>
+                  <div class="section-slider-menu">
+                     <div class="col-12">
+                        <div class="swiper-container">
+                              <div class="swiper-wrapper">
+                                 <a class="swiper-slide active" onclick="menuSubNavSwitch('all')">All</a>
+                                 <% for(mcat of place.menu_categories){ %>
+                                    <a class="swiper-slide" onclick="menuSubNavSwitch('<%= mcat %>')"><%= mcat %></a>
+                                 <% } %>
+                              </div>
+                        </div><!-- Add Arrows -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                     </div>
+                  </div>
+                  <% for(menu of menus){ %>
+                     <div class="row box-category" data-cat-target="<%= menu.category %>">
                         <div class="col-12">
                            <h2 class="title-category"><%= menu.category %></h2>
                         </div>
@@ -234,4 +227,7 @@
        </section>
     </div>
  </main>
+ <script>
+    var menu_categories = <%- JSON.stringify(place.menu_categories) %>
+</script>
  <%- include('./partials/footer.html') %>
