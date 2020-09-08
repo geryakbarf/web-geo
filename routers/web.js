@@ -1,21 +1,21 @@
-const express = require('express')
-const imageHandler = require('../handlers/v1/images');
-const common = require('../middlewares/common');
-const web = require('../handlers/v1/web');
-const router = express.Router()
+const express = require("express");
+const imageHandler = require("../handlers/v1/images");
+const common = require("../middlewares/common");
+const web = require("../handlers/v1/web");
+const router = express.Router();
 
-router.get('/', common.commingsoon, web.homePage)
+router.get("/", common.commingsoon, web.homePage);
 
-router.get('/explore', web.allPlace)
+router.get("/explore", web.allPlace);
 
-router.get('/claim', web.claimBusiness)
+router.get("/claim", web.claimBusiness);
 
-router.get('/explore/category/:category', web.getPlaceCategory)
+router.get("/explore/category/:category", web.getPlaceCategory);
 
-router.get('/explore/category', web.categoryPage)
+router.get("/explore/category", web.categoryPage);
 
-router.post('/fetch_food.php', (req, res) => {
-    res.send(`
+router.post("/fetch_food.php", (req, res) => {
+  res.send(`
     <div class="show-search" align="left">
         <a href="detailtempat.php?id=Didago-Cafe-Dago-Bandung">
             <img src="https://emam.id/images/database/tempatmakan/emam-didago-cover.png" style="width:50px; height:50px; float:left; margin-right:6px;" />
@@ -23,35 +23,35 @@ router.post('/fetch_food.php', (req, res) => {
         </a>
     </div>
 
-    `)
-})
+    `);
+});
 
-router.get('/about', common.commingsoon, (req, res) => {
-    res.redirect('/under-construction')
-})
+router.get("/about", common.commingsoon, (req, res) => {
+  res.render("about");
+});
 
-router.get('/blog', common.commingsoon, (req, res) => {
-    res.redirect('/under-construction')
-})
+router.get("/blog", common.commingsoon, (req, res) => {
+  res.redirect("/under-construction");
+});
 
-router.get('/business', common.commingsoon, (req, res) => {
-    res.redirect('/under-construction')
-})
+router.get("/business", common.commingsoon, (req, res) => {
+  res.redirect("/under-construction");
+});
 
-router.get('/contact-us', common.commingsoon, (req, res) => {
-    res.redirect('/under-construction')
-})
+router.get("/contact-us", common.commingsoon, (req, res) => {
+  res.redirect("/under-construction");
+});
 
-router.get('/under-construction', common.commingsoon, (req, res) => {
-    res.render('underconstruction')
-})
+router.get("/under-construction", common.commingsoon, (req, res) => {
+  res.render("underconstruction");
+});
 
-router.get('/coming-soon', (req, res) => {
-    res.render('coming-soon')
-})
+router.get("/coming-soon", (req, res) => {
+  res.render("coming-soon");
+});
 
-router.get('/p/:slug', common.commingsoon, web.placeDetailPage)
+router.get("/p/:slug", common.commingsoon, web.placeDetailPage);
 
-router.get('/images/:key', imageHandler.getImage)
+router.get("/images/:key", imageHandler.getImage);
 
-module.exports = router
+module.exports = router;
