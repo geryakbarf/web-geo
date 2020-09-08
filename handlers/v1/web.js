@@ -13,13 +13,22 @@ const homePage = async (req, res) => {
             .limit(4)
             .sort({createdAt: -1})
             .select('name slug photo address');
-        const category = await PlaceCategory.find({}).select('name image');
+        const category = await PlaceCategory.find({}).limit(4).select('name image');
         return res.render('index', {loadJS, newPlaces, category})
     } catch (error) {
         console.log(error);
         return res.send('');
     }
+}
 
+const categoryPage = async (req, res) => {
+    try {
+        const category = await PlaceCategory.find({}).select('name image');
+        return res.render('all-category', {category})
+    } catch (error) {
+        console.log(error);
+        return res.send('');
+    }
 }
 
 const allPlace = async (req, res) => {
@@ -90,5 +99,5 @@ const placeDetailPage = async (req, res) => {
 }
 
 module.exports = {
-    homePage, placeDetailPage, allPlace, claimBusiness, getPlaceCategory
+    homePage, placeDetailPage, allPlace, claimBusiness, getPlaceCategory, categoryPage
 };

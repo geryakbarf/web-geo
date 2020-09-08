@@ -12,6 +12,8 @@ router.get('/claim', web.claimBusiness)
 
 router.get('/explore/category/:category', web.getPlaceCategory)
 
+router.get('/explore/category', web.categoryPage)
+
 router.post('/fetch_food.php', (req, res) => {
     res.send(`
     <div class="show-search" align="left">
