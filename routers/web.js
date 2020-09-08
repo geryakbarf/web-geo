@@ -1,13 +1,10 @@
 const express = require('express')
 const imageHandler = require('../handlers/v1/images');
+const common = require('../middlewares/common');
+const web = require('../handlers/v1/web');
 const router = express.Router()
 
-router.get('/', (req, res) => {
-    const loadJS = [
-        {src: '/assets/js/home.js'}
-    ]
-    res.render('index', {loadJS})
-})
+router.get('/', common.commingsoon, web.homePage)
 
 router.post('/fetch_food.php', (req, res) => {
     res.send(`
@@ -21,33 +18,31 @@ router.post('/fetch_food.php', (req, res) => {
     `)
 })
 
-router.get('/p/:slug', (req, res) => {
-    res.render('place-detail')
-})
-
-router.get('/about', (req, res) => {
+router.get('/about', common.commingsoon, (req, res) => {
     res.redirect('/under-construction')
 })
 
-router.get('/blog', (req, res) => {
+router.get('/blog', common.commingsoon, (req, res) => {
     res.redirect('/under-construction')
 })
 
-router.get('/business', (req, res) => {
+router.get('/business', common.commingsoon, (req, res) => {
     res.redirect('/under-construction')
 })
 
-router.get('/contact-us', (req, res) => {
+router.get('/contact-us', common.commingsoon, (req, res) => {
     res.redirect('/under-construction')
 })
 
-router.get('/sitemap', (req, res) => {
-    res.redirect('/under-construction')
-})
-
-router.get('/under-construction', (req, res) => {
+router.get('/under-construction', common.commingsoon, (req, res) => {
     res.render('underconstruction')
 })
+
+router.get('/coming-soon', (req, res) => {
+    res.render('coming-soon')
+})
+
+router.get('/p/:slug', common.commingsoon, web.placeDetailPage)
 
 router.get('/images/:key', imageHandler.getImage)
 

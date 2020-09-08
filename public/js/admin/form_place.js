@@ -72,9 +72,7 @@ var app = new Vue({
             if(this.form._id == null)
                 setTimeout(function(){
                     if(val.length > 3){
-                        let [firstWordAddr] = _this.form.address.split(' ');
                         let s = val;
-                        if(firstWordAddr && firstWordAddr.length > 0) s += ' ' + firstWordAddr;
                         if(_this.form.city.length > 0) s += ' '+_this.form.city;
                         _this.form.slug = slugify(s);
                     } else {
@@ -85,26 +83,6 @@ var app = new Vue({
             
           }
         },
-        'form.address': {
-            deep: true,
-            handler: function(val){
-              let _this = this;
-              if(this.form._id == null)
-                  setTimeout(function(){
-                      if(_this.form.name.length > 3){
-                          let [firstWordAddr] = val.split(' ');
-                          let s = _this.form.name;
-                          if(firstWordAddr && firstWordAddr.length > 0) s += ' ' + firstWordAddr;
-                          if(_this.form.city.length > 0) s += ' '+_this.form.city;
-                          _this.form.slug = slugify(s);
-                      } else {
-                          _this.form.slug = ''
-                      }    
-                      
-                  },300);
-              
-            }
-        },
         'form.city': {
             deep: true,
             handler: function(val){
@@ -112,9 +90,7 @@ var app = new Vue({
               if(this.form._id == null)
                   setTimeout(function(){
                       if(_this.form.name.length > 3){
-                          let [firstWordAddr] = _this.form.address.split(' ');
                           let s = _this.form.name;
-                          if(firstWordAddr && firstWordAddr.length > 0) s += ' ' + firstWordAddr;
                           if(val.length > 0) s += ' '+val;
                           _this.form.slug = slugify(s);
                       } else {
@@ -436,7 +412,7 @@ var app = new Vue({
                 this.form.categories = this.form.categories.map(e => ({id: e.id, text: e.name}));
                 this.form.payments = this.form.payments.map(e => ({code: e.code, text: e.name}));
                 if(this.form.parkir)
-                    this.form.parkir = this.form.parkir;
+                    this.form.parkir = this.form.parkir.id;
                 this.formFieldValues.payments = this.form.payments; 
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();

@@ -4,12 +4,18 @@
     <div class="container">
        <div class="row">
           <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-12 pt-3 mb-3">
-             <img class="gambar-header-tempat" src="images/database/tempatmakan/emam-bubur-jamika-cover.png" alt="">
+             <img class="gambar-header-tempat" src="<%= place.photo ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>" alt="Photo <%= place.name %>">
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-12 pt-3 mb-3">
-             <h2 class="textheader3">Bubur Malam Jamika</h2>
+             <h2 class="textheader3"><%= place.name %></h2>
+             <p class="no-sp" style="font-weight: bold; font-size: 14pt;"><%= place.categories.map(e => (e.name)).join(', ') %></p>
+             <% if(place.is_halal){ %>
+               <p>No Pork / No Lard</p>
+             <% }else{ %>
+               <p>Pork / Lard</p>
+             <% } %>
              <!-- <p class="no-sp">(Halal)</p> -->
-             <p class="no-sp">Jl. Jamika No.259, Kota Bandung.</p>
+             <p class="no-sp"><%= place.address %></p>
              <p class="mb-3">
                 <!-- validasi no telp -->
                 <a href="tel:"></a>
@@ -18,170 +24,82 @@
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                    <!-- Buka Tutup -->
-                   <h5 class='txt-jambukatutup inlineblock mr-1 text-green' id='kondisibukatutup'>Tutup</h5>
-                   <h5 class="txt-jambukatutup inline">| Buka jam 10:30 PM - 04:00 AM</h5>
+                   <h5 class='txt-jambukatutup inlineblock mr-1 <%= isTodayOpen ? "text-green": "text-red" %>' id='kondisibukatutup'><%= isTodayOpen ? "Buka": "Tutup" %></h5>
+                   <h5 class="txt-jambukatutup inline">| Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime %></h5>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" disabled>
                    <h5 class="mb-3">Jadwal Tempat</h5>
                    <table class="jadwal-table">
                       <tbody>
-                         <tr>
-                            <td>
-                               <p class="no-sp">Senin&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp">10:30 PM - 04:00 AM</p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td>
-                               <p class="no-sp">Selasa&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp text-red"> Tutup </p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td>
-                               <p class="no-sp">Rabu&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp">10:30 PM - 04:00 AM</p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td>
-                               <p class="no-sp">Kamis&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp">10:30 PM - 04:00 AM</p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td>
-                               <p class="no-sp">Jumat&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp">10:30 PM - 04:00 AM</p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td>
-                               <p class="no-sp">Sabtu&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp">10:30 PM - 04:00 AM</p>
-                            </td>
-                         </tr>
-                         <tr>
-                            <td>
-                               <p class="no-sp text-bold">Minggu&nbsp;</p>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                               <p class="no-sp text-bold">10:30 PM - 04:00 AM</p>
-                            </td>
-                         </tr>
+                         <% if(place.operational_times){ %>
+                           <% for(optime of place.operational_times){ %>
+                           <tr>
+                              <td>
+                                 <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.day %>&nbsp;</p>
+                              </td>
+                              <td>&nbsp;</td>
+                              <td>
+                                 <% if(optime.is_open){ %>
+                                    <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.openTime %> - <%= optime.closeTime %></p>
+                                 <% }else{ %>
+                                    <p class="no-sp text-red">Tutup</p>
+                                 <% } %>
+                              </td>
+                           </tr>
+                           <% } %>
+                        <% } %>
+                        
                       </tbody>
                    </table>
                 </div>
              </div>
              <h5 class="no-sp txt-pembayaran text-grey">Pembayaran :</h5>
-             <h5 class="no-sp txt-pembayaran">Cash Only</h5>
+             <h5 class="no-sp txt-pembayaran"><%= payments %></h5>
              <h5 class="no-sp txt-parkir text-grey">Parkir :</h5>
-             <h5 class="no-sp txt-parkir mb-2">Motor & Mobil</h5>
-             <div class="social-media-box">
-             </div>
-             <a name="btngooglemaps" href="https://goo.gl/maps/kmBbNyAixFxtnAVo8
-                "
+             <h5 class="no-sp txt-parkir mb-2"><%= place.parkir ? place.parkir.name : "Belum ada informasi" %></h5>
+             <h5 class="no-sp txt-info-selengkapnya text-grey">Info Selengkapnya</h5>
+             <% if(place.facilities.length > 0){ %>
+               <div class="row">
+                     <% for (facility of place.facilities){ %>
+                        <div class="col-lg-5 col-md-12 col-12 layout-info-lengkap">
+                           <div class="row">
+                                 <div class="col-lg-12 col-md-8 col-12">
+                                    <div class="box-selengkapnya">
+                                       <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                       <p class="txt-detailtempat"><%= facility.name %></p>
+                                    </div>
+                                 </div>
+                           </div>
+                        </div>
+                     <% }%>
+               </div>
+             <% } %>
+             <a class="txt-selengkapnya" id="txt-selengkapnya">Info Selengkapnya</a><br />
+             <% if(ctas.gmaps){ %>
+               <a name="btngooglemaps" href="<%= ctas.gmaps %>"
                 class="btn btn-googlemaps mr-2 my-2" id="googlemaps" target="_blank"><img class="ic-gmaps mr-2"
                 src="/assets/images/icon/emam-host-googlemaps.svg">Telusuri Lokasi</a>
-             <a name="btnwhatsapp" href="https://wa.me/628986174553" class="btn btn-whatsapp" id="whatsapp"
+             <% } %>
+             <% if(ctas.whatsapp){ %>
+               <a name="btnwhatsapp" href="https://wa.me/62<%=ctas.whatsapp%>" class="btn btn-whatsapp" id="whatsapp"
                 target="_blank"><img class="ic-wa mr-2" src="/assets/images/icon/emam-host-whatsapp.svg">Chat Whatsapp</a>
+             <% } %>
+             <div class="social-media-box">
+               <% if(ctas.grabfood){ %>
+                  <a target="_blank" href="<%= ctas.grabfood %>" style="margin-right: 5px;"><img src="/assets/images/icon/emam-host-grabfood.png" style="max-width: 40px;" alt="Emam - Link Grabfood <%= place.name %>"></a>
+               <% } %>
+               <% if(ctas.gofood){ %>
+                  <a target="_blank" href="<%= ctas.gofood %>" style="margin-right: 5px;"><img src="/assets/images/icon/emam-host-gofood.png" style="max-width: 30px;" alt="Emam - Link Gofood <%= place.name %>"></a>
+               <% } %>
+               <% if(ctas.instagram){ %>
+                  <a target="_blank" href="<%= ctas.instagram %>" style="margin-right: 5px;"><img src="/assets/images/icon/emam_host_instagram.svg" style="max-width: 30px;" alt="Emam - Link Instagram <%= place.name %>"></a>
+               <% } %>
+               <% if(ctas.web){ %>
+                  <a target="_blank" href="<%= ctas.web %>" style="margin-right: 5px;"><img src="/assets/images/icon/emam-host-website.svg" style="max-width: 30px;" alt="Emam - Link Website <%= place.name %>"></a>
+               <% } %>
+             </div>
              <p class="no-sp txt-lastupdate">last update</p>
-             <p class="no-sp txt-waktu-lastupdate">25-07-2020 03:30 PM</p>
-             <!-- <p class="no-sp txt-waktu-lastupdate"> 25-07-2020 Hari ini, 10:00 AM | Kemarin, 10:00 AM | Rabu, 27-05-2020 10:00 AM</?>   -->
-             <!-- <button class="btn button-jadwal" type="button" data-toggle="collapse" data-target="#jadwalfull"
-                aria-expanded="true" aria-controls="collapseExample">
-                <h5 class="inlineblock mr-1 text-red" id="kondisibukatutup">Tutup</h5>
-                <h5 class="inline">| Buka jam 11:30 PM - 04:00 AM</h5>&nbsp;<i class="fa fa-caret-down"></i>
-                </button>
-                
-                <div class="collapse show" id="jadwalfull" style="">
-                <table class="jadwal-table">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <h5>Senin&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5>11:30 PM - 04:00 AM</h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>Selasa&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5 class="text-red"> Tutup </h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>Rabu&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5>11:30 PM - 04:00 AM</h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>Kamis&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5>11:30 PM - 04:00 AM</h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>Jumat&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5>11:30 PM - 04:00 AM</h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>Sabtu&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5>11:30 PM - 04:00 AM</h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h5>Minggu&nbsp;</h5>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <h5>11:30 PM - 04:00 AM</h5>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                </div> -->
+             <p class="no-sp txt-waktu-lastupdate"><%= lastUpdate %></p>
           </div>
        </div>
     </div>
@@ -216,7 +134,7 @@
              <div class="tab-content">
                 <p class="no-sp text-center txt-pesaninformasi">Kami selalu berusaha supaya informasi kami tepat dan akurat. <a href="kasihtau.php?id=Bubur-Malam-Jamika-Bandung">Kasih tahu</a> ya kalau ada yang salah.</p>
                 <div class="tab-pane fade show active" id="layout-tab-menu">
-                   <!-- <div class="scrollmenu">
+                   <!-- <div class="scrollmenu" style="overflow-y: auto;">
                       <a class="nav-menu active" href="#home">Home</a>
                       <a class="nav-menu" href="#news">News</a>
                       <a class="nav-menu" href="#contact">Contact</a>
@@ -237,737 +155,75 @@
                       <a class="nav-menu" href="#partners">Partners</a>
                       <a class="nav-menu" href="#people">People</a>
                       <a class="nav-menu" href="#work">Work</a>
-                      </div> -->
-                   <div class="row box-category">
-                      <div class="col-12">
-                         <h2 class="title-category">Bubur</h2>
-                      </div>
-                      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
-                         <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu1">
-                            <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                               <div class="layout-gambar">
-                                  <img class="img-menu lazyload"
-                                     src="images/database/tempatmakan/menu/emam-bubur-jamika-1-1-Bubur-polos.png" loading="lazy" alt="Menu">
-                               </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                               <div class="box-info-menu">
-                                  <h5 class="nama-menu">Bubur polos</h5>
-                                  <p class="txt-harga">Rp 6.000,-</p>
-                                  <p class="txt-desc">Bubur polos nya aja udah enak banget! Cocok buat yang lagi gak enak badan</p>
-                               </div>
-                            </div>
-                         </a>
-                      </div>
-                      <!-- Modal Popup detail menu -->
-                      <div class="modal fade" id="popup-menu1" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="container-fluid">
-                                     <div class="row justify-content-center">
-                                        <div class="col-12 popup-img-menu-layout">
-                                           <div class="img-box-layout">
-                                              <img class="popup-img-menu" src="images/database/tempatmakan/menu/emam-bubur-jamika-1-1-Bubur-polos.png"
-                                                 alt="Gambar Menu">
-                                              <!-- <div class="outofstock-overlay"></div>
-                                                 <div class="txt-outofstock-layout justify-content-center">
-                                                     <p class="txt-outofstock my-auto">Out Of Stock</p>
-                                                 </div> -->
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="row modal-layout-detailmenu">
-                                        <div class="col-12">
-                                           <h4 class="txt-namamenu-popupmenu">Bubur polos</h4>
-                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                           <p class="txt-harga-popupmenu">Rp 6.000,-</p>
-                                           <p class="txt-desc-popupmenu">Bubur polos nya aja udah enak banget! Cocok buat yang lagi gak enak badan</p>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <!-- End Modal Popup detail menu-->
-                      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
-                         <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu2">
-                            <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                               <div class="layout-gambar">
-                                  <img class="img-menu lazyload"
-                                     src="images/database/tempatmakan/menu/emam-bubur-jamika-1-2-Bubur-ayam-biasa.png" loading="lazy" alt="Menu">
-                               </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                               <div class="box-info-menu">
-                                  <h5 class="nama-menu">Bubur ayam biasa</h5>
-                                  <p class="txt-harga">Rp 15.000,-</p>
-                                  <p class="txt-desc">Bubur yang udah enak, ditambah cakwe dan suwiran ayam besar-besar dan gak kering</p>
-                               </div>
-                            </div>
-                         </a>
-                      </div>
-                      <!-- Modal Popup detail menu -->
-                      <div class="modal fade" id="popup-menu2" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="container-fluid">
-                                     <div class="row justify-content-center">
-                                        <div class="col-12 popup-img-menu-layout">
-                                           <div class="img-box-layout">
-                                              <img class="popup-img-menu" src="images/database/tempatmakan/menu/emam-bubur-jamika-1-2-Bubur-ayam-biasa.png"
-                                                 alt="Gambar Menu">
-                                              <!-- <div class="outofstock-overlay"></div>
-                                                 <div class="txt-outofstock-layout justify-content-center">
-                                                     <p class="txt-outofstock my-auto">Out Of Stock</p>
-                                                 </div> -->
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="row modal-layout-detailmenu">
-                                        <div class="col-12">
-                                           <h4 class="txt-namamenu-popupmenu">Bubur ayam biasa</h4>
-                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                           <p class="txt-harga-popupmenu">Rp 15.000,-</p>
-                                           <p class="txt-desc-popupmenu">Bubur yang udah enak, ditambah cakwe dan suwiran ayam besar-besar dan gak kering</p>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <!-- End Modal Popup detail menu-->
-                      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
-                         <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu3">
-                            <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                               <div class="layout-gambar">
-                                  <img class="img-menu lazyload"
-                                     src="images/database/tempatmakan/menu/emam-bubur-jamika-1-2-Bubur-ayam-biasa.png" loading="lazy" alt="Menu">
-                               </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                               <div class="box-info-menu">
-                                  <h5 class="nama-menu">Bubur ayam biasa 1/2 porsi</h5>
-                                  <p class="txt-harga">Rp 10.000,-</p>
-                                  <p class="txt-desc">Bubur polos 1/2 porsi, tapi topping nya tetap 1 porsi.</p>
-                               </div>
-                            </div>
-                         </a>
-                      </div>
-                      <!-- Modal Popup detail menu -->
-                      <div class="modal fade" id="popup-menu3" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="container-fluid">
-                                     <div class="row justify-content-center">
-                                        <div class="col-12 popup-img-menu-layout">
-                                           <div class="img-box-layout">
-                                              <img class="popup-img-menu" src="images/database/tempatmakan/menu/emam-bubur-jamika-1-2-Bubur-ayam-biasa.png"
-                                                 alt="Gambar Menu">
-                                              <!-- <div class="outofstock-overlay"></div>
-                                                 <div class="txt-outofstock-layout justify-content-center">
-                                                     <p class="txt-outofstock my-auto">Out Of Stock</p>
-                                                 </div> -->
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="row modal-layout-detailmenu">
-                                        <div class="col-12">
-                                           <h4 class="txt-namamenu-popupmenu">Bubur ayam biasa 1/2 porsi</h4>
-                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                           <p class="txt-harga-popupmenu">Rp 10.000,-</p>
-                                           <p class="txt-desc-popupmenu">Bubur polos 1/2 porsi, tapi topping nya tetap 1 porsi.</p>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <!-- End Modal Popup detail menu-->
-                   </div>
-                   <div class="row box-category">
-                      <div class="col-12">
-                         <h2 class="title-category">Topping Bubur Spesial</h2>
-                      </div>
-                      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
-                         <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu4">
-                            <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                               <div class="layout-gambar">
-                                  <img class="img-menu lazyload"
-                                     src="images/database/tempatmakan/menu/emam-bubur-jamika-2-1-Usus-kering.png" loading="lazy" alt="Menu">
-                               </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                               <div class="box-info-menu">
-                                  <h5 class="nama-menu">Usus kering</h5>
-                                  <p class="txt-harga">Rp 3.000,-</p>
-                                  <p class="txt-desc">Topping usus yang beda dari bubur yang lain. Usus yang crispy dan gurih asin cocok untuk jadi topping pelengkap bubur</p>
-                               </div>
-                            </div>
-                         </a>
-                      </div>
-                      <!-- Modal Popup detail menu -->
-                      <div class="modal fade" id="popup-menu4" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="container-fluid">
-                                     <div class="row justify-content-center">
-                                        <div class="col-12 popup-img-menu-layout">
-                                           <div class="img-box-layout">
-                                              <img class="popup-img-menu" src="images/database/tempatmakan/menu/emam-bubur-jamika-2-1-Usus-kering.png"
-                                                 alt="Gambar Menu">
-                                              <!-- <div class="outofstock-overlay"></div>
-                                                 <div class="txt-outofstock-layout justify-content-center">
-                                                     <p class="txt-outofstock my-auto">Out Of Stock</p>
-                                                 </div> -->
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="row modal-layout-detailmenu">
-                                        <div class="col-12">
-                                           <h4 class="txt-namamenu-popupmenu">Usus kering</h4>
-                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                           <p class="txt-harga-popupmenu">Rp 3.000,-</p>
-                                           <p class="txt-desc-popupmenu">Topping usus yang beda dari bubur yang lain. Usus yang crispy dan gurih asin cocok untuk jadi topping pelengkap bubur</p>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <!-- End Modal Popup detail menu-->
-                      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
-                         <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu5">
-                            <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                               <div class="layout-gambar">
-                                  <img class="img-menu lazyload"
-                                     src="/assets/images/emam-menu-no-photos.jpg" loading="lazy" alt="Menu">
-                               </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                               <div class="box-info-menu">
-                                  <h5 class="nama-menu">Kulit</h5>
-                                  <p class="txt-harga">Rp 3.000,-</p>
-                                  <p class="txt-desc">Kulit ayam kukus yang kenyal dan gurih. Pecinta kulit ayam bakal ketagihan</p>
-                               </div>
-                            </div>
-                         </a>
-                      </div>
-                      <!-- Modal Popup detail menu -->
-                      <div class="modal fade" id="popup-menu5" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="container-fluid">
-                                     <div class="row justify-content-center">
-                                        <div class="col-12 popup-img-menu-layout">
-                                           <div class="img-box-layout">
-                                              <img class="popup-img-menu" src="/assets/images/emam-menu-no-photos.jpg"
-                                                 alt="Gambar Menu">
-                                              <!-- <div class="outofstock-overlay"></div>
-                                                 <div class="txt-outofstock-layout justify-content-center">
-                                                     <p class="txt-outofstock my-auto">Out Of Stock</p>
-                                                 </div> -->
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="row modal-layout-detailmenu">
-                                        <div class="col-12">
-                                           <h4 class="txt-namamenu-popupmenu">Kulit</h4>
-                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                           <p class="txt-harga-popupmenu">Rp 3.000,-</p>
-                                           <p class="txt-desc-popupmenu">Kulit ayam kukus yang kenyal dan gurih. Pecinta kulit ayam bakal ketagihan</p>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <!-- End Modal Popup detail menu-->
-                      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
-                         <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu6">
-                            <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                               <div class="layout-gambar">
-                                  <img class="img-menu lazyload"
-                                     src="/assets/images/emam-menu-no-photos.jpg" loading="lazy" alt="Menu">
-                               </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                               <div class="box-info-menu">
-                                  <h5 class="nama-menu">Telor muda</h5>
-                                  <p class="txt-harga">Rp 3.000,-</p>
-                                  <p class="txt-desc">Tidak ada deskripsi</p>
-                               </div>
-                            </div>
-                         </a>
-                      </div>
-                      <!-- Modal Popup detail menu -->
-                      <div class="modal fade" id="popup-menu6" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="container-fluid">
-                                     <div class="row justify-content-center">
-                                        <div class="col-12 popup-img-menu-layout">
-                                           <div class="img-box-layout">
-                                              <img class="popup-img-menu" src="/assets/images/emam-menu-no-photos.jpg"
-                                                 alt="Gambar Menu">
-                                              <!-- <div class="outofstock-overlay"></div>
-                                                 <div class="txt-outofstock-layout justify-content-center">
-                                                     <p class="txt-outofstock my-auto">Out Of Stock</p>
-                                                 </div> -->
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="row modal-layout-detailmenu">
-                                        <div class="col-12">
-                                           <h4 class="txt-namamenu-popupmenu">Telor muda</h4>
-                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                           <p class="txt-harga-popupmenu">Rp 3.000,-</p>
-                                           <p class="txt-desc-popupmenu">Tidak ada deskripsi</p>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <!-- End Modal Popup detail menu-->
-                      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
-                         <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu7">
-                            <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                               <div class="layout-gambar">
-                                  <img class="img-menu lazyload"
-                                     src="/assets/images/emam-menu-no-photos.jpg" loading="lazy" alt="Menu">
-                               </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                               <div class="box-info-menu">
-                                  <h5 class="nama-menu">Ati ampela</h5>
-                                  <p class="txt-harga">Rp 3.000,-</p>
-                                  <p class="txt-desc">Bisa ati aja, ampela aja, atau campur</p>
-                               </div>
-                            </div>
-                         </a>
-                      </div>
-                      <!-- Modal Popup detail menu -->
-                      <div class="modal fade" id="popup-menu7" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="container-fluid">
-                                     <div class="row justify-content-center">
-                                        <div class="col-12 popup-img-menu-layout">
-                                           <div class="img-box-layout">
-                                              <img class="popup-img-menu" src="/assets/images/emam-menu-no-photos.jpg"
-                                                 alt="Gambar Menu">
-                                              <!-- <div class="outofstock-overlay"></div>
-                                                 <div class="txt-outofstock-layout justify-content-center">
-                                                     <p class="txt-outofstock my-auto">Out Of Stock</p>
-                                                 </div> -->
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="row modal-layout-detailmenu">
-                                        <div class="col-12">
-                                           <h4 class="txt-namamenu-popupmenu">Ati ampela</h4>
-                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                           <p class="txt-harga-popupmenu">Rp 3.000,-</p>
-                                           <p class="txt-desc-popupmenu">Bisa ati aja, ampela aja, atau campur</p>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <!-- End Modal Popup detail menu-->
-                      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
-                         <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu8">
-                            <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                               <div class="layout-gambar">
-                                  <img class="img-menu lazyload"
-                                     src="/assets/images/emam-menu-no-photos.jpg" loading="lazy" alt="Menu">
-                               </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                               <div class="box-info-menu">
-                                  <h5 class="nama-menu">Telor puyuh</h5>
-                                  <p class="txt-harga">Rp 3.000,-</p>
-                                  <p class="txt-desc">Sate telor burung puyuh</p>
-                               </div>
-                            </div>
-                         </a>
-                      </div>
-                      <!-- Modal Popup detail menu -->
-                      <div class="modal fade" id="popup-menu8" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="container-fluid">
-                                     <div class="row justify-content-center">
-                                        <div class="col-12 popup-img-menu-layout">
-                                           <div class="img-box-layout">
-                                              <img class="popup-img-menu" src="/assets/images/emam-menu-no-photos.jpg"
-                                                 alt="Gambar Menu">
-                                              <!-- <div class="outofstock-overlay"></div>
-                                                 <div class="txt-outofstock-layout justify-content-center">
-                                                     <p class="txt-outofstock my-auto">Out Of Stock</p>
-                                                 </div> -->
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="row modal-layout-detailmenu">
-                                        <div class="col-12">
-                                           <h4 class="txt-namamenu-popupmenu">Telor puyuh</h4>
-                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                           <p class="txt-harga-popupmenu">Rp 3.000,-</p>
-                                           <p class="txt-desc-popupmenu">Sate telor burung puyuh</p>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <!-- End Modal Popup detail menu-->
-                      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
-                         <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu9">
-                            <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                               <div class="layout-gambar">
-                                  <img class="img-menu lazyload"
-                                     src="/assets/images/emam-menu-no-photos.jpg" loading="lazy" alt="Menu">
-                               </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                               <div class="box-info-menu">
-                                  <h5 class="nama-menu">Kepala ayam</h5>
-                                  <p class="txt-harga">Rp 6.000,-</p>
-                                  <p class="txt-desc">Kepala ayam kukus</p>
-                               </div>
-                            </div>
-                         </a>
-                      </div>
-                      <!-- Modal Popup detail menu -->
-                      <div class="modal fade" id="popup-menu9" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="container-fluid">
-                                     <div class="row justify-content-center">
-                                        <div class="col-12 popup-img-menu-layout">
-                                           <div class="img-box-layout">
-                                              <img class="popup-img-menu" src="/assets/images/emam-menu-no-photos.jpg"
-                                                 alt="Gambar Menu">
-                                              <!-- <div class="outofstock-overlay"></div>
-                                                 <div class="txt-outofstock-layout justify-content-center">
-                                                     <p class="txt-outofstock my-auto">Out Of Stock</p>
-                                                 </div> -->
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="row modal-layout-detailmenu">
-                                        <div class="col-12">
-                                           <h4 class="txt-namamenu-popupmenu">Kepala ayam</h4>
-                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                           <p class="txt-harga-popupmenu">Rp 6.000,-</p>
-                                           <p class="txt-desc-popupmenu">Kepala ayam kukus</p>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <!-- End Modal Popup detail menu-->
-                      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
-                         <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu10">
-                            <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                               <div class="layout-gambar">
-                                  <img class="img-menu lazyload"
-                                     src="/assets/images/emam-menu-no-photos.jpg" loading="lazy" alt="Menu">
-                               </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                               <div class="box-info-menu">
-                                  <h5 class="nama-menu">Sayap ayam</h5>
-                                  <p class="txt-harga">Rp 6.000,-</p>
-                                  <p class="txt-desc">Sayap ayam kukus</p>
-                               </div>
-                            </div>
-                         </a>
-                      </div>
-                      <!-- Modal Popup detail menu -->
-                      <div class="modal fade" id="popup-menu10" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="container-fluid">
-                                     <div class="row justify-content-center">
-                                        <div class="col-12 popup-img-menu-layout">
-                                           <div class="img-box-layout">
-                                              <img class="popup-img-menu" src="/assets/images/emam-menu-no-photos.jpg"
-                                                 alt="Gambar Menu">
-                                              <!-- <div class="outofstock-overlay"></div>
-                                                 <div class="txt-outofstock-layout justify-content-center">
-                                                     <p class="txt-outofstock my-auto">Out Of Stock</p>
-                                                 </div> -->
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="row modal-layout-detailmenu">
-                                        <div class="col-12">
-                                           <h4 class="txt-namamenu-popupmenu">Sayap ayam</h4>
-                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                           <p class="txt-harga-popupmenu">Rp 6.000,-</p>
-                                           <p class="txt-desc-popupmenu">Sayap ayam kukus</p>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <!-- End Modal Popup detail menu-->
-                      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
-                         <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu11">
-                            <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                               <div class="layout-gambar">
-                                  <img class="img-menu lazyload"
-                                     src="/assets/images/emam-menu-no-photos.jpg" loading="lazy" alt="Menu">
-                               </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                               <div class="box-info-menu">
-                                  <h5 class="nama-menu">Paha ayam</h5>
-                                  <p class="txt-harga">Rp 12.000,-</p>
-                                  <p class="txt-desc">Paha bawah ayam kukus</p>
-                               </div>
-                            </div>
-                         </a>
-                      </div>
-                      <!-- Modal Popup detail menu -->
-                      <div class="modal fade" id="popup-menu11" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="container-fluid">
-                                     <div class="row justify-content-center">
-                                        <div class="col-12 popup-img-menu-layout">
-                                           <div class="img-box-layout">
-                                              <img class="popup-img-menu" src="/assets/images/emam-menu-no-photos.jpg"
-                                                 alt="Gambar Menu">
-                                              <!-- <div class="outofstock-overlay"></div>
-                                                 <div class="txt-outofstock-layout justify-content-center">
-                                                     <p class="txt-outofstock my-auto">Out Of Stock</p>
-                                                 </div> -->
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="row modal-layout-detailmenu">
-                                        <div class="col-12">
-                                           <h4 class="txt-namamenu-popupmenu">Paha ayam</h4>
-                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                           <p class="txt-harga-popupmenu">Rp 12.000,-</p>
-                                           <p class="txt-desc-popupmenu">Paha bawah ayam kukus</p>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <!-- End Modal Popup detail menu-->
-                      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
-                         <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu12">
-                            <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                               <div class="layout-gambar">
-                                  <img class="img-menu lazyload"
-                                     src="/assets/images/emam-menu-no-photos.jpg" loading="lazy" alt="Menu">
-                               </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                               <div class="box-info-menu">
-                                  <h5 class="nama-menu">Emping</h5>
-                                  <p class="txt-harga">Rp 2.000,-</p>
-                                  <p class="txt-desc">Tidak ada deskripsi</p>
-                               </div>
-                            </div>
-                         </a>
-                      </div>
-                      <!-- Modal Popup detail menu -->
-                      <div class="modal fade" id="popup-menu12" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="container-fluid">
-                                     <div class="row justify-content-center">
-                                        <div class="col-12 popup-img-menu-layout">
-                                           <div class="img-box-layout">
-                                              <img class="popup-img-menu" src="/assets/images/emam-menu-no-photos.jpg"
-                                                 alt="Gambar Menu">
-                                              <!-- <div class="outofstock-overlay"></div>
-                                                 <div class="txt-outofstock-layout justify-content-center">
-                                                     <p class="txt-outofstock my-auto">Out Of Stock</p>
-                                                 </div> -->
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="row modal-layout-detailmenu">
-                                        <div class="col-12">
-                                           <h4 class="txt-namamenu-popupmenu">Emping</h4>
-                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                           <p class="txt-harga-popupmenu">Rp 2.000,-</p>
-                                           <p class="txt-desc-popupmenu">Tidak ada deskripsi</p>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <!-- End Modal Popup detail menu-->
-                      <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
-                         <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu13">
-                            <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                               <div class="layout-gambar">
-                                  <img class="img-menu lazyload"
-                                     src="/assets/images/emam-menu-no-photos.jpg" loading="lazy" alt="Menu">
-                               </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                               <div class="box-info-menu">
-                                  <h5 class="nama-menu">Kerupuk</h5>
-                                  <p class="txt-harga">Rp 2.000,-</p>
-                                  <p class="txt-desc">Tidak ada deskripsi</p>
-                               </div>
-                            </div>
-                         </a>
-                      </div>
-                      <!-- Modal Popup detail menu -->
-                      <div class="modal fade" id="popup-menu13" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                  </button>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="container-fluid">
-                                     <div class="row justify-content-center">
-                                        <div class="col-12 popup-img-menu-layout">
-                                           <div class="img-box-layout">
-                                              <img class="popup-img-menu" src="/assets/images/emam-menu-no-photos.jpg"
-                                                 alt="Gambar Menu">
-                                              <!-- <div class="outofstock-overlay"></div>
-                                                 <div class="txt-outofstock-layout justify-content-center">
-                                                     <p class="txt-outofstock my-auto">Out Of Stock</p>
-                                                 </div> -->
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <div class="row modal-layout-detailmenu">
-                                        <div class="col-12">
-                                           <h4 class="txt-namamenu-popupmenu">Kerupuk</h4>
-                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                           <p class="txt-harga-popupmenu">Rp 2.000,-</p>
-                                           <p class="txt-desc-popupmenu">Tidak ada deskripsi</p>
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                      <!-- End Modal Popup detail menu-->
-                   </div>
+                    </div> -->
+                   <% for(menu of menus){ %>
+                     <div class="row box-category">
+                        <div class="col-12">
+                           <h2 class="title-category"><%= menu.category %></h2>
+                        </div>
+                        <% for(detail of menu.menus){ %>
+                        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
+                           <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu-<%= detail._id %>">
+                              <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
+                                 <div class="layout-gambar">
+                                    <img class="img-menu lazyload"
+                                       src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>" loading="lazy" alt="Emam - <%= place.name+' '+detail.name %>">
+                                 </div>
+                              </div>
+                              <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
+                                 <div class="box-info-menu">
+                                    <h5 class="nama-menu"><%= detail.name %></h5>
+                                    <p class="txt-harga">Rp <%= detail.prices.normal_price %>,-</p>
+                                    <p class="txt-desc"><%= detail.description != ''? detail.description : 'Tidak ada deskripsi.'%></p>
+                                 </div>
+                              </div>
+                           </a>
+                        </div>
+                        <!-- Modal Popup detail menu -->
+                        <div class="modal fade" id="popup-menu-<%= detail._id %>" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
+                           <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                    <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                 </div>
+                                 <div class="modal-body">
+                                    <div class="container-fluid">
+                                       <div class="row justify-content-center">
+                                          <div class="col-12 popup-img-menu-layout">
+                                             <div class="img-box-layout">
+                                                <img class="popup-img-menu" src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>"
+                                                alt="Emam - <%= place.name+' '+detail.name %>">
+                                                <!-- <div class="outofstock-overlay"></div>
+                                                   <div class="txt-outofstock-layout justify-content-center">
+                                                       <p class="txt-outofstock my-auto">Out Of Stock</p>
+                                                   </div> -->
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="row modal-layout-detailmenu">
+                                          <div class="col-12">
+                                             <h4 class="txt-namamenu-popupmenu"><%= detail.name %></h4>
+                                             <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
+                                             <p class="txt-harga-popupmenu">Rp <%= detail.prices.normal_price %>,-</p>
+                                             <p class="txt-desc-popupmenu"><%= detail.description != ''? detail.description : 'Tidak ada deskripsi.'%></p>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <% } %>
+                     </div>
+                   <% } %>
                 </div>
                 <div class="tab-pane fade" id="layout-tab-photo">
                    <div class="row box-photo">
                       <div class="col-12 layout-masih-kosong text-center">
-                         <img class="gambar-masih-kosong" src="images/emam-gambar-masih-kosong.svg"alt="">
+                         <img class="gambar-masih-kosong" src="/assets/images/emam-gambar-masih-kosong.svg"alt="">
                       </div>
                    </div>
                 </div>
