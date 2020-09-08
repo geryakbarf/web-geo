@@ -4,12 +4,8 @@ const common = require("../middlewares/common");
 const web = require("../handlers/v1/web");
 const router = express.Router();
 
-// router.use((req, res, next) => {
-//     console.log(req.route);
-//     next();
-// });
 
-router.get("/", common.commingsoon, web.homePage);
+router.get("/", common.routePath, common.commingsoon, web.homePage);
 
 router.get("/explore", web.allPlace);
 
@@ -31,7 +27,7 @@ router.post("/fetch_food.php", (req, res) => {
     `);
 });
 
-router.get("/about", (req, res) => {
+router.get("/about", common.routePath, (req, res) => {
     res.render("about");
 });
 
