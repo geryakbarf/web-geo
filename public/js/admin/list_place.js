@@ -7,6 +7,7 @@ var app = new Vue({
             {label: '#'},
             {label: 'Place Name', field:"name"},
             {label: 'Location', field:"city"},
+            {label: 'Last Update', field:"updatedAt"},
             {label: 'Action'}
         ],
         places: []
@@ -24,6 +25,16 @@ var app = new Vue({
                 return;
             }
             
+        },
+
+        updateTime: async function(id, name) {
+            const res = await fetch('/api/v1/places',{method: "PUT", body: JSON.stringify({_id: id, name}), headers:{'Content-Type':"application/json"}});
+            if(res.ok) {
+                toastr.success("Success to update time")
+                this.loadPlaces();
+            }
+            else toastr.error("Failed to delete data");
+        
         },
         loadPlaces: async function() {
             const res = await fetch('/api/v1/places');
