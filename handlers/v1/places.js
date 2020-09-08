@@ -1,5 +1,6 @@
 const Place = require('../../data/mongo/places');
 const Menu = require('../../data/mongo/menus');
+const moment = require("moment");
 
 const serverErrMsg = "Terjadi kesalahan, mohon hubungi admin."
 
@@ -38,7 +39,12 @@ const updatePlace = async(req,res) => {
 
 const getPlaces = async(req, res) => {
     try {
-        const data = await Place.find();
+        let data = await Place.find();
+        data = data.map(e => {
+            let doc = e._doc
+            doc.updatedAt = moment(doc.updatedAt).format("YYYY-MM-DD HH:mm")
+            return doc;
+        })
         return res.json({message: "Success to retrive places", data})
     } catch (error) {
         console.log(error);

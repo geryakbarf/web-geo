@@ -18,7 +18,9 @@
                     <td class="text-center">{{ index + 1 }}</td>
                     <td>{{ row.name }}</td>
                     <td>{{ row.city | capitalize }}</td>
+                    <td>{{ row.updatedAt }}</td>
                     <td class="text-center">
+                        <button class="btn btn-primary" v-on:click="updateTime(row._id, row.name)">Update Time</button>
                         <a v-bind:href="'/admin/places/'+row._id+'/edit'" class="btn">Update</a>
                         <button class="btn btn-primary" v-on:click="onDeleteData(row._id)">Delete</button>
                     </td>
