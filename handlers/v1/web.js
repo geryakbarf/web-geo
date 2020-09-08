@@ -14,7 +14,7 @@ const homePage = async (req, res) => {
             .sort({createdAt: -1})
             .select('name slug photo address');
         const category = await PlaceCategory.find({}).limit(4).select('name image');
-        return res.render('index', {loadJS, newPlaces, category})
+        return res.render('index', {loadJS, newPlaces, category, path:req.route.path})
     } catch (error) {
         console.log(error);
         return res.send('');

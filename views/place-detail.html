@@ -1,101 +1,123 @@
 <%- include('./partials/header.html') %>
 <%- include('./partials/top-nav.html') %>
 <header id="header-detail-tempat">
-    <div class="container">
-       <div class="row">
-          <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-12 pt-3 mb-3">
-             <img class="gambar-header-tempat" src="<%= place.photo.path ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>" alt="Photo <%= place.name %>">
-          </div>
-          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-12 pt-3 mb-3">
-             <h2 class="textheader3"><%= place.name %></h2>
-             <p class="no-sp" style="font-weight: bold; font-size: 14pt;"><%= place.categories.map(e => (e.name)).join(', ') %></p>
-             <% if(place.is_halal){ %>
-               <p>No Pork / No Lard</p>
-             <% }else{ %>
-               <p>Pork / Lard</p>
-             <% } %>
-             <!-- <p class="no-sp">(Halal)</p> -->
-             <p class="no-sp"><%= place.address %></p>
-             <p class="mb-3">
-                <!-- validasi no telp -->
-                <a href="tel:"></a>
-             </p>
-             <div class="dropdown show">
-                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                   <!-- Buka Tutup -->
-                   <h5 class='txt-jambukatutup inlineblock mr-1 <%= isTodayOpen ? "text-green": "text-red" %>' id='kondisibukatutup'><%= isTodayOpen ? "Buka": "Tutup" %></h5>
-                   <h5 class="txt-jambukatutup inline">| Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime %></h5>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" disabled>
-                   <h5 class="mb-3">Jadwal Tempat</h5>
-                   <table class="jadwal-table">
-                      <tbody>
-                         <% if(place.operational_times){ %>
-                           <% for(optime of place.operational_times){ %>
-                           <tr>
-                              <td>
-                                 <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.day %>&nbsp;</p>
-                              </td>
-                              <td>&nbsp;</td>
-                              <td>
-                                 <% if(optime.is_open){ %>
-                                    <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.openTime %> - <%= optime.closeTime %></p>
-                                 <% }else{ %>
-                                    <p class="no-sp text-red">Tutup</p>
-                                 <% } %>
-                              </td>
-                           </tr>
+   <div class="container">
+      <div class="row">
+         <div class="col-lg-4 col-md-8 col-sm-6 col-xs-12 col-12 pt-3 mb-3">
+            <img class="gambar-header-tempat"
+                 src="<%= place.photo ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>"
+                 alt="Photo <%= place.name %>">
+         </div>
+         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-12 pt-3 mb-3">
+            <h2 class="textheader3"><%= place.name %></h2>
+            <p class="no-sp" style="font-weight: bold; font-size: 16px;">
+               <%= place.categories.map(e => (e.name)).join(', ') %></p>
+            <% if(place.is_halal){ %>
+            <p>No Pork / No Lard</p>
+            <% }else{ %>
+            <p style="color: #707070;">Pork / Lard</p>
+            <% } %>
+            <!-- <p class="no-sp">(Halal)</p> -->
+            <p class="no-sp"><%= place.address %></p>
+            <p class="mb-3">
+               <!-- validasi no telp -->
+               <a href="tel:"></a>
+            </p>
+            <div class="dropdown show">
+               <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <!-- Buka Tutup -->
+                  <h5 class='txt-jambukatutup inlineblock mr-1 <%= isTodayOpen ? "text-green": "text-red" %>'
+                      id='kondisibukatutup'><%= isTodayOpen ? "Buka": "Tutup" %></h5>
+                  <h5 class="txt-jambukatutup inline">| Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime %></h5>
+               </a>
+               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" disabled>
+                  <h5 class="mb-3">Jadwal Tempat</h5>
+                  <table class="jadwal-table">
+                     <tbody>
+                     <% if(place.operational_times){ %>
+                     <% for(optime of place.operational_times){ %>
+                     <tr>
+                        <td>
+                           <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.day %>&nbsp;</p>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                           <% if(optime.is_open){ %>
+                           <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.openTime %> -
+                              <%= optime.closeTime %></p>
+                           <% }else{ %>
+                           <p class="no-sp text-red">Tutup</p>
                            <% } %>
-                        <% } %>
-                        
-                      </tbody>
-                   </table>
-                </div>
-             </div>
-             <h5 class="no-sp txt-pembayaran text-grey">Pembayaran :</h5>
-             <h5 class="no-sp txt-pembayaran"><%= payments %></h5>
-             <h5 class="no-sp txt-parkir text-grey">Parkir :</h5>
-             <h5 class="no-sp txt-parkir mb-2"><%= place.parkir ? place.parkir.name : "Belum ada informasi" %></h5>
-             <h5 class="no-sp txt-info-selengkapnya text-grey">Info Selengkapnya</h5>
-             <% if(place.facilities.length > 0){ %>
-               <div class="row">
-                     <% for (facility of place.facilities){ %>
-                        <div class="col-lg-5 col-md-12 col-12 layout-info-lengkap">
-                           <div class="row">
-                                 <div class="col-lg-12 col-md-8 col-12">
-                                    <div class="box-selengkapnya">
-                                       <i class="fa fa-check-circle" aria-hidden="true"></i>
-                                       <p class="txt-detailtempat"><%= facility.name %></p>
-                                    </div>
-                                 </div>
-                           </div>
-                        </div>
-                     <% }%>
+                        </td>
+                     </tr>
+                     <% } %>
+                     <% } %>
+
+                     </tbody>
+                  </table>
                </div>
-             <% } %>
-             <a class="txt-selengkapnya" id="txt-selengkapnya">Info Selengkapnya</a><br />
-             <% if(ctas.gmaps){ %>
-               <a name="btngooglemaps" href="<%= ctas.gmaps %>"
-                class="btn btn-googlemaps mr-2 my-2" id="googlemaps" target="_blank"><img class="ic-gmaps mr-2"
-                src="/assets/images/icon/emam-host-googlemaps.svg">Telusuri Lokasi</a>
-             <% } %>
-             <% if(ctas.whatsapp){ %>
-               <a name="btnwhatsapp" href="https://wa.me/62<%=ctas.whatsapp%>" class="btn btn-whatsapp" id="whatsapp"
-                target="_blank"><img class="ic-wa mr-2" src="/assets/images/icon/emam-host-whatsapp.svg">Chat Whatsapp</a>
-             <% } %>
-             <div class="social-media-box">
+            </div>
+            <h5 class="no-sp txt-pembayaran text-grey">Pembayaran :</h5>
+            <h5 class="no-sp txt-pembayaran"><%= payments %></h5>
+            <h5 class="no-sp txt-parkir text-grey">Parkir :</h5>
+            <h5 class="no-sp txt-parkir mb-2"><%= place.parkir ? place.parkir.name : "Belum ada informasi" %></h5>
+
+            <% if(place.facilities.length > 0){ %>
+            <h5 class="no-sp txt-info-selengkapnya text-grey">Info Selengkapnya</h5>
+            <div class="row">
+               <% for (facility of place.facilities){ %>
+               <div class="col-lg-5 col-md-12 col-12 layout-info-lengkap">
+                  <div class="row">
+                     <div class="col-lg-12 col-md-8 col-12">
+                        <div class="box-selengkapnya">
+                           <i class="fa fa-check-circle" aria-hidden="true"></i>
+                           <p class="txt-detailtempat"><%= facility.name %></p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <% }%>
+            </div>
+            <% } %>
+            <% if(place.facilities.length > 0){ %>
+            <a class="txt-selengkapnya" id="txt-selengkapnya">Info Selengkapnya</a><br />
+            <% } %>
+            <% if(ctas.gmaps){ %>
+            <a name="btngooglemaps" href="<%= ctas.gmaps %>" class="btn btn-googlemaps mr-2 my-2" id="googlemaps"
+               target="_blank"><img class="ic-gmaps mr-2" src="/assets/images/icon/emam-host-googlemaps.svg">Telusuri
+               Lokasi</a>
+            <% } %>
+            <% if(ctas.whatsapp){ %>
+            <a name="btnwhatsapp" href="https://wa.me/62<%=ctas.whatsapp%>" class="btn btn-whatsapp" id="whatsapp"
+               target="_blank"><img class="ic-wa mr-2" src="/assets/images/icon/emam-host-whatsapp.svg">Chat
+               Whatsapp</a>
+            <% } %>
+            <div class="social-media-box">
+               <% if(ctas.grabfood || ctas.gofood){ %>
+               <p class="no-sp">Dapat dipesan melalui</p>
                <% if(ctas.grabfood){ %>
-                  <a target="_blank" href="<%= ctas.grabfood %>" style="margin-right: 5px;"><img src="/assets/images/icon/emam-host-grabfood.png" style="max-width: 40px;" alt="Emam - Link Grabfood <%= place.name %>"></a>
+               <a class="order-button mr-2" target="_blank" href="<%= ctas.grabfood %>" style="margin-right: 5px;"><img
+                       class="my-2" src="/assets/images/emam-grabfood.svg" style="max-width: 120px;"
+                       alt="Emam - Link Grabfood <%= place.name %>"></a>
                <% } %>
                <% if(ctas.gofood){ %>
-                  <a target="_blank" href="<%= ctas.gofood %>" style="margin-right: 5px;"><img src="/assets/images/icon/emam-host-gofood.png" style="max-width: 30px;" alt="Emam - Link Gofood <%= place.name %>"></a>
+               <a class="order-button" target="_blank" href="<%= ctas.gofood %>" style="margin-right: 5px;"><img
+                       class="my-2" src="/assets/images/emam-gofood.svg" style="max-width: 120px;"
+                       alt="Emam - Link Gofood <%= place.name %>"></a>
                <% } %>
+               <% } %>
+               <% if(ctas.instagram || ctas.web){ %>
+               <p class="no-sp">Media Social</p>
                <% if(ctas.instagram){ %>
-                  <a target="_blank" href="<%= ctas.instagram %>" style="margin-right: 5px;"><img src="/assets/images/icon/emam_host_instagram.svg" style="max-width: 30px;" alt="Emam - Link Instagram <%= place.name %>"></a>
+               <a target="_blank" href="<%= ctas.instagram %>" style="margin-right: 5px;"><img class="my-2"
+                                                                                               src="/assets/images/icon/emam_host_instagram.svg" style="max-width: 30px;"
+                                                                                               alt="Emam - Link Instagram <%= place.name %>"></a>
                <% } %>
                <% if(ctas.web){ %>
-                  <a target="_blank" href="<%= ctas.web %>" style="margin-right: 5px;"><img src="/assets/images/icon/emam-host-website.svg" style="max-width: 30px;" alt="Emam - Link Website <%= place.name %>"></a>
+               <a target="_blank" href="<%= ctas.web %>" style="margin-right: 5px;"><img class="my-2"
+                                                                                         src="/assets/images/icon/emam-host-website.svg" style="max-width: 30px;"
+                                                                                         alt="Emam - Link Website <%= place.name %>"></a>
                <% } %>
              </div>
              <p class="no-sp txt-lastupdate">last update</p>
@@ -163,53 +185,57 @@
                                        src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>" loading="lazy" alt="Emam - <%= place.name+' '+detail.name %>">
                                  </div>
                               </div>
-                              <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                                 <div class="box-info-menu">
-                                    <h5 class="nama-menu"><%= detail.name %></h5>
-                                    <p class="txt-harga">Rp <%= detail.prices.normal_price %>,-</p>
-                                    <p class="txt-desc"><%= detail.description != ''? detail.description : 'Tidak ada deskripsi.'%></p>
-                                 </div>
+                           </div>
+                           <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
+                              <div class="box-info-menu">
+                                 <h5 class="nama-menu"><%= detail.name %></h5>
+                                 <p class="txt-harga">Rp <%= detail.prices.normal_price %>,-</p>
+                                 <p class="txt-desc">
+                                    <%= detail.description != ''? detail.description : 'Tidak ada deskripsi.'%></p>
                               </div>
-                           </a>
-                        </div>
-                        <!-- Modal Popup detail menu -->
-                        <div class="modal fade" id="popup-menu-<%= detail._id %>" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                           <div class="modal-dialog modal-dialog-centered" role="document">
-                              <div class="modal-content">
-                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                           </div>
+                        </a>
+                     </div>
+                     <!-- Modal Popup detail menu -->
+                     <div class="modal fade" id="popup-menu-<%= detail._id %>" tabindex="-1" role="dialog"
+                          aria-labelledby="popupmenu" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
+                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
-                                    </button>
-                                 </div>
-                                 <div class="modal-body">
-                                    <div class="container-fluid">
-                                       <div class="row justify-content-center">
-                                          <div class="col-12 popup-img-menu-layout">
-                                             <div class="img-box-layout">
-                                                <img class="popup-img-menu" src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>"
-                                                alt="Emam - <%= place.name+' '+detail.name %>">
-                                                <!-- <div class="outofstock-overlay"></div>
+                                 </button>
+                              </div>
+                              <div class="modal-body">
+                                 <div class="container-fluid">
+                                    <div class="row justify-content-center">
+                                       <div class="col-12 popup-img-menu-layout">
+                                          <div class="img-box-layout">
+                                             <img class="popup-img-menu"
+                                                  src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>"
+                                                  alt="Emam - <%= place.name+' '+detail.name %>">
+                                             <!-- <div class="outofstock-overlay"></div>
                                                    <div class="txt-outofstock-layout justify-content-center">
                                                        <p class="txt-outofstock my-auto">Out Of Stock</p>
                                                    </div> -->
-                                             </div>
                                           </div>
                                        </div>
-                                       <div class="row modal-layout-detailmenu">
-                                          <div class="col-12">
-                                             <h4 class="txt-namamenu-popupmenu"><%= detail.name %></h4>
-                                             <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                             <p class="txt-harga-popupmenu">Rp <%= detail.prices.normal_price %>,-</p>
-                                             <p class="txt-desc-popupmenu"><%= detail.description != ''? detail.description : 'Tidak ada deskripsi.'%></p>
-                                          </div>
+                                    </div>
+                                    <div class="row modal-layout-detailmenu">
+                                       <div class="col-12">
+                                          <h4 class="txt-namamenu-popupmenu"><%= detail.name %></h4>
+                                          <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
+                                          <p class="txt-harga-popupmenu">Rp <%= detail.prices.normal_price %>,-</p>
+                                          <p class="txt-desc-popupmenu">
+                                             <%= detail.description != ''? detail.description : 'Tidak ada deskripsi.'%>
+                                          </p>
                                        </div>
                                     </div>
                                  </div>
                               </div>
                            </div>
                         </div>
-                        <% } %>
                      </div>
                    <% } %>
                 </div>
