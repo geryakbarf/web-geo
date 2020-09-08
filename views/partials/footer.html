@@ -1,67 +1,72 @@
-    <!-- Footer -->
-    <footer class="page-footer font-small mdb-color pt-4 bg-red">
-        <div class="container text-center text-md-left text-white">
-            <div class="row text-center text-md-left mt-3 row-info-footer">
-                <div class="col-xl-4 col-lg-4 col-md-12 mx-auto mt-3 text-center">
-                    <div class="row">
-                        <div class="col-12">
-                            <img class="footer-img" src="/assets/images/logo-emam-invert-small.png" alt="Logo Emam">
-                        </div>
+<!-- Footer -->
+<footer class="page-footer font-small mdb-color pt-4 bg-red">
+    <div class="container text-center text-md-left text-white">
+        <div class="row text-center text-md-left mt-3 row-info-footer">
+            <div class="col-xl-4 col-lg-4 col-md-12 mx-auto mt-3 text-center">
+                <div class="row">
+                    <div class="col-12">
+                        <img class="footer-img" src="/assets/images/logo-emam-invert-small.png" alt="Logo Emam">
                     </div>
-                </div>
-                <hr>
-                <div class="col-xl-4 col-lg-4 col-md-12 mt-4">
-                    <h4 class="txt-footer">Our Company</h4>
-                    <a class="txt-footer no-sp link-footer" href="/about">About us</a>
-                    <a class="txt-footer no-sp link-footer" href="/blog">Blog</a>
-                    <a class="txt-footer no-sp link-footer" href="/contact-us">Contact Us</a>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-12 mx-auto mt-4">
-                    <h4 class="txt-footer">emam for Business</h4>
-                    <a class="txt-footer no-sp link-footer" href="/business">Masukkan tempat makan kamu di emam</a>
-                    <h4 class="txt-footer mt-4">Untuk Kamu</h4>
-                    <a class="txt-footer no-sp link-footer" href="/sitemap">Sitemap</a>
                 </div>
             </div>
             <hr>
-            <div class="row d-flex align-items-center">
-                <div class="col-md-12 col-lg-12">
-                    <!--Copyright-->
-                    <p class="text-center">Copyright &copy;2019 PT Zaki Indonesia Mendunia. All Rights Reserved.
-                    </p>
-                </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 mt-4">
+                <h4 class="txt-footer">Our Company</h4>
+                <a class="txt-footer no-sp link-footer" href="/about">Tentang Kami</a>
+                <a class="txt-footer no-sp link-footer" href="/contact-us">Hubungi Kami</a>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 mx-auto mt-4">
+                <h4 class="txt-footer">Daftarkan Tempat Makanmu di emam</h4>
+                <a class="txt-footer no-sp link-footer" href="https://wa.me/message/WFB2SLFGSNBZJ1"
+                    target="_blank">Hubungi kami disini!</a>
+                <h4 class="txt-footer mt-4">Untuk Kamu</h4>
+                <a class="txt-footer no-sp link-footer" href="/sitemap">Sitemap</a>
             </div>
         </div>
-    </footer>
-    <!-- End Footer -->
-    <!-- Service worker -->
-    <script>
-        if ('serviceWorker' in navigator) {
-          window.addEventListener('load', () => {
+        <hr>
+        <div class="row d-flex align-items-center">
+            <div class="col-md-12 col-lg-12">
+                <!--Copyright-->
+                <p class="text-center">Copyright &copy;2019 PT Zaki Indonesia Mendunia. All Rights Reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer -->
+<!-- Service worker -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
             navigator.serviceWorker.register('/assets/js/sw.js')
-              .then(registration => {
-                console.log(`Service Worker registered! Scope: ${registration.scope}`);
-              })
-              .catch(err => {
-                console.log(`Service Worker registration failed: ${err}`);
-              });
-          });
-        }
-    </script>
+                .then(registration => {
+                    console.log(`Service Worker registered! Scope: ${registration.scope}`);
+                })
+                .catch(err => {
+                    console.log(`Service Worker registration failed: ${err}`);
+                });
+        });
+    }
+</script>
 
-    <!-- Bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
-    <script src="/assets/js/main.js"></script>
-    <% if(locals.loadJS){ %>
-        <% locals.loadJS.forEach(e =>{ %>
-            <script src="<%= e.src %>"></script>
-        <% }) %>
-    <% } %>
+<!-- Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
 
-  <!-- Google Tag Manager (noscript) -->
+<script src="/assets/js/main.js"></script>
+<% if(locals.loadJS){ %>
+<% locals.loadJS.forEach(e =>{ %>
+<script src="<%= e.src %>"></script>
+<% }) %>
+<% } %>
+
+<!-- Google Tag Manager (noscript) -->
 <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3Z4GRJ"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
 <!-- End Google Tag Manager (noscript) -->

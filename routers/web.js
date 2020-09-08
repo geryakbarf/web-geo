@@ -10,6 +10,9 @@ router.get('/', common.commingsoon, web.homePage)
 router.get('/explore', web.allPlace)
 
 router.get('/search-places', placeHandler.searchPlacesAndMenus)
+router.get('/claim', web.claimBusiness)
+router.get('/explore/category/:category', web.getPlaceCategory)
+router.get('/explore/category', web.categoryPage)
 
 router.get('/about', common.commingsoon, (req, res) => {
     res.redirect('/under-construction')

@@ -1,7 +1,9 @@
 const Place = require('../../data/mongo/places');
 const Menu = require('../../data/mongo/menus');
+const {PlaceCategory} = require('../../data/mongo/master');
 const dtlib = require('../../libs/datetime');
 const moment = require('moment');
+
 const homePage = async (req, res) => {
     const loadJS = [
         {src: '/assets/js/home.js'}
@@ -11,12 +13,22 @@ const homePage = async (req, res) => {
             .limit(4)
             .sort({createdAt: -1})
             .select('name slug photo address');
-        return res.render('index', {loadJS, newPlaces})
+        const category = await PlaceCategory.find({}).limit(4).select('name image');
+        return res.render('index', {loadJS, newPlaces, category})
     } catch (error) {
         console.log(error);
         return res.send('');
     }
+}
 
+const categoryPage = async (req, res) => {
+    try {
+        const category = await PlaceCategory.find({}).select('name image');
+        return res.render('all-category', {category})
+    } catch (error) {
+        console.log(error);
+        return res.send('');
+    }
 }
 
 const _searchMenus = async (keyword) => {
@@ -38,9 +50,6 @@ const _searchMenus = async (keyword) => {
 
 
 const allPlace = async (req, res) => {
-    const loadJS = [
-        {src: '/assets/js/home.js'}
-    ];
     try {
         const {search_place, search_menu} = req.query;
         let filter = {is_draft: false};
@@ -60,6 +69,29 @@ const allPlace = async (req, res) => {
     }
 }
 
+const getPlaceCategory = async (req, res) => {
+    try {
+        const {category} = req.params
+        const placeCategory = await Place.find({is_draft: false, "categories.name": category})
+            .sort({createdAt: -1})
+            .select('name slug photo address');
+        return res.render('place-category', {placeCategory})
+    } catch (error) {
+
+    }
+}
+
+const claimBusiness = async (req, res) => {
+    const loadJS = [
+        {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        {src: "https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"},
+        {src: "https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"},
+        {src: "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
+        {src: "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
+        {src: "/assets/js/claim_form.js"},
+    ];
+    return res.render('claim-business', {loadJS})
+}
 
 const placeDetailPage = async (req, res) => {
     try {
@@ -93,5 +125,5 @@ const placeDetailPage = async (req, res) => {
 }
 
 module.exports = {
-    homePage, placeDetailPage, allPlace
+    homePage, placeDetailPage, allPlace, claimBusiness, getPlaceCategory, categoryPage
 };
