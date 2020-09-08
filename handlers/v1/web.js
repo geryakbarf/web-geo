@@ -19,15 +19,41 @@ const homePage = async (req, res) => {
 
 }
 
+const _searchMenus = async (keyword) => {
+    try {
+        const menus = await Menu.find({$text: {$search: keyword}}).limit(5).select('placeId name photo _id');
+        const places = await Place.find({_id: { $in: menus.map(e => (e.placeId)) }}).select('name slug _id');
+        const results = menus.map( e => {
+            let {_id, name, placeId, photo} = e;
+            // name = _boldStringHtml(name, keyword);
+            let [place] = places.filter( e1 => (e1._id == placeId));
+            // place.name = _boldStringHtml(place.name, keyword);
+            return {_id, name, photo, placeName: place.name, slug: place.slug};
+        })
+        return Promise.resolve(results);
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+
 const allPlace = async (req, res) => {
     const loadJS = [
         {src: '/assets/js/home.js'}
     ];
     try {
-        const allPlaces = await Place.find({is_draft: false})
+        const {search_place, search_menu} = req.query;
+        let filter = {is_draft: false};
+        let allMenus = [];
+        if(search_place) filter['$text'] = { $search: search_place };
+        let allPlaces = await Place.find(filter)
             .sort({createdAt: -1})
             .select('name slug photo address');
-        return res.render('place-all', {loadJS, allPlaces})
+        if(search_menu) {
+            allMenus = await _searchMenus(search_menu);
+            allPlaces = [];
+        }
+        return res.render('place-all', {loadJS, allPlaces, allMenus})
     } catch (error) {
         console.log(error);
         return res.send('');

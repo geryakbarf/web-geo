@@ -15,12 +15,10 @@ function debounce(func, wait, immediate) {
 $(function() {
     $(".food_search").keyup(debounce(function() {
       var search_food = $(this).val();
-      var dataString = 'food_search=' + search_food;
       if (search_food.length > 2) {
         $.ajax({
-          type: "POST",
-          url: "/fetch_food.php",
-          data: dataString,
+          type: "GET",
+          url: `/search-places?keyword=${search_food}`,
           cache: false,
           success: function(html) {
             $("#result").html(html).show();

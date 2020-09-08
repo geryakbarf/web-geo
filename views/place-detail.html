@@ -4,7 +4,7 @@
     <div class="container">
        <div class="row">
           <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-12 pt-3 mb-3">
-             <img class="gambar-header-tempat" src="<%= place.photo ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>" alt="Photo <%= place.name %>">
+             <img class="gambar-header-tempat" src="<%= place.photo.path ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>" alt="Photo <%= place.name %>">
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-12 pt-3 mb-3">
              <h2 class="textheader3"><%= place.name %></h2>
@@ -162,7 +162,7 @@
                            <h2 class="title-category"><%= menu.category %></h2>
                         </div>
                         <% for(detail of menu.menus){ %>
-                        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2">
+                        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2" id="menu-<%= detail._id %>">
                            <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu-<%= detail._id %>">
                               <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
                                  <div class="layout-gambar">

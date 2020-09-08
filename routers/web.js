@@ -1,5 +1,6 @@
 const express = require('express')
 const imageHandler = require('../handlers/v1/images');
+const placeHandler = require('../handlers/v1/places');
 const common = require('../middlewares/common');
 const web = require('../handlers/v1/web');
 const router = express.Router()
@@ -8,17 +9,7 @@ router.get('/', common.commingsoon, web.homePage)
 
 router.get('/explore', web.allPlace)
 
-router.post('/fetch_food.php', (req, res) => {
-    res.send(`
-    <div class="show-search" align="left">
-        <a href="detailtempat.php?id=Didago-Cafe-Dago-Bandung">
-            <img src="https://emam.id/images/database/tempatmakan/emam-didago-cover.png" style="width:50px; height:50px; float:left; margin-right:6px;" />
-            <div class="text-info-tempat" style=""><span class="name">Di<strong>dago</strong> Cafe</span>&nbsp;<br />Jl. Ir. H. Juanda No.21, Kota Bandung (setelah DEKRANASDA Jawa Barat)<br /></div>
-        </a>
-    </div>
-
-    `)
-})
+router.get('/search-places', placeHandler.searchPlacesAndMenus)
 
 router.get('/about', common.commingsoon, (req, res) => {
     res.redirect('/under-construction')
