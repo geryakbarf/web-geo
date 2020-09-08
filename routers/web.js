@@ -8,6 +8,10 @@ router.get('/', common.commingsoon, web.homePage)
 
 router.get('/explore', web.allPlace)
 
+router.get('/claim', web.claimBusiness)
+
+router.get('/explore/category/:category', web.getPlaceCategory)
+
 router.post('/fetch_food.php', (req, res) => {
     res.send(`
     <div class="show-search" align="left">
