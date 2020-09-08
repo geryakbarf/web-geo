@@ -1,4 +1,5 @@
 const Place = require('../../data/mongo/places');
+const Menu = require('../../data/mongo/menus');
 
 const serverErrMsg = "Terjadi kesalahan, mohon hubungi admin."
 
@@ -101,6 +102,47 @@ const saveMenuCategoriesPlace = async(req, res) => {
     }
 }
 
+const _boldStringHtml = (str, strBolded) => {
+    const searchMask = strBolded;
+    const regEx = new RegExp(searchMask, "ig");
+    const replaceMask = `<strong>${strBolded}</strong>`;
+
+    return str.replace(regEx, replaceMask);
+}
+
+const _searchMenuPlace = async (keyword) => {
+    try {
+        const menus = await Menu.find({$text: {$search: keyword}}).limit(5).select('placeId name photo _id');
+        const places = await Place.find({_id: { $in: menus.map(e => (e.placeId)) }}).select('name slug _id');
+        const results = menus.map( e => {
+            let {name, placeId, photo, _id} = e;
+            // name = _boldStringHtml(name, keyword);
+            let [place] = places.filter( e1 => (e1._id == placeId));
+            // place.name = _boldStringHtml(place.name, keyword);
+            return {_id, name, photo, placeName: place.name, slug: place.slug};
+        })
+        return Promise.resolve(results);
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+const searchPlacesAndMenus = async(req, res) => {
+    try {
+        const { keyword } = req.query;
+        const placesQuery = Place.find({$text: {$search: keyword}}).limit(5).select('name slug address photo');
+        const menusQuery = _searchMenuPlace(keyword);
+        let [places, menus] = await Promise.all([placesQuery, menusQuery]);
+        return res.render('partials/search-bar-place', {places, menus, keyword});
+    } catch (error) {
+        console.log(error);
+        if(error.code)
+            return res.status(error.code).json(error.message);
+        return res.status(500).json({message: serverErrMsg});
+
+    }
+}
+
 module.exports = {
     getPlaces,
     getOnePlace,
@@ -108,5 +150,6 @@ module.exports = {
     updatePlace,
     deletePlace,
     getMenuCategoriesPlace,
-    saveMenuCategoriesPlace
+    saveMenuCategoriesPlace,
+    searchPlacesAndMenus
 }

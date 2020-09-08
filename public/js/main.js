@@ -55,4 +55,18 @@
     } catch (err) {
         console.log(err);
     }
+
+    $('html, body').hide();
+
+    if (window.location.hash) {
+        setTimeout(function() {
+            $('html, body').scrollTop(0).show();
+            $('html, body').animate({
+                scrollTop: $(window.location.hash).offset().top - 100
+                }, 1000)
+        }, 0);
+    }
+    else {
+        $('html, body').show();
+    }
 })(jQuery);
