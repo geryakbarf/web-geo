@@ -4,6 +4,11 @@ const common = require("../middlewares/common");
 const web = require("../handlers/v1/web");
 const router = express.Router();
 
+// router.use((req, res, next) => {
+//     console.log(req.route);
+//     next();
+// });
+
 router.get("/", common.commingsoon, web.homePage);
 
 router.get("/explore", web.allPlace);
@@ -15,7 +20,7 @@ router.get("/explore/category/:category", web.getPlaceCategory);
 router.get("/explore/category", web.categoryPage);
 
 router.post("/fetch_food.php", (req, res) => {
-  res.send(`
+    res.send(`
     <div class="show-search" align="left">
         <a href="detailtempat.php?id=Didago-Cafe-Dago-Bandung">
             <img src="https://emam.id/images/database/tempatmakan/emam-didago-cover.png" style="width:50px; height:50px; float:left; margin-right:6px;" />
@@ -26,28 +31,28 @@ router.post("/fetch_food.php", (req, res) => {
     `);
 });
 
-router.get("/about", common.commingsoon, (req, res) => {
-  res.render("about");
+router.get("/about", (req, res) => {
+    res.render("about");
 });
 
 router.get("/blog", common.commingsoon, (req, res) => {
-  res.redirect("/under-construction");
+    res.redirect("/under-construction");
 });
 
 router.get("/business", common.commingsoon, (req, res) => {
-  res.redirect("/under-construction");
+    res.redirect("/under-construction");
 });
 
 router.get("/contact-us", common.commingsoon, (req, res) => {
-  res.redirect("/under-construction");
+    res.render('about');
 });
 
 router.get("/under-construction", common.commingsoon, (req, res) => {
-  res.render("underconstruction");
+    res.render("underconstruction");
 });
 
 router.get("/coming-soon", (req, res) => {
-  res.render("coming-soon");
+    res.render("coming-soon");
 });
 
 router.get("/p/:slug", common.commingsoon, web.placeDetailPage);
