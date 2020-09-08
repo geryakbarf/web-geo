@@ -2271,6 +2271,104 @@ h4 {
   width: 100%;
 }
 
+.main-about .img-circle-ornament {
+  max-width: 150px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 80px;
+}
+
+.main-about .section-about {
+  padding: 100px 0 0 0;
+}
+
+.main-about .section-about .row-about {
+  height: 100vh;
+}
+
+.main-about .section-about .row-about .img-logo-emam-about {
+  max-width: 180px;
+}
+
+.main-about .section-about .row-about .txt-header {
+  font-weight: bold;
+}
+
+.main-about .section-cerita-kami {
+  padding: 30px 0;
+}
+
+.main-about .section-cerita-kami .row-cerita-kami p {
+  color: #707070;
+}
+
+.main-about .section-cerita-kami .row-cerita-kami .img-our-story {
+  max-width: 400px;
+  margin: 50px;
+}
+
+.main-about .section-cerita-kami .row-cerita-kami .img-circle-ornament {
+  margin: 80px 0;
+}
+
+.main-about .section-visi-kami {
+  padding: 30px 0;
+}
+
+.main-about .section-visi-kami .row-visi .img-visi {
+  max-width: 400px;
+  margin: 50px;
+}
+
+.main-about .section-team {
+  padding: 30px 0;
+}
+
+.main-about .section-team .row-team .txt-title {
+  padding: 60px 0;
+}
+
+.main-about .section-team .row-team .img-team {
+  max-width: 200px;
+  margin: 20px 0;
+}
+
+.main-about .section-contact-us {
+  padding: 50px 0 100px;
+}
+
+.main-about .section-contact-us a {
+  text-decoration: none;
+  color: #000;
+}
+
+.main-about .section-contact-us .txt-title {
+  padding: 60px 0;
+}
+
+.main-about .section-contact-us .social-media {
+  display: inline-block;
+  margin: 0 20px;
+}
+
+.main-about .section-contact-us .social-media .ic-social-media {
+  max-width: 70px;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+}
+
+.main-about .section-contact-us .social-media:hover {
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+  -webkit-transform: scale(1.2, 1.2);
+  transform: scale(1.2, 1.2);
+}
+
+.main-about .section-contact-us .img-contact-us {
+  max-width: 300px;
+}
+
 footer {
   padding: 30px 0;
 }
