@@ -5,6 +5,10 @@ const web = require("../handlers/v1/web");
 const placeHandler = require("../handlers/v1/places");
 const router = express.Router();
 
+router.use((req,res, next) => {
+    res.locals.pageTitle = "Kuliner aman dengan menu digital emam";
+    next();
+});
 
 router.get("/", common.routePath, common.commingsoon, web.homePage);
 
