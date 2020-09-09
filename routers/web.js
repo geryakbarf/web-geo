@@ -2,6 +2,7 @@ const express = require("express");
 const imageHandler = require("../handlers/v1/images");
 const common = require("../middlewares/common");
 const web = require("../handlers/v1/web");
+const placeHandler = require("../handlers/v1/places");
 const router = express.Router();
 
 
@@ -10,6 +11,8 @@ router.get("/", common.routePath, common.commingsoon, web.homePage);
 router.get("/explore", web.allPlace);
 
 router.get("/claim", web.claimBusiness);
+
+router.get('/search-places', placeHandler.searchPlacesAndMenus)
 
 router.get("/explore/category/:category", web.getPlaceCategory);
 
