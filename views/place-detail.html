@@ -5,8 +5,8 @@
       <div class="row">
          <div class="col-lg-4 col-md-8 col-sm-6 col-xs-12 col-12 pt-3 mb-3">
             <img class="gambar-header-tempat"
-                 src="<%= place.photo.path ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>"
-                 alt="Photo <%= place.name %>">
+               src="<%= place.photo.path ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>"
+               alt="Photo <%= place.name %>">
          </div>
          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-12 pt-3 mb-3">
             <h2 class="textheader3"><%= place.name %></h2>
@@ -28,31 +28,31 @@
                   aria-haspopup="true" aria-expanded="false">
                   <!-- Buka Tutup -->
                   <h5 class='txt-jambukatutup inlineblock mr-1 <%= isTodayOpen ? "text-green": "text-red" %>'
-                      id='kondisibukatutup'><%= isTodayOpen ? "Buka": "Tutup" %></h5>
+                     id='kondisibukatutup'><%= isTodayOpen ? "Buka": "Tutup" %></h5>
                   <h5 class="txt-jambukatutup inline">| Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime %></h5>
                </a>
                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" disabled>
                   <h5 class="mb-3">Jadwal Tempat</h5>
                   <table class="jadwal-table">
                      <tbody>
-                     <% if(place.operational_times){ %>
-                     <% for(optime of place.operational_times){ %>
-                     <tr>
-                        <td>
-                           <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.day %>&nbsp;</p>
-                        </td>
-                        <td>&nbsp;</td>
-                        <td>
-                           <% if(optime.is_open){ %>
-                           <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.openTime %> -
-                              <%= optime.closeTime %></p>
-                           <% }else{ %>
-                           <p class="no-sp text-red">Tutup</p>
-                           <% } %>
-                        </td>
-                     </tr>
-                     <% } %>
-                     <% } %>
+                        <% if(place.operational_times){ %>
+                        <% for(optime of place.operational_times){ %>
+                        <tr>
+                           <td>
+                              <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.day %>&nbsp;</p>
+                           </td>
+                           <td>&nbsp;</td>
+                           <td>
+                              <% if(optime.is_open){ %>
+                              <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.openTime %> -
+                                 <%= optime.closeTime %></p>
+                              <% }else{ %>
+                              <p class="no-sp text-red">Tutup</p>
+                              <% } %>
+                           </td>
+                        </tr>
+                        <% } %>
+                        <% } %>
 
                      </tbody>
                   </table>
@@ -81,171 +81,178 @@
             </div>
             <% } %>
             <% if(place.facilities.length > 0){ %>
-               <a class="txt-selengkapnya" id="txt-selengkapnya">Info Selengkapnya</a><br />
+            <a class="txt-selengkapnya" id="txt-selengkapnya">Info Selengkapnya</a><br />
             <% } %>
             <% if(ctas.gmaps){ %>
-               <a name="btngooglemaps" href="<%= ctas.gmaps %>" class="btn btn-googlemaps mr-2 my-2" id="googlemaps"
-                  target="_blank"><img class="ic-gmaps mr-2" src="/assets/images/icon/emam-host-googlemaps.svg">Telusuri
-                  Lokasi</a>
+            <a name="btngooglemaps" href="<%= ctas.gmaps %>" class="btn btn-googlemaps mr-2 my-2" id="googlemaps"
+               target="_blank"><img class="ic-gmaps mr-2" src="/assets/images/icon/emam-host-googlemaps.svg">Telusuri
+               Lokasi</a>
             <% } %>
             <% if(ctas.whatsapp){ %>
-               <a name="btnwhatsapp" href="https://wa.me/62<%=ctas.whatsapp%>" class="btn btn-whatsapp" id="whatsapp"
-                  target="_blank"><img class="ic-wa mr-2" src="/assets/images/icon/emam-host-whatsapp.svg">Chat
-                  Whatsapp</a>
+            <a name="btnwhatsapp" href="https://wa.me/62<%=ctas.whatsapp%>" class="btn btn-whatsapp" id="whatsapp"
+               target="_blank"><img class="ic-wa mr-2" src="/assets/images/icon/emam-host-whatsapp.svg">Chat
+               Whatsapp</a>
             <% } %>
             <div class="social-media-box">
                <% if(ctas.grabfood || ctas.gofood){ %>
-                  <p class="no-sp">Dapat dipesan melalui</p>
-                  <% if(ctas.grabfood){ %>
-                  <a class="order-button mr-2" target="_blank" href="<%= ctas.grabfood %>" style="margin-right: 5px;"><img
-                        class="my-2" src="/assets/images/emam-grabfood.svg" style="max-width: 120px;"
-                        alt="Emam - Link Grabfood <%= place.name %>"></a>
-                  <% } %>
-                  <% if(ctas.gofood){ %>
-                  <a class="order-button" target="_blank" href="<%= ctas.gofood %>" style="margin-right: 5px;"><img
-                        class="my-2" src="/assets/images/emam-gofood.svg" style="max-width: 120px;"
-                        alt="Emam - Link Gofood <%= place.name %>"></a>
-                  <% } %>
+               <p class="no-sp">Dapat dipesan melalui</p>
+               <% if(ctas.grabfood){ %>
+               <a class="order-button mr-2" target="_blank" href="<%= ctas.grabfood %>" style="margin-right: 5px;"><img
+                     class="my-2" src="/assets/images/emam-grabfood.svg" style="max-width: 120px;"
+                     alt="Emam - Link Grabfood <%= place.name %>"></a>
+               <% } %>
+               <% if(ctas.gofood){ %>
+               <a class="order-button" target="_blank" href="<%= ctas.gofood %>" style="margin-right: 5px;"><img
+                     class="my-2" src="/assets/images/emam-gofood.svg" style="max-width: 120px;"
+                     alt="Emam - Link Gofood <%= place.name %>"></a>
+               <% } %>
                <% } %>
                <% if(ctas.instagram || ctas.web){ %>
-                  <p class="no-sp">Media Social</p>
-                  <% if(ctas.instagram){ %>
-                  <a target="_blank" href="<%= ctas.instagram %>" style="margin-right: 5px;"><img class="my-2"
-                                                                                                src="/assets/images/icon/emam_host_instagram.svg" style="max-width: 30px;"
-                                                                                                alt="Emam - Link Instagram <%= place.name %>"></a>
-                  <% } %>
-                  <% if(ctas.web){ %>
-                  <a target="_blank" href="<%= ctas.web %>" style="margin-right: 5px;"><img class="my-2"
-                                                                                          src="/assets/images/icon/emam-host-website.svg" style="max-width: 30px;"
-                                                                                          alt="Emam - Link Website <%= place.name %>"></a>
-                  <% } %>
+               <p class="no-sp">Media Social</p>
+               <% if(ctas.instagram){ %>
+               <a target="_blank" href="<%= ctas.instagram %>" style="margin-right: 5px;"><img class="my-2"
+                     src="/assets/images/icon/emam_host_instagram.svg" style="max-width: 30px;"
+                     alt="Emam - Link Instagram <%= place.name %>"></a>
                <% } %>
-             </div>
-             <p class="no-sp txt-lastupdate">last update</p>
-             <p class="no-sp txt-waktu-lastupdate"><%= lastUpdate %></p>
-          </div>
-       </div>
-    </div>
- </header>
- <main>
-    <div class="container-fluid">
-       <section class="section-tab-menu p-4" id="section-tab-menu">
-          <div class="container">
-             <div class="row">
-                <div class="col-md-12 col-12 box-tab-menu">
-                   <div class="card-primary card-outline">
-                      <div class="card-tabs">
-                         <ul class="nav navbar-tab" id="tab-menu" role="tablist">
-                            <li class="nav-item-tab mr-3">
-                               <a href="#layout-tab-menu" class="nav-link-tab active">Menu</a>
-                            </li>
-                            <li class="nav-item-tab mr-3">
-                               <a href="#layout-tab-photo" class="nav-link-tab">Foto</a>
-                            </li>
-                            <!-- <li class="nav-item-tab">
+               <% if(ctas.web){ %>
+               <a target="_blank" href="<%= ctas.web %>" style="margin-right: 5px;"><img class="my-2"
+                     src="/assets/images/icon/emam-host-website.svg" style="max-width: 30px;"
+                     alt="Emam - Link Website <%= place.name %>"></a>
+               <% } %>
+               <% } %>
+            </div>
+            <p class="no-sp txt-lastupdate">last update</p>
+            <p class="no-sp txt-waktu-lastupdate"><%= lastUpdate %></p>
+         </div>
+      </div>
+   </div>
+</header>
+<main>
+   <div class="container-fluid">
+      <section class="section-tab-menu p-4" id="section-tab-menu">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12 col-12 box-tab-menu">
+                  <div class="card-primary card-outline">
+                     <div class="card-tabs">
+                        <ul class="nav navbar-tab" id="tab-menu" role="tablist">
+                           <li class="nav-item-tab mr-3">
+                              <a href="#layout-tab-menu" class="nav-link-tab active">Menu</a>
+                           </li>
+                           <li class="nav-item-tab mr-3">
+                              <a href="#layout-tab-photo" class="nav-link-tab">Foto</a>
+                           </li>
+                           <!-- <li class="nav-item-tab">
                                <a href="#layout-tab-covid19" class="nav-link-tab">COVID-19</a>
                             </li> -->
-                         </ul>
-                      </div>
-                   </div>
-                </div>
-             </div>
-          </div>
-       </section>
-       <section class="section-detail-tempat row justify-content-center" id="foodlist">
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section class="section-detail-tempat row justify-content-center" id="foodlist">
          <div class="container">
             <div class="tab-content">
                <!-- <p class="no-sp text-center txt-pesaninformasi">Kami selalu berusaha supaya informasi kami tepat dan akurat. <a href="kasihtau.php?id=Bubur-Malam-Jamika-Bandung">Kasih tahu</a> ya kalau ada yang salah.</p> -->
                <div class="tab-pane fade show active" id="layout-tab-menu">
                   <br>
-                 <div class="section-slider-menu">
-                    <div class="col-12">
-                       <div class="swiper-container">
-                             <div class="swiper-wrapper">
-                                <a class="swiper-slide active" onclick="menuSubNavSwitch('all')">All</a>
-                                <% for(mcat of place.menu_categories){ %>
-                                   <a class="swiper-slide" onclick="menuSubNavSwitch('<%= mcat %>')"><%= mcat %></a>
-                                <% } %>
-                             </div>
-                       </div><!-- Add Arrows -->
-                       <div class="swiper-button-next"></div>
-                       <div class="swiper-button-prev"></div>
-                    </div>
-                 </div>
-                 <% for(menu of menus){ %>
-                    <div class="row box-category" data-cat-target="<%= menu.category %>">
-                       <div class="col-12">
-                          <h2 class="title-category"><%= menu.category %></h2>
-                       </div>
-                       <% for(detail of menu.menus){ %>
-                       <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2" id="menu-<%= detail._id %>">
-                          <a href="#" class="row box-menu" data-toggle="modal" data-target="#popup-menu-<%= detail._id %>">
-                             <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
-                                <div class="layout-gambar">
-                                   <img class="img-menu lazyload"
-                                      src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>" loading="lazy" alt="Emam - <%= place.name+' '+detail.name %>">
-                                </div>
-                             </div>
-                             <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
-                                <div class="box-info-menu">
-                                   <h5 class="nama-menu"><%= detail.name %></h5>
-                                   <% if(detail.prices.normal_price > 0) { %>
-                                       <p class="txt-harga">Rp <%= detail.prices.normal_price %>,-</p>
-                                   <% }else { %>
-                                       <p class="txt-harga">Tanya langsung</p>
-                                   <% } %>
-                                   
-                                   
-                                   <p class="txt-desc"><%= detail.description != ''? detail.description : 'Tidak ada deskripsi.'%></p>
-                                </div>
-                             </div>
-                          </a>
-                       </div>
-                       <!-- Modal Popup detail menu -->
-                       <div class="modal fade" id="popup-menu-<%= detail._id %>" tabindex="-1" role="dialog" aria-labelledby="popupmenu" aria-hidden="true">
-                          <div class="modal-dialog modal-dialog-centered" role="document">
-                             <div class="modal-content">
-                                <div class="modal-header">
-                                   <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
-                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                   <span aria-hidden="true">&times;</span>
-                                   </button>
-                                </div>
-                                <div class="modal-body">
-                                   <div class="container-fluid">
-                                      <div class="row justify-content-center">
-                                         <div class="col-12 popup-img-menu-layout">
-                                            <div class="img-box-layout">
-                                               <img class="popup-img-menu" src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>"
-                                               alt="Emam - <%= place.name+' '+detail.name %>">
-                                               <!-- <div class="outofstock-overlay"></div>
+                  <div class="section-slider-menu">
+                     <div class="col-12">
+                        <div class="swiper-container">
+                           <div class="swiper-wrapper">
+                              <a class="swiper-slide active" onclick="menuSubNavSwitch('all')">All</a>
+                              <% for(mcat of place.menu_categories){ %>
+                              <a class="swiper-slide" onclick="menuSubNavSwitch('<%= mcat %>')"><%= mcat %></a>
+                              <% } %>
+                           </div>
+                        </div><!-- Add Arrows -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                     </div>
+                  </div>
+                  <% for(menu of menus){ %>
+                  <div class="row box-category" data-cat-target="<%= menu.category %>">
+                     <div class="col-12">
+                        <h2 class="title-category"><%= menu.category %></h2>
+                     </div>
+                     <% for(detail of menu.menus){ %>
+                     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2" id="menu-<%= detail._id %>">
+                        <a href="#" class="row box-menu" data-toggle="modal"
+                           data-target="#popup-menu-<%= detail._id %>">
+                           <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
+                              <div class="layout-gambar">
+                                 <img class="img-menu lazyload"
+                                    src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>"
+                                    loading="lazy" alt="Emam - <%= place.name+' '+detail.name %>">
+                              </div>
+                           </div>
+                           <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
+                              <div class="box-info-menu">
+                                 <h5 class="nama-menu"><%= detail.name %></h5>
+                                 <% if(detail.prices.normal_price > 0) { %>
+                                 <p class="txt-harga">Rp <%= detail.prices.normal_price %>,-</p>
+                                 <% }else { %>
+                                 <p class="txt-harga">Tanya langsung</p>
+                                 <% } %>
+
+
+                                 <p class="txt-desc">
+                                    <%= detail.description != ''? detail.description : 'Tidak ada deskripsi.'%></p>
+                              </div>
+                           </div>
+                        </a>
+                     </div>
+                     <!-- Modal Popup detail menu -->
+                     <div class="modal fade" id="popup-menu-<%= detail._id %>" tabindex="-1" role="dialog"
+                        aria-labelledby="popupmenu" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <h5 class="modal-title" id="detailmenutitle">Detail Menu</h5>
+                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                 </button>
+                              </div>
+                              <div class="modal-body">
+                                 <div class="container-fluid">
+                                    <div class="row justify-content-center">
+                                       <div class="col-12 popup-img-menu-layout">
+                                          <div class="img-box-layout">
+                                             <img class="popup-img-menu"
+                                                src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>"
+                                                alt="Emam - <%= place.name+' '+detail.name %>">
+                                             <!-- <div class="outofstock-overlay"></div>
                                                   <div class="txt-outofstock-layout justify-content-center">
                                                       <p class="txt-outofstock my-auto">Out Of Stock</p>
                                                   </div> -->
-                                            </div>
-                                         </div>
-                                      </div>
-                                      <div class="row modal-layout-detailmenu">
-                                         <div class="col-12">
-                                            <h4 class="txt-namamenu-popupmenu"><%= detail.name %></h4>
-                                            <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
-                                            <p class="txt-harga-popupmenu">Rp <%= detail.prices.normal_price %>,-</p>
-                                            <p class="txt-desc-popupmenu"><%= detail.description != ''? detail.description : 'Tidak ada deskripsi.'%></p>
-                                         </div>
-                                      </div>
-                                   </div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       <% } %>
-                    </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="row modal-layout-detailmenu">
+                                       <div class="col-12">
+                                          <h4 class="txt-namamenu-popupmenu"><%= detail.name %></h4>
+                                          <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
+                                          <p class="txt-harga-popupmenu">Rp <%= detail.prices.normal_price %>,-</p>
+                                          <p class="txt-desc-popupmenu">
+                                             <%= detail.description != ''? detail.description : 'Tidak ada deskripsi.'%>
+                                          </p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <% } %>
+                  </div>
                   <% } %>
                </div>
                <div class="tab-pane fade" id="layout-tab-photo">
                   <div class="row box-photo">
                      <div class="col-12 layout-masih-kosong text-center">
-                        <img class="gambar-masih-kosong" src="/assets/images/emam-gambar-masih-kosong.svg"alt="">
+                        <img class="gambar-masih-kosong" src="/assets/images/emam-gambar-masih-kosong.svg" alt="">
                      </div>
                   </div>
                </div>
@@ -254,9 +261,9 @@
             </div>
          </div>
       </section>
-    </div>
- </main>
- <script>
-    var menu_categories = <%- JSON.stringify(place.menu_categories) %>
+   </div>
+</main>
+<script>
+   var menu_categories = "<%- JSON.stringify(place.menu_categories) %>";
 </script>
- <%- include('./partials/footer.html') %>
+<%- include('./partials/footer.html') %>
