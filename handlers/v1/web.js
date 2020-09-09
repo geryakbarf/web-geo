@@ -75,7 +75,7 @@ const getPlaceCategory = async (req, res) => {
         const placeCategory = await Place.find({is_draft: false, "categories.name": category})
             .sort({createdAt: -1})
             .select('name slug photo address');
-        return res.render('place-category', {placeCategory})
+        return res.render('place-category', {placeCategory, category})
     } catch (error) {
 
     }

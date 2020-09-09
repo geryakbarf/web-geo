@@ -8,7 +8,9 @@
                 <div class="container">
                     <div class="row">
                         <% if(locals.placeCategory){ %>
-                        <% for(place of placeCategory) { %>
+                            <h1 style="width: 100%; text-align:center;">Explore <%= category %></h1>
+                            <% for(place of placeCategory) { %>
+                            
                         <div class="col-lg-3 col-md-4 col-sm-6 col-6 my-1 card-container">
                             <a href="/p/<%= place.slug %>">
                                 <div class="card-layout">
