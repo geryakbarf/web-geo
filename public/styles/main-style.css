@@ -2404,6 +2404,15 @@ h4 {
   max-width: 300px;
 }
 
+.section-404{
+  padding: 100px 0;
+  height: 100vh;
+}
+
+.section-404 .img-404{
+  max-width: 300px;
+}
+
 footer {
   padding: 30px 0;
 }
