@@ -122,7 +122,8 @@
                <% } %>
              </div>
              <p class="no-sp txt-lastupdate">last update</p>
-             <p class="no-sp txt-waktu-lastupdate"><%= lastUpdate %></p>
+             <p hidden id="update"><%= lastUpdate %></p>
+             <p class="no-sp txt-waktu-lastupdate" id="lastupdate"></p>
           </div>
        </div>
     </div>
@@ -194,8 +195,8 @@
                                    <% }else { %>
                                        <p class="txt-harga">Tanya langsung</p>
                                    <% } %>
-                                   
-                                   
+
+
                                    <p class="txt-desc"><%= detail.description != ''? detail.description : 'Tidak ada deskripsi.'%></p>
                                 </div>
                              </div>
