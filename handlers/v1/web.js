@@ -97,6 +97,7 @@ const placeDetailPage = async (req, res) => {
     const loadJS = [
         { src: "https://unpkg.com/swiper/swiper-bundle.min.js" },
         { src: "/assets/js/side-nav-bar.js" },
+        { src: "/assets/js/place-detail.js"}
     ];
     const loadCSS = [
         {src: "https://unpkg.com/swiper/swiper-bundle.min.css"},
@@ -105,7 +106,7 @@ const placeDetailPage = async (req, res) => {
     try {
         const {slug} = req.params;
         const place = await Place.findOne({is_draft: false, slug});
-        if(!place) throw {code: 404, message: "404 Not Found"}; 
+        if(!place) throw {code: 404, message: "404 Not Found"};
         let menus = await Menu.find({placeId: place._id});
         menus = place.menu_categories.map(e => {
             let menu_docs = menus.filter(e1 => (e == e1.category)).map(e1 => {
