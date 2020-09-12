@@ -29,7 +29,7 @@
                   <!-- Buka Tutup -->
                   <h5 class='txt-jambukatutup inlineblock mr-1 <%= isTodayOpen ? "text-green": "text-red" %>'
                      id='kondisibukatutup'><%= isTodayOpen ? "Buka": "Tutup" %></h5>
-                  <h5 class="txt-jambukatutup inline">| Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime %></h5>
+                  <h5 class="txt-jambukatutup inline">| Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime %> WIB</h5>
                </a>
                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" disabled>
                   <h5 class="mb-3">Jadwal Tempat</h5>
@@ -45,7 +45,7 @@
                            <td>
                               <% if(optime.is_open){ %>
                               <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.openTime %> -
-                                 <%= optime.closeTime %></p>
+                                 <%= optime.closeTime %> WIB</p>
                               <% }else{ %>
                               <p class="no-sp text-red">Tutup</p>
                               <% } %>
@@ -265,6 +265,6 @@
    </div>
 </main>
 <script>
-   var menu_categories = "<%- JSON.stringify(place.menu_categories) %>";
+   var menu_categories = <%- JSON.stringify(place.menu_categories) %>;
 </script>
 <%- include('./partials/footer.html') %>
