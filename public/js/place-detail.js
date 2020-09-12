@@ -38,7 +38,7 @@ function compareDate() {
     else if (diff === 2)
         document.getElementById('lastupdate').innerHTML = diff+' hari yang lalu, '+hour+' WIB'
     else
-        document.getElementById('lastupdate').innerHTML = unformatdate
+        document.getElementById('lastupdate').innerHTML = unformatdate + " WIB"
 }
 
 $(document).ready(function () {
