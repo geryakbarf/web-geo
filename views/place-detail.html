@@ -29,7 +29,7 @@
                   <!-- Buka Tutup -->
                   <h5 class='txt-jambukatutup inlineblock mr-1 <%= isTodayOpen ? "text-green": "text-red" %>'
                      id='kondisibukatutup'><%= isTodayOpen ? "Buka": "Tutup" %></h5>
-                  <h5 class="txt-jambukatutup inline">| Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime %></h5>
+                  <h5 class="txt-jambukatutup inline">| Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime %> WIB</h5>
                </a>
                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" disabled>
                   <h5 class="mb-3">Jadwal Tempat</h5>
@@ -45,7 +45,7 @@
                            <td>
                               <% if(optime.is_open){ %>
                               <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.openTime %> -
-                                 <%= optime.closeTime %></p>
+                                 <%= optime.closeTime %> WIB</p>
                               <% }else{ %>
                               <p class="no-sp text-red">Tutup</p>
                               <% } %>
@@ -95,7 +95,7 @@
             <% } %>
             <div class="social-media-box">
                <% if(ctas.grabfood || ctas.gofood){ %>
-               <p class="no-sp">Dapat dipesan melalui</p>
+               <p class="no-sp">Dapat dipesan melalui:</p>
                <% if(ctas.grabfood){ %>
                <a class="order-button mr-2" target="_blank" href="<%= ctas.grabfood %>" style="margin-right: 5px;"><img
                      class="my-2" src="/assets/images/emam-grabfood.svg" style="max-width: 120px;"
@@ -108,7 +108,7 @@
                <% } %>
                <% } %>
                <% if(ctas.instagram || ctas.web){ %>
-               <p class="no-sp">Media Social</p>
+               <p class="no-sp">Media socials:</p>
                <% if(ctas.instagram){ %>
                <a target="_blank" href="<%= ctas.instagram %>" style="margin-right: 5px;"><img class="my-2"
                      src="/assets/images/icon/emam_host_instagram.svg" style="max-width: 30px;"
@@ -121,7 +121,7 @@
                <% } %>
                <% } %>
             </div>
-            <p class="no-sp txt-lastupdate">last update</p>
+            <p class="no-sp txt-lastupdate">Update terakhir:</p>
              <p hidden id="update"><%= lastUpdate %></p>
              <p class="no-sp txt-waktu-lastupdate" id="lastupdate"></p>
          </div>
@@ -200,7 +200,7 @@
 
 
                                  <p class="txt-desc">
-                                    <%= detail.description != ''? detail.description : 'Tidak ada deskripsi.'%></p>
+                                    <%= detail.description != ''? detail.description : ''%></p>
                               </div>
                            </div>
                         </a>
@@ -237,7 +237,7 @@
                                           <!-- <p class="txt-harga">Rp. 47.000,-</p> -->
                                           <p class="txt-harga-popupmenu">Rp <%= detail.prices.normal_price %>,-</p>
                                           <p class="txt-desc-popupmenu">
-                                             <%= detail.description != ''? detail.description : 'Tidak ada deskripsi.'%>
+                                             <%= detail.description != ''? detail.description : ''%>
                                           </p>
                                        </div>
                                     </div>
@@ -265,6 +265,6 @@
    </div>
 </main>
 <script>
-   var menu_categories = "<%- JSON.stringify(place.menu_categories) %>";
+   var menu_categories = <%- JSON.stringify(place.menu_categories) %>;
 </script>
 <%- include('./partials/footer.html') %>
