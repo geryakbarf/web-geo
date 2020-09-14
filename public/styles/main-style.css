@@ -56,6 +56,7 @@
 .section-tempatmakan .card-container .card-layout .card-box {
   text-decoration: none;
   color: #000;
+  height: 100%;
 }
 
 .section-tempatmakan
@@ -105,6 +106,8 @@
 }
 
 .section-tempatmakan .card-container .card-layout .txt-link-detail-tempatmakan {
+  position: relative;
+  top: auto;
   display: inline-block;
   color: #3498db;
 }
@@ -578,6 +581,27 @@ h4 {
 .nav-link:hover {
   color: #fec75e;
   border-bottom-color: #fec75e;
+}
+
+.nav-button {
+  font-family: "Karla", sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  border-radius: 20px;
+  padding: 10px 15px;
+  background-color: #e92737;
+  transition: 0.5s;
+  margin-bottom: 20px;
+}
+
+.nav-button:hover {
+  color: #fff;
+  background-color: #ba1f2c;
+  transform: scale(1.02, 1.02);
+  transition: 0.5s;
 }
 
 #header-index {
@@ -2291,11 +2315,7 @@ h4 {
 }
 
 .main-about .section-about {
-  padding: 100px 0 0 0;
-}
-
-.main-about .section-about .row-about {
-  height: 100vh;
+  padding: 100px 0 80px 0;
 }
 
 .main-about .section-about .row-about .img-logo-emam-about {
@@ -2316,7 +2336,7 @@ h4 {
 
 .main-about .section-cerita-kami .row-cerita-kami .img-our-story {
   max-width: 400px;
-  margin: 50px;
+  margin: 40px;
 }
 
 .main-about .section-cerita-kami .row-cerita-kami .img-circle-ornament {
@@ -2404,12 +2424,12 @@ h4 {
   max-width: 300px;
 }
 
-.section-404{
+.section-404 {
   padding: 100px 0;
   height: 100vh;
 }
 
-.section-404 .img-404{
+.section-404 .img-404 {
   max-width: 300px;
 }
 
@@ -2418,7 +2438,7 @@ footer {
 }
 
 footer .row-info-footer {
-  margin: 0 0 80px;
+  margin: 0 0 50px;
 }
 
 footer .row-info-footer .ic-social-media {
@@ -2462,7 +2482,7 @@ footer .row-info-footer .text-emam {
 }
 
 @media only screen and (max-width: 320px) {
-  .main-about .section-visi-kami .row-visi {
+  .main-about .section-cerita-kami .row-cerita-kami {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -2489,6 +2509,10 @@ footer .row-info-footer .text-emam {
     background-size: cover;
     padding: 5px;
     border-radius: 10px;
+  }
+
+  footer .row-info-footer {
+    margin: 0;
   }
 
   .modal-open .modal {
@@ -2567,7 +2591,7 @@ footer .row-info-footer .text-emam {
 }
 
 @media only screen and (max-width: 600px) {
-  .main-about .section-visi-kami .row-visi {
+  .main-about .section-cerita-kami .row-cerita-kami {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -2737,6 +2761,10 @@ footer .row-info-footer .text-emam {
     .card-box
     .txtalamat-tempatmakan {
     display: none;
+  }
+
+  footer .row-info-footer {
+    margin: 0;
   }
 
   .modal-open .modal {

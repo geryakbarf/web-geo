@@ -29,7 +29,8 @@
                   <!-- Buka Tutup -->
                   <h5 class='txt-jambukatutup inlineblock mr-1 <%= isTodayOpen ? "text-green": "text-red" %>'
                      id='kondisibukatutup'><%= isTodayOpen ? "Buka": "Tutup" %></h5>
-                  <h5 class="txt-jambukatutup inline">| Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime %> WIB</h5>
+                  <h5 class="txt-jambukatutup inline">| Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime %> WIB
+                  </h5>
                </a>
                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" disabled>
                   <h5 class="mb-3">Jadwal Tempat</h5>
@@ -111,7 +112,7 @@
                <p class="no-sp">Media sosial:</p>
                <% if(ctas.instagram){ %>
                <a target="_blank" href="<%= ctas.instagram %>" style="margin-right: 5px;"><img class="my-2"
-                     src="/assets/images/icon/emam_host_instagram.svg" style="max-width: 30px;"
+                     src="/assets/images/emam-instagram.svg" style="max-width: 30px;"
                      alt="Emam - Link Instagram <%= place.name %>"></a>
                <% } %>
                <% if(ctas.web){ %>
@@ -122,8 +123,8 @@
                <% } %>
             </div>
             <p class="no-sp txt-lastupdate">Update terakhir:</p>
-             <p hidden id="update"><%= lastUpdate %></p>
-             <p class="no-sp txt-waktu-lastupdate" id="lastupdate"></p>
+            <p hidden id="update"><%= lastUpdate %></p>
+            <p class="no-sp txt-waktu-lastupdate" id="lastupdate"></p>
          </div>
       </div>
    </div>
@@ -163,9 +164,11 @@
                      <div class="col-12">
                         <div class="swiper-container">
                            <div class="swiper-wrapper">
-                              <a class="swiper-slide active" onclick="menuSubNavSwitch('all')">All</a>
+                              <a class="swiper-slide active" style="cursor: pointer;"
+                                 onclick="menuSubNavSwitch('all')">All</a>
                               <% for(mcat of place.menu_categories){ %>
-                              <a class="swiper-slide" onclick="menuSubNavSwitch('<%= mcat %>')"><%= mcat %></a>
+                              <a class="swiper-slide" style="cursor: pointer;"
+                                 onclick="menuSubNavSwitch('<%= mcat %>')"><%= mcat %></a>
                               <% } %>
                            </div>
                         </div><!-- Add Arrows -->
@@ -265,6 +268,6 @@
    </div>
 </main>
 <script>
-   var menu_categories = <%- JSON.stringify(place.menu_categories) %>;
+   // var menu_categories = <% - JSON.stringify(place.menu_categories) %>;
 </script>
 <%- include('./partials/footer.html') %>
