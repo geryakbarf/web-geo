@@ -6,7 +6,7 @@ const placeHandler = require("../handlers/v1/places");
 const router = express.Router();
 
 router.use((req,res, next) => {
-    res.locals.pageTitle = "Kuliner aman dengan menu digital emam";
+    res.locals.pageTitle = "Kuliner aman dengan menu digital - emam.id";
     next();
 });
 
@@ -35,6 +35,7 @@ router.post("/fetch_food.php", (req, res) => {
 });
 
 router.get("/about", common.routePath, (req, res) => {
+    res.locals.pageTitle = "Tentang kami - emam.id"
     res.render("about");
 });
 
@@ -47,14 +48,17 @@ router.get("/business", common.commingsoon, (req, res) => {
 });
 
 router.get("/contact-us", common.commingsoon, (req, res) => {
+    res.locals.pageTitle = "Hubungi kami - emam.id"
     res.render('about');
 });
 
 router.get("/under-construction", common.commingsoon, (req, res) => {
+    res.locals.pageTitle = "Underconstruction - emam.id"
     res.render("underconstruction");
 });
 
 router.get("/coming-soon", (req, res) => {
+    res.locals.pageTitle = "Segera hadir - emam.id"
     res.render("coming-soon");
 });
 

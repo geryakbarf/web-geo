@@ -18,7 +18,7 @@
     <meta name="twitter:image" content="images/logo/logo.png">
     <meta name="keywords" content="Makanan, Food, Kuliner">
 
-    <title><%= pageTitle %></title>
+    <title><%= locals.pageTitle %></title>
     <link rel="shortcut icon" href="/assets/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
 
@@ -37,20 +37,20 @@
     <link rel="stylesheet" href="/assets/styles/main-style.css">
     <% if(locals.loadCSS){ %>
         <% locals.loadCSS.forEach(e =>{ %>
-          <link rel="stylesheet" href="<%= e.src %>">  
+          <link rel="stylesheet" href="<%= e.src %>">
         <% }) %>
     <% } %>
-    
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-170625997-1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
+
       gtag('config', 'UA-170625997-1');
     </script>
-    
+
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
