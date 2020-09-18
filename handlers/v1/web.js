@@ -14,7 +14,7 @@ const homePage = async (req, res) => {
             .sort({createdAt: -1})
             .select('name slug photo address');
         const category = await PlaceCategory.find({}).limit(4).select('name image');
-        return res.render('index', {loadJS, newPlaces, category, path:req.route.path})
+        return res.render('index', {loadJS, newPlaces, category, path: req.route.path})
     } catch (error) {
         console.log(error);
         return res.send('');
@@ -34,11 +34,11 @@ const categoryPage = async (req, res) => {
 const _searchMenus = async (keyword) => {
     try {
         const menus = await Menu.find({$text: {$search: keyword}}).limit(5).select('placeId name photo _id');
-        const places = await Place.find({_id: { $in: menus.map(e => (e.placeId)) }}).select('name slug _id');
-        const results = menus.map( e => {
+        const places = await Place.find({_id: {$in: menus.map(e => (e.placeId))}}).select('name slug _id');
+        const results = menus.map(e => {
             let {_id, name, placeId, photo} = e;
             // name = _boldStringHtml(name, keyword);
-            let [place] = places.filter( e1 => (e1._id == placeId));
+            let [place] = places.filter(e1 => (e1._id == placeId));
             // place.name = _boldStringHtml(place.name, keyword);
             return {_id, name, photo, placeName: place.name, slug: place.slug};
         })
@@ -54,11 +54,11 @@ const allPlace = async (req, res) => {
         const {search_place, search_menu} = req.query;
         let filter = {is_draft: false};
         let allMenus = [];
-        if(search_place) filter['$text'] = { $search: search_place };
+        if (search_place) filter['$text'] = {$search: search_place};
         let allPlaces = await Place.find(filter)
             .sort({createdAt: -1})
             .select('name slug photo address');
-        if(search_menu) {
+        if (search_menu) {
             allMenus = await _searchMenus(search_menu);
             allPlaces = [];
         }
@@ -89,15 +89,27 @@ const claimBusiness = async (req, res) => {
         {src: "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
         {src: "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
         {src: "/assets/js/claim_form.js"},
+        {src: "https://www.google.com/recaptcha/api.js"},
     ];
-    return res.render('claim-business', {loadJS})
+    const {slug} = req.params;
+
+    try {
+        const place = await Place.findOne({is_draft: false, slug});
+        if (!place) throw {code: 404, message: "404 Not Found"};
+        return res.render('claim', {loadJS, place})
+    } catch (error) {
+        console.log(error);
+        if (error.code == 404)
+            return res.status(error.code).send(error.message)
+        return res.send('');
+    }
 }
 
 const placeDetailPage = async (req, res) => {
     const loadJS = [
-        { src: "https://unpkg.com/swiper/swiper-bundle.min.js" },
-        { src: "/assets/js/side-nav-bar.js" },
-        { src: "/assets/js/place-detail.js"}
+        {src: "https://unpkg.com/swiper/swiper-bundle.min.js"},
+        {src: "/assets/js/side-nav-bar.js"},
+        {src: "/assets/js/place-detail.js"}
     ];
     const loadCSS = [
         {src: "https://unpkg.com/swiper/swiper-bundle.min.css"},
@@ -106,7 +118,7 @@ const placeDetailPage = async (req, res) => {
     try {
         const {slug} = req.params;
         const place = await Place.findOne({is_draft: false, slug});
-        if(!place) throw {code: 404, message: "404 Not Found"};
+        if (!place) throw {code: 404, message: "404 Not Found"};
         let menus = await Menu.find({placeId: place._id});
         menus = place.menu_categories.map(e => {
             let menu_docs = menus.filter(e1 => (e == e1.category)).map(e1 => {
@@ -127,10 +139,21 @@ const placeDetailPage = async (req, res) => {
             if (e.value != '') ctas[e.type] = e.value;
         })
         payments = payments.length > 0 ? payments.join(', ') : 'Belum ada informasi';
-        return res.render('place-detail', {place, menus, day, todayOT, isTodayOpen, lastUpdate, payments, ctas, loadJS, loadCSS});
+        return res.render('place-detail', {
+            place,
+            menus,
+            day,
+            todayOT,
+            isTodayOpen,
+            lastUpdate,
+            payments,
+            ctas,
+            loadJS,
+            loadCSS
+        });
     } catch (error) {
         console.log(error);
-        if(error.code == 404)
+        if (error.code == 404)
             return res.status(error.code).send(error.message)
         return res.send('');
     }

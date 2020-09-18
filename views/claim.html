@@ -1,0 +1,103 @@
+<%- include('./partials/header.html') %>
+<%- include('./partials/top-nav.html') %>
+<main>
+    <div class="container">
+        <div class="pd-layout">
+            <section class="section-claim" id="form-claim">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div>
+                            <div class="row my-2">
+                                <div class="col-md-4">
+                                    <img alt="" class="img-result-tempat my-2"
+                                         src="<%= place.photo.path ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>"
+                                         style="max-width: 100%;">
+                                </div>
+                                <div class="col-md-8">
+                                    <h4 class="txt-header"><%= place.name %></h4>
+                                    <p>Tempat belum di klaim, Silahkan klaim untuk memverifikasi tempat makan</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="txt-header my-3">Nama Pemilik/Manajer</h4>
+                                    <input class="form-control" placeholder="Cth: emam Cafe" required
+                                           type="text" v-model="form.ownerName">
+                                </div>
+                                <div class="col-md-12">
+                                    <h4 class="txt-header my-3">Nomor Telepon</h4>
+                                    <input class="form-control" placeholder="Cth: 0891000xxx" required
+                                           type="text" v-model="form.ownerPhoneNumber">
+                                </div>
+                                <div class="col-md-12">
+                                    <h4 class="txt-header my-3">Alamat Restoran</h4>
+                                    <input class="form-control" placeholder="Cth: jl. berlian indah No 28" type="text"
+                                           v-model="form.placeAddress">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="row my-2">
+                            <div class="col-12">
+                                <h5 style="font-weight: bold;">Jadwal Tempat Makan</h5>
+                                <p style="color: #707070;">Kami akan mengunjungi tempat anda sesuai jam operasional
+                                    setelah kami mengkonfirmasi terlebih dahulu</p>
+                            </div>
+                            <div class="row">
+
+                            </div>
+                            <div class="col-4">
+                                <h5 class="txt-title">Hari</h5>
+                            </div>
+                            <div class="col-4">
+                                <h5 class="txt-title">Jam Buka</h5>
+                            </div>
+                            <div class="col-4">
+                                <h5 class="txt-title">Jam Tutup</h5>
+                            </div>
+                            <div class="col-12" v-for="(op, idx) in form.operational_times">
+                                <div class="row my-2">
+                                    <div class="col-4 my-auto">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" v-bind:id="op.day"
+                                                   v-model="op.is_open"
+                                                   value="">
+                                            <label class="form-check-label" v-bind:for="op.day"
+                                            >{{op.day}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <input class="form-control" id="example-time-input" type="time"
+                                               v-bind:id="'openTime-'+idx" v-model="op.openTime">
+                                    </div>
+                                    <div class="col-4">
+                                        <input class="form-control" id="example-time-input" type="time"
+                                               v-bind:id="'closeTime-'+idx" v-model="op.closeTime">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center justify-content-center">
+                        <div class="g-recaptcha mt-4 mx-auto" data-sitekey="6LdkWNcUAAAAAE3vhjVJRPX_VxYjkpcY4ih_sR9S">
+                        </div>
+                        <button class="btn btn-primary-emam mt-3"
+                                v-on:click="onSave(true)">Kirim
+                            Pesan
+                        </button>
+                    </div>
+                    <div class="col-md-5 col-12 text-center my-4">
+                        Dengan mengirimkan data tersebut, anda telah menyetujui
+                        <a href="#">syarat dan ketentuan</a> emam.id
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+<script>
+    var placeID = '<%= place.slug %>';
+</script>
+<%- include('./partials/footer.html') %>
