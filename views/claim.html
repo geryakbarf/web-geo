@@ -81,8 +81,12 @@
                         </div>
                     </div>
                     <div class="col-12 text-center justify-content-center">
-                        <div class="g-recaptcha mt-4 mx-auto" data-sitekey="6LdkWNcUAAAAAE3vhjVJRPX_VxYjkpcY4ih_sR9S">
+                        <div  class="g-recaptcha mt-4 mx-auto">
+                            <vue-recaptcha ref="recaptcha"
+                                @verify="onVerify" sitekey="6LdkWNcUAAAAAE3vhjVJRPX_VxYjkpcY4ih_sR9S">
+                            </vue-recaptcha>
                         </div>
+                        
                         <button class="btn btn-primary-emam mt-3"
                                 v-on:click="onSave(true)">Kirim
                             Pesan

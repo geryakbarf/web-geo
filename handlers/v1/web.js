@@ -84,12 +84,11 @@ const getPlaceCategory = async (req, res) => {
 const claimBusiness = async (req, res) => {
     const loadJS = [
         {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
-        {src: "https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"},
-        {src: "https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"},
-        {src: "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
-        {src: "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
+        {src: "https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit"},
+        {src: "https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"},
+        {src: "https://unpkg.com/sweetalert/dist/sweetalert.min.js"},
         {src: "/assets/js/claim_form.js"},
-        {src: "https://www.google.com/recaptcha/api.js"},
+        
     ];
     const {slug} = req.params;
 

@@ -15,15 +15,21 @@ var app = new Vue({
                 {day: 'Sabtu', openTime: '00:00', closeTime: '00:00', is_open: false},
                 {day: 'Minggu', openTime: '00:00', closeTime: '00:00', is_open: false},
             ],
-        }
+        },
+        robot: true
     },
     watch: {},
     methods: {
         onSave: async function (close = false) {
+            console.log(this.robot);
+            if(this.robot){
+                swal("Oppss!", "Verifikasi robot belum valid.", "error");
+                return false;
+            }
             try {
                 let formData = {...this.form};
                 let res = await this.insertClaim(formData);
-                toastr.success(res.message)
+                swal("Terima kasih!", "Tim emam akan segera menghubungi kamu", "success");
                 if (close) {
                     let _this = this
                     setTimeout(() => {
@@ -33,11 +39,11 @@ var app = new Vue({
                 }
             } catch (error) {
                 console.log(error);
-                toastr.error("Duh ada error, coba tanya Ala Rai")
+                swal("Oppss!", "Terjadi kesalaham mohon hubungi admin emam.", "error");
             }
-
         },
         insertClaim: async function (formData) {
+            
             try {
                 const res = await fetch('/api/v1/claim/send-claim', {
                     method: "POST",
@@ -51,9 +57,15 @@ var app = new Vue({
                 return Promise.reject(error);
             }
         },
+        onVerify: function(response) {
+            if (response) this.robot = false;
+        }
 
     },
     mounted() {
         window.addEventListener('beforeunload', this.leaving, true);
-    }
+    },
+    components: {
+        'vue-recaptcha': VueRecaptcha
+    },
 })
