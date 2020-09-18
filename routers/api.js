@@ -35,6 +35,7 @@ v1.delete('/menus/:id', menuHandler.deleteMenu)
 
 v1.post('/upload-image-s3', imageHandler.uploadImageS3)
 v1.delete('/delete-images', imageHandler.deleteImages)
+v1.post('/claim/send-claim', placeHandler.insertClaim)
 
 router.use('/v1', v1);
 
