@@ -14,7 +14,7 @@ router.get("/", common.routePath, common.commingsoon, web.homePage);
 
 router.get("/explore", web.allPlace);
 
-router.get("/claim", web.claimBusiness);
+router.get("/claim/:slug", web.claimBusiness);
 
 router.get('/search-places', placeHandler.searchPlacesAndMenus)
 
