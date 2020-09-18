@@ -9,6 +9,7 @@ var app = new Vue({
             city: '',
             address: '',
             categories: [],
+            menu_categories:[],
             parkir: '',
             // description: '',
             is_draft: true,
@@ -37,6 +38,7 @@ var app = new Vue({
                 {type: "grabfood", value: ''},
                 {type: "gofood", value: ''},
                 {type: "checkin", value: ''},
+                {type: "linkmenu",value: ''}
             ]
         },
         formTmp: {
@@ -77,10 +79,10 @@ var app = new Vue({
                         _this.form.slug = slugify(s);
                     } else {
                         _this.form.slug = ''
-                    }    
-                    
+                    }
+
                 },300);
-            
+
           }
         },
         'form.city': {
@@ -95,10 +97,10 @@ var app = new Vue({
                           _this.form.slug = slugify(s);
                       } else {
                           _this.form.slug = ''
-                      }    
-                      
+                      }
+
                   },100);
-              
+
             }
         },
     },
@@ -146,7 +148,7 @@ var app = new Vue({
                 console.error(error)
                 return;
             }
-            
+
         },
         _onSaveParams: async function(){
             let formData = {...this.form};
@@ -165,7 +167,7 @@ var app = new Vue({
                 }else if((!photo) || (!formData._id)){
                     formData.photo = await this.photoUpload();
                 }
-                    
+
             }
 
             return formData;
@@ -183,12 +185,12 @@ var app = new Vue({
                         window.removeEventListener('beforeunload', _this.leaving, true)
                         window.location = "/admin/places"
                     }, 1000)
-                }    
+                }
             } catch (error) {
                 console.log(error);
                 toastr.error("Duh ada error, coba tanya Ala Rai")
             }
-            
+
         },
         addGalleryFile: function(e, groupId){
             let _this = this;
@@ -201,7 +203,7 @@ var app = new Vue({
                 }
                 reader.readAsDataURL(f);
             });
-            
+
         },
         deleteGalleryFile: function(groupId, idx){
             this.formTmp.galleries.map(e => {
@@ -210,7 +212,7 @@ var app = new Vue({
 
                 return e;
             })
-            
+
         },
         addGalleryGroup: function(catName){
             let id = CryptoJS.MD5(new Date().toTimeString()).toString();
@@ -221,11 +223,11 @@ var app = new Vue({
         deleteGalleryGroup: function(groupId){
             if(this.form._id != null){
                 if(confirm("Are you sure want to delete this gallery group?"))
-                    this.formTmp.galleries = this.formTmp.galleries.filter((e) => (e.id != groupId));    
+                    this.formTmp.galleries = this.formTmp.galleries.filter((e) => (e.id != groupId));
             }else{
                 this.formTmp.galleries = this.formTmp.galleries.filter((e) => (e.id != groupId));
             }
-            
+
         },
         uploadGalleryImage: async function() {
             let currImages = this.form.galleries;
@@ -252,7 +254,7 @@ var app = new Vue({
                     const data = await res.json();
                     console.log(data);
                 }
-                
+
             })()
 
             currImages = currImages.filter(e => imagesNeedDelete.map(e2=> e2.path).indexOf(e.path) === -1);
@@ -267,7 +269,7 @@ var app = new Vue({
                     if(res.status != 200) throw Error("Upload gallery gagal!");
                     const data = await res.json();
                     const { path, options } = data.data;
-                    return Promise.resolve({category: e.category, path, options});    
+                    return Promise.resolve({category: e.category, path, options});
                 } catch (error) {
                     return Promise.reject(error);
                 }
@@ -291,7 +293,7 @@ var app = new Vue({
             } catch (error) {
                 return Promise.reject(error);
             }
-            
+
         },
         createPlace: async function(formData){
             try {
@@ -317,7 +319,7 @@ var app = new Vue({
             try {
                 const res = await fetch('/api/v1/place-categories');
                 const data = await res.json();
-                this.formFieldValues.place_categories = data.map(e => ({id: e._id, text: e.name}))    
+                this.formFieldValues.place_categories = data.map(e => ({id: e._id, text: e.name}))
             } catch (error) {
                 console.log(error);
             }
@@ -326,7 +328,7 @@ var app = new Vue({
             try {
                 const res = await fetch('/api/v1/cuisines');
                 const data = await res.json();
-                this.formFieldValues.cuisines = data.map(e => ({text: e.name}))    
+                this.formFieldValues.cuisines = data.map(e => ({text: e.name}))
             } catch (error) {
                 console.log(error);
             }
@@ -335,7 +337,7 @@ var app = new Vue({
             try {
                 const res = await fetch('/api/v1/payments');
                 const data = await res.json();
-                this.formFieldValues.payments = data.map(e => ({code:e.code, text: e.name}))   
+                this.formFieldValues.payments = data.map(e => ({code:e.code, text: e.name}))
             } catch (error) {
                 console.log(error);
             }
@@ -344,7 +346,7 @@ var app = new Vue({
             try {
                 const res = await fetch('/api/v1/facilities');
                 const data = await res.json();
-                this.formFieldValues.facilities = data.map(e => (e.name))   
+                this.formFieldValues.facilities = data.map(e => (e.name))
             } catch (error) {
                 console.log(error);
             }
@@ -353,7 +355,7 @@ var app = new Vue({
             try {
                 const res = await fetch('/api/v1/covid-protocols');
                 const data = await res.json();
-                this.formFieldValues.covid_prot = data   
+                this.formFieldValues.covid_prot = data
             } catch (error) {
                 console.log(error);
             }
@@ -378,12 +380,12 @@ var app = new Vue({
                                 resolve(e3.target.result)
                             }
                             reader.readAsDataURL(file);
-                        })      
+                        })
                     })();
-                    
+
                     return {file, imgData};
                 })
-                images = await Promise.all(images) 
+                images = await Promise.all(images)
                 return { id: e.id ,category: e.category, images };
             })
             this.formTmp.galleries = await Promise.all(catImages);
@@ -413,7 +415,7 @@ var app = new Vue({
                 this.form.payments = this.form.payments.map(e => ({code: e.code, text: e.name}));
                 if(this.form.parkir)
                     this.form.parkir = this.form.parkir.id;
-                this.formFieldValues.payments = this.form.payments; 
+                this.formFieldValues.payments = this.form.payments;
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
             } catch (error) {
