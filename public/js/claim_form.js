@@ -7,7 +7,7 @@ var app = new Vue({
             ownerPhoneNumber: '',
             placeAddress: '',
             operational_times: [
-                {day: 'Senin', openTime: '00:00', closeTime: '00:00', is_open: true},
+                {day: 'Senin', openTime: '00:00', closeTime: '00:00', is_open: false},
                 {day: 'Selasa', openTime: '00:00', closeTime: '00:00', is_open: false},
                 {day: 'Rabu', openTime: '00:00', closeTime: '00:00', is_open: false},
                 {day: 'Kamis', openTime: '00:00', closeTime: '00:00', is_open: false},
@@ -20,14 +20,43 @@ var app = new Vue({
     },
     watch: {},
     methods: {
+        validation: function (formData) {
+            //validasi Nama Manager
+            if (formData.ownerName.length < 1) {
+                swal("Nama Pemilik Kosong", "Mohon masukan nama pemilik atau manajer!", "error");
+                return false;
+            }
+            //validasi nomor kontak
+            if (formData.ownerPhoneNumber.length < 1) {
+                swal("Nomor Telepon Kosong", "Mohon masukan nomor telepon untuk dihubungi!", "error");
+                return false;
+            }
+            //validasi jika form kontak dimasukin selain angka
+            if (isNaN(formData.ownerPhoneNumber)) {
+                swal("Nomor Telepon Salah", "Mohon masukan nomor telepon yang benar!", "error");
+                return false;
+            }
+            //validasi alamat
+            if (formData.placeAddress.length < 1) {
+                swal("Alamat tempat Kosong", "Mohon masukan alamat tempat!", "error");
+                return false;
+            }
+            return true
+
+        },
         onSave: async function (close = false) {
             console.log(this.robot);
-            if(this.robot){
+            let formData = {...this.form};
+            var validasi = this.validation(formData);
+
+            if (!validasi)
+                return false;
+            if (this.robot) {
                 swal("Oppss!", "Verifikasi robot belum valid.", "error");
                 return false;
             }
+
             try {
-                let formData = {...this.form};
                 let res = await this.insertClaim(formData);
                 swal("Terima kasih!", "Tim emam akan segera menghubungi kamu", "success");
                 if (close) {
@@ -43,7 +72,6 @@ var app = new Vue({
             }
         },
         insertClaim: async function (formData) {
-            
             try {
                 const res = await fetch('/api/v1/claim/send-claim', {
                     method: "POST",
@@ -57,7 +85,7 @@ var app = new Vue({
                 return Promise.reject(error);
             }
         },
-        onVerify: function(response) {
+        onVerify: function (response) {
             if (response) this.robot = false;
         }
 
