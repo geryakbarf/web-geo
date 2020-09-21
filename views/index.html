@@ -11,7 +11,7 @@
         <div class="form-group has-search col-md-4" style="position: absolute; z-index: 99">
             <span class="fa fa-search form-control-cari"></span>
             <input autocomplete="off" class="form-control input-lg food_search" id="search_food"
-                   placeholder="Cari tempat makanmu disini" type="text"/>
+                placeholder="Cari tempat makanmu disini" type="text" />
             <div id="result">
             </div>
         </div>
@@ -37,7 +37,7 @@
                         <div class="col-md-3 col-6 card-container">
                             <a href="/explore/category/<%= idx.name %>" style="text-decoration: none;">
                                 <div class="card-kategori my-2"
-                                     style="background-image: url('/assets/images/<%= idx.image %>');">
+                                    style="background-image: url('/assets/images/<%= idx.image %>');">
                                     <h4 class="txt-kategori" style="color: #fff;"><%= idx.name %></h4>
                                 </div>
                             </a>
@@ -64,12 +64,12 @@
                                     <div class="card-box">
                                         <div class="img-box">
                                             <img alt="Photo Tempat <%= place.name %>" class="img-tempatmakan"
-                                                 src="<%= place.photo.path ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>"/>
+                                                src="<%= place.photo.path ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>" />
                                         </div>
                                         <div class="card-body">
                                             <h4 class="txt-h-nama-tempatmakan"><%= place.name %></h4>
                                             <p class="txt-alamat-tempatmakan"><%= place.address %></p>
-                                            <div class="txt-link-detail-tempatmakan">Info Tempat</div>
+                                            <!-- <div class="txt-link-detail-tempatmakan">Info Tempat</div> -->
                                             <!-- <img class="logoemamfoodlist" src="images/logo/logo2.png" alt="logo emam"> -->
                                         </div>
                                     </div>
