@@ -39,7 +39,7 @@ var app = new Vue({
                 {type: "grabfood", value: ''},
                 {type: "gofood", value: ''},
                 {type: "checkin", value: ''},
-                {type: "linkmenu", value: ''}
+                {type: "linkmenu", value: ''},
             ]
         },
         formTmp: {
@@ -440,6 +440,8 @@ var app = new Vue({
                 if (this.form.parkir)
                     this.form.parkir = this.form.parkir.id;
                 this.formFieldValues.payments = this.form.payments;
+                if (!this.form.call_to_actions[7])
+                    this.form.call_to_actions.push({type: "linkmenu", value: ''});
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
             } catch (error) {
