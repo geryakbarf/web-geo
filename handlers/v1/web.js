@@ -5,7 +5,12 @@ const dtlib = require('../../libs/datetime');
 const moment = require('moment');
 
 const homePage = async (req, res) => {
+    res.locals.pageTitle = "Kulineran aman dengan menu digital - emam.id"
     const loadJS = [
+        {src:"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        {src:"https://cdn.jsdelivr.net/npm/vuejs-datatable@2.0.0-alpha.7/dist/vuejs-datatable.js"},
+        {src:"https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
+        {src:"https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
         {src: '/assets/js/home.js'}
     ];
     try {
@@ -24,6 +29,7 @@ const homePage = async (req, res) => {
 const categoryPage = async (req, res) => {
     try {
         const category = await PlaceCategory.find({}).select('name image');
+        res.locals.pageTitle = "Explore kategori tempat makan - emam.id"
         return res.render('all-category', {category})
     } catch (error) {
         console.log(error);
@@ -62,6 +68,7 @@ const allPlace = async (req, res) => {
             allMenus = await _searchMenus(search_menu);
             allPlaces = [];
         }
+        res.locals.pageTitle = "Explore tempat makan - emam.id"
         return res.render('place-all', {allPlaces, allMenus})
     } catch (error) {
         console.log(error);
@@ -75,6 +82,7 @@ const getPlaceCategory = async (req, res) => {
         const placeCategory = await Place.find({is_draft: false, "categories.name": category})
             .sort({createdAt: -1})
             .select('name slug photo address');
+        res.locals.pageTitle = "Explore " + category + " - emam.id";
         return res.render('place-category', {placeCategory, category})
     } catch (error) {
 
@@ -90,6 +98,7 @@ const claimBusiness = async (req, res) => {
         {src: "/assets/js/claim_form.js"},
         
     ];
+    res.locals.pageTitle = "Klaim tempat makan - emam.id"
     const {slug} = req.params;
 
     try {
@@ -138,6 +147,8 @@ const placeDetailPage = async (req, res) => {
             if (e.value != '') ctas[e.type] = e.value;
         })
         payments = payments.length > 0 ? payments.join(', ') : 'Belum ada informasi';
+        const city = place.city.charAt(0).toUpperCase() + place.city.slice(1);
+        res.locals.pageTitle = place.name + ", " + city + " - Info menu digital terbaru dari emam.id"
         return res.render('place-detail', {
             place,
             menus,
