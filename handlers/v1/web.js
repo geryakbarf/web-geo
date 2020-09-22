@@ -7,10 +7,10 @@ const moment = require('moment');
 const homePage = async (req, res) => {
     res.locals.pageTitle = "Kulineran aman dengan menu digital - emam.id"
     const loadJS = [
-        {src:"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
-        {src:"https://cdn.jsdelivr.net/npm/vuejs-datatable@2.0.0-alpha.7/dist/vuejs-datatable.js"},
-        {src:"https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
-        {src:"https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
+        {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        {src: "https://cdn.jsdelivr.net/npm/vuejs-datatable@2.0.0-alpha.7/dist/vuejs-datatable.js"},
+        {src: "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
+        {src: "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
         {src: '/assets/js/home.js'}
     ];
     try {
@@ -19,7 +19,8 @@ const homePage = async (req, res) => {
             .sort({createdAt: -1})
             .select('name slug photo address');
         const category = await PlaceCategory.find({}).limit(4).select('name image');
-        return res.render('index', {loadJS, newPlaces, category, path: req.route.path})
+        const allCategory = await PlaceCategory.find({}).select('name image');
+        return res.render('index', {loadJS, newPlaces, category, allCategory, path: req.route.path})
     } catch (error) {
         console.log(error);
         return res.send('');
@@ -96,7 +97,7 @@ const claimBusiness = async (req, res) => {
         {src: "https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"},
         {src: "https://unpkg.com/sweetalert/dist/sweetalert.min.js"},
         {src: "/assets/js/claim_form.js"},
-        
+
     ];
     res.locals.pageTitle = "Klaim tempat makan - emam.id"
     const {slug} = req.params;
@@ -143,9 +144,16 @@ const placeDetailPage = async (req, res) => {
         const lastUpdate = moment(place.updatedAt).format(dtlib.formats.lastUpdate);
         let payments = place.payments.map(e => (e.name));
         let ctas = {};
+        console.log(place.call_to_actions);
         place.call_to_actions.forEach(e => {
             if (e.value != '') ctas[e.type] = e.value;
+            if (e.draft) {
+                if (e.draft === true) {
+                    ctas[e.type] = '';
+                }
+            }
         })
+        console.log(ctas);
         payments = payments.length > 0 ? payments.join(', ') : 'Belum ada informasi';
         const city = place.city.charAt(0).toUpperCase() + place.city.slice(1);
         res.locals.pageTitle = place.name + ", " + city + " - Info menu digital terbaru dari emam.id"
