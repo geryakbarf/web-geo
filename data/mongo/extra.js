@@ -9,6 +9,7 @@ const baseKeyValSchema = {
 const baseTypeValSchema = {
     type: String,
     value: String,
+    draft: Boolean,
     options: Schema.Types.Mixed
 }
 
