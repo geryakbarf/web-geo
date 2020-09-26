@@ -23,7 +23,8 @@
     <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
 
     <!-- library style -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <!-- library font -->
     <link href="https://fonts.googleapis.com/css?family=Karla:400,700|Muli:400,500,600,700,800,900&display=swap"
@@ -36,32 +37,35 @@
     <!-- style css -->
     <link rel="stylesheet" href="/assets/styles/main-style.css">
     <% if(locals.loadCSS){ %>
-        <% locals.loadCSS.forEach(e =>{ %>
-          <link rel="stylesheet" href="<%= e.src %>">
-        <% }) %>
+    <% locals.loadCSS.forEach(e =>{ %>
+    <link rel="stylesheet" href="<%= e.src %>">
+    <% }) %>
     <% } %>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-170625997-1"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-      gtag('config', 'UA-170625997-1');
+        gtag('config', 'UA-170625997-1');
     </script>
 
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-M3Z4GRJ');</script>
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-M3Z4GRJ');</script>
     <!-- End Google Tag Manager -->
 
 </head>
 
 <body>
-<div id="btntoTop" class="btn-to-top" style="display: none;">
-    <i class="fa fa-arrow-up"></i>
-</div>
+    <div id="btntoTop" class="btn-to-top" style="display: none;">
+        <i class="fa fa-arrow-up"></i>
+    </div>

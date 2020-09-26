@@ -575,6 +575,11 @@ h4 {
   margin: 0 auto;
 }
 
+.btn-primary-emam-lg:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
 .btn-primary-emam-lg:hover {
   color: #fcfdfb;
   background-color: #b11f24;
@@ -1173,6 +1178,7 @@ h4 {
   height: 100%;
   padding: 10px;
   border-radius: 20px;
+  object-fit: cover;
 }
 
 .section-detail-tempat .box-category .box-menu .box-info-menu {
