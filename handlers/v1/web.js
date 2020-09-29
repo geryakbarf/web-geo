@@ -144,9 +144,16 @@ const placeDetailPage = async (req, res) => {
         const lastUpdate = moment(place.updatedAt).format(dtlib.formats.lastUpdate);
         let payments = place.payments.map(e => (e.name));
         let ctas = {};
+        console.log(place.call_to_actions);
         place.call_to_actions.forEach(e => {
             if (e.value != '') ctas[e.type] = e.value;
+            if (e.draft) {
+                if (e.draft === true) {
+                    ctas[e.type] = '';
+                }
+            }
         })
+        console.log(ctas);
         payments = payments.length > 0 ? payments.join(', ') : 'Belum ada informasi';
         const city = place.city.charAt(0).toUpperCase() + place.city.slice(1);
         res.locals.pageTitle = place.name + ", " + city + " - Info menu digital terbaru dari emam.id"

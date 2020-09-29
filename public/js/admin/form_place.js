@@ -32,14 +32,14 @@ var app = new Vue({
                 {day: 'Minggu', openTime: '00:00', closeTime: '00:00', is_open: true},
             ],
             call_to_actions: [
-                {type: "gmaps", value: ''},
-                {type: "whatsapp", value: ''},
-                {type: "instagram", value: ''},
-                {type: "web", value: ''},
-                {type: "grabfood", value: ''},
-                {type: "gofood", value: ''},
-                {type: "checkin", value: ''},
-                {type: "linkmenu", value: ''},
+                {type: "gmaps", value: '', draft: false},
+                {type: "whatsapp", value: '', draft: false},
+                {type: "instagram", value: '', draft: false},
+                {type: "web", value: '', draft: false},
+                {type: "grabfood", value: '', draft: false},
+                {type: "gofood", value: '', draft: false},
+                {type: "checkin", value: '', draft: false},
+                {type: "linkmenu", value: '', draft: false},
             ]
         },
         formTmp: {
@@ -442,6 +442,8 @@ var app = new Vue({
                 this.formFieldValues.payments = this.form.payments;
                 if (!this.form.call_to_actions[7])
                     this.form.call_to_actions.push({type: "linkmenu", value: ''});
+                if (!this.form.call_to_actions[1].draft)
+                    this.form.call_to_actions[1].draft = false;
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
             } catch (error) {
