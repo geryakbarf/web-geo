@@ -9,6 +9,11 @@ const coffeeInfoSchema = new Schema({
     infos: [String]
 });
 
+const variantSchema = new Schema({
+    id: String,
+    name: String
+})
+
 const schema = new Schema({
     name: String,
     description: String,
@@ -25,8 +30,9 @@ const schema = new Schema({
         path: String,
         options: Schema.Types.Mixed
     },
-    is_draft: Boolean
-},{ timestamps:{} });
+    is_draft: Boolean,
+    variant: [variantSchema]
+}, {timestamps: {}});
 
 schema.index({name: 'text'})
 

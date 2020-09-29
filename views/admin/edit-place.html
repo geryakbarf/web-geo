@@ -1,7 +1,7 @@
 <%- include('./partials/header.html') %>
 <%- include('./partials/navbar.html') %>
 
-<div class="container" >
+<div class="container">
     <h1>Edit place</h1>
     <div class="columns" id="form-place">
         <div class="column col-2" style="border-right: 1px solid #eee;">
@@ -18,7 +18,7 @@
             <%- include('./partials/place_forms/covid.html') %>
             <div style="clear: both;"></div>
             <div style="float:right; margin-top: 10px;">
-                <button class="btn">Cancel</button>
+                <button class="btn" v-on:click="onCancel()">Cancel</button>
                 <!-- <button class="btn" v-on:click="onSave(false)">Save</button> -->
                 <button class="btn" v-on:click="onSave(true)">Save & Close</button>
             </div>
@@ -26,6 +26,6 @@
     </div>
 </div>
 <script>
-    var placeId = '<%= id %>';    
+    var placeId = '<%= id %>';
 </script>
 <%- include('./partials/footer.html') %>
