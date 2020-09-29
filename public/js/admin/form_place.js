@@ -195,7 +195,7 @@ var app = new Vue({
                     let _this = this
                     setTimeout(() => {
                         window.removeEventListener('beforeunload', _this.leaving, true)
-                        window.location = "/admin/places/" + this.form._id + "/edit"
+                        window.location = "/admin/places/" + this.form._id + "/edit?nav=" + this.sideMenuIndex
                     }, 1000)
                 }
             } catch (error) {
@@ -431,6 +431,9 @@ var app = new Vue({
         },
         loadPlace: async function () {
             if (!placeId) return;
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('nav'))
+                this.sideMenuIndex = urlParams.get('nav')
             try {
                 const res = await fetch(`/api/v1/places/${placeId}`);
                 const data = await res.json();
@@ -466,7 +469,11 @@ var app = new Vue({
             // console.log(`/admin/places/${placeId}/menus/${menuId}`);
             window.removeEventListener('beforeunload', this.leaving, true)
             window.location = `/admin/places/${placeId}/menus/${menuId}`
-        }
+        },
+        onCancel: function () {
+            window.addEventListener('beforeunload', this.leaving, true);
+            window.location = `/admin/places`
+        },
     },
     mounted() {
         this.loadPlace()

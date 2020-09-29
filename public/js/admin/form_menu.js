@@ -2,6 +2,7 @@ var app = new Vue({
     el: '#form-menu',
     data: {
         sideMenuIndex: 0,
+        loading: false,
         form: {
             _id: null,
             name: '',
@@ -106,6 +107,7 @@ var app = new Vue({
         },
         onSave: async function (close = false) {
             try {
+                this.loading = true;
                 const formData = await this._onSaveParams();
                 let res = null;
                 if (formData._id)
@@ -118,10 +120,36 @@ var app = new Vue({
                     setTimeout(() => {
                         window.removeEventListener('beforeunload', _this.leaving, true)
                         window.location = `/admin/places/${placeId}/menus/new`
+                        this.loading = false;
                     }, 1000)
                 }
             } catch (error) {
                 toastr.error("Duh ada error, coba tanya Ala Rai")
+                this.loading = false;
+            }
+
+        },
+        onSaveNew: async function (close = false) {
+            try {
+                this.loading = true;
+                const formData = await this._onSaveParams();
+                let res = null;
+                if (formData._id)
+                    res = await this.updateMenu(formData);
+                else
+                    res = await this.createMenu(formData);
+                toastr.success(res.message)
+                if (close) {
+                    let _this = this
+                    setTimeout(() => {
+                        window.removeEventListener('beforeunload', _this.leaving, true)
+                        window.location = `/admin/places/${placeId}/edit?nav=6`
+                        this.loading = false;
+                    }, 1000)
+                }
+            } catch (error) {
+                toastr.error("Duh ada error, coba tanya Ala Rai")
+                this.loading = false;
             }
 
         },
@@ -184,9 +212,9 @@ var app = new Vue({
             }
 
         },
-
-        onCancel : function (){
-            window.location = `/admin/places/${placeId}/edit`
+        onCancel: function () {
+            window.addEventListener('beforeunload', this.leaving, true);
+            window.location = `/admin/places/${placeId}/edit?nav=6`
         },
 
         loadPhotoFromData: async function () {
@@ -233,6 +261,9 @@ var app = new Vue({
         leaving: function (event) {
             event.preventDefault();
             event.returnValue = '';
+        },
+        isLoading: function () {
+            return this.loading;
         }
     },
     mounted() {
@@ -241,7 +272,5 @@ var app = new Vue({
             await this.loadCategories();
             await this.loadMenu();
         })()
-
-        window.addEventListener('beforeunload', this.leaving, true);
     }
 })
