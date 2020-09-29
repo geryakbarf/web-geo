@@ -82,6 +82,11 @@ var app = new Vue({
 
             }
 
+        }, validation: function () {
+            if (isNaN(this.form.prices.normal_price))
+                return true
+            else
+                return false
         },
         _onSaveParams: async function () {
             let formData = {...this.form};
@@ -107,6 +112,11 @@ var app = new Vue({
         },
         onSave: async function (close = false) {
             try {
+                const check = this.validation();
+                if (check) {
+                    toastr.error("Duh format harga tidak benar")
+                    return
+                }
                 this.loading = true;
                 const formData = await this._onSaveParams();
                 let res = null;
@@ -131,6 +141,11 @@ var app = new Vue({
         },
         onSaveNew: async function (close = false) {
             try {
+                const check = this.validation();
+                if (check) {
+                    toastr.error("Duh format harga tidak benar")
+                    return
+                }
                 this.loading = true;
                 const formData = await this._onSaveParams();
                 let res = null;
@@ -190,7 +205,7 @@ var app = new Vue({
                     var _this = this;
                     setTimeout(() => {
                         window.removeEventListener('beforeunload', _this.leaving, true)
-                        window.location = `/admin/places/${placeId}/edit`
+                        window.location = `/admin/places/${placeId}/edit?nav=6`
                     }, 1000)
                 } catch (error) {
                     console.log(error);
