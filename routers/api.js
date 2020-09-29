@@ -11,6 +11,7 @@ const covidHandler = require('../handlers/v1/covids');
 const placeHandler = require('../handlers/v1/places');
 const menuHandler = require('../handlers/v1/menus');
 const imageHandler = require('../handlers/v1/images');
+const webHandler = require('../handlers/v1/web');
 
 v1.get('/place-categories', placeCatHandler.getAll)
 v1.get('/cuisines', cuisineHandler.getAll)
@@ -36,6 +37,7 @@ v1.delete('/menus/:id', menuHandler.deleteMenu)
 v1.post('/upload-image-s3', imageHandler.uploadImageS3)
 v1.delete('/delete-images', imageHandler.deleteImages)
 v1.post('/claim/send-claim', placeHandler.insertClaim)
+v1.post('/tell-us', webHandler.sendEmail)
 
 router.use('/v1', v1);
 

@@ -3,6 +3,7 @@ const Menu = require('../../data/mongo/menus');
 const {PlaceCategory} = require('../../data/mongo/master');
 const dtlib = require('../../libs/datetime');
 const moment = require('moment');
+const nodemailer = require('nodemailer');
 
 const homePage = async (req, res) => {
     res.locals.pageTitle = "Kulineran aman dengan menu digital - emam.id"
@@ -114,6 +115,71 @@ const claimBusiness = async (req, res) => {
     }
 }
 
+const tellUs = async (req, res) => {
+    const loadJS = [
+        {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        {src: "https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit"},
+        {src: "https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"},
+        {src: "https://unpkg.com/sweetalert/dist/sweetalert.min.js"},
+        {src: "/assets/js/tell-us-form.js"},
+    ];
+    const slug = req.params.slug;
+    res.locals.pageTitle = "Kasih tahu kami - emam.id";
+    return res.render('kasihtau', {slug, loadJS})
+}
+
+const sendEmail = async (req, res) => {
+    //Mengambil data dari inputan
+    const json = req.body;
+    const placeID = json.slug;
+    const name = json.nama;
+    const email = json.email;
+    const subject = json.subject;
+    const pesan = json.pesan;
+    try {
+        //Deklarasi Nodemailer
+        let transport = nodemailer.createTransport({
+            service: 'gmail',
+            secure: true,
+            auth: {
+                user: 'laporemam@gmail.com',
+                pass: 'Tanyaemam'
+            }
+        });
+
+        //Opsi Email
+        let mailOptions = {
+            from: name + " <" + email + ">",
+            to: "tanya@emam.id",
+            subject: subject,
+            html: "<p><b>Hallo tim emam.id!</b></p><br>" +
+                "<p>Saya mau ngasih tahu laporan perihal " + subject + "." +
+                "Bahwasannya, " + pesan + ". Terimakasih!</p><hr>" +
+                "<p>Nama Pelapor : <a href='mailto:" + email + "'>" + name + "</a><br>" +
+                "Alamat Email : <a href='mailto:" + email + "'>" + email + "</a><br>" +
+                "Slug Tempat Terlapor : " + placeID + "</p>"
+        };
+
+        //Mengirim Email
+        transport.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log("Sukses Kirim Email");
+            }
+        })
+        return res.json({
+            message: "Sukses mengirim email",
+            data: {id: placeID}
+        })
+    } catch (error) {
+        if (error.code)
+            return res.status(error.code).json(error.message);
+        return res.status(500).json({message: "Error"});
+    }
+
+}
+
 const placeDetailPage = async (req, res) => {
     const loadJS = [
         {src: "https://unpkg.com/swiper/swiper-bundle.min.js"},
@@ -178,5 +244,5 @@ const placeDetailPage = async (req, res) => {
 }
 
 module.exports = {
-    homePage, placeDetailPage, allPlace, claimBusiness, getPlaceCategory, categoryPage
+    homePage, placeDetailPage, allPlace, claimBusiness, getPlaceCategory, categoryPage, tellUs, sendEmail
 };
