@@ -2,16 +2,16 @@
 <%- include('./partials/top-nav.html') %>
 <header id="header-detail-tempat">
     <div class="layout-claim" style="width: 100%; background-color: #e92737; padding: 15px; text-align: center;">
-        <p class="inline" style="color: #FFFFFF">Tempat belum di klaim. </p>
+        <p class="inline" style="color: #FFFFFF">Tempat ini belum di klaim, segera klaim bisnis kamu secara gratis :
+        </p>
         <a href="/claim/<%- place.slug %>">
-            <p class="txt-claim inline">KLAIM BISNIS KAMU SECARA GRATIS SEKARANG</p>
+            <p class="txt-claim inline">KLAIM DISINI!</p>
         </a>
     </div>
     <div class="container">
         <div class="row">
             <div class="col-lg-4 col-md-8 col-sm-6 col-xs-12 col-12 pt-3 mb-3">
-                <img alt="Photo <%= place.name %>"
-                     class="gambar-header-tempat"
+                <img alt="Photo <%= place.name %>" class="gambar-header-tempat"
                      src="<%= place.photo.path ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>">
             </div>
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-12 pt-3 mb-3">
@@ -30,8 +30,8 @@
                     <a href="tel:"></a>
                 </p>
                 <div class="dropdown show">
-                    <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown" href="#"
-                       id="dropdownMenuLink" role="button">
+                    <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown"
+                       href="#" id="dropdownMenuLink" role="button">
                         <!-- Buka Tutup -->
                         <h5 class='txt-jambukatutup inlineblock mr-1 <%= isTodayOpen ? "text-green": "text-red" %>'
                             id='kondisibukatutup'><%= isTodayOpen ? "Buka": "Tutup" %></h5>
@@ -43,17 +43,18 @@
                         <h5 class="mb-3">Jadwal Tempat</h5>
                         <table class="jadwal-table">
                             <tbody>
-                            <% if(place.operational_times){ %>
-                            <% for(optime of place.operational_times){ %>
-                            <tr>
-                                <td>
-                                    <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.day
+                                <% if(place.operational_times){ %>
+                                <% for(optime of place.operational_times){ %>
+                                <tr>
+                                    <td>
+                                        <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.day
                                         %>&nbsp;</p>
                                 </td>
                                 <td>&nbsp;</td>
                                 <td>
                                     <% if(optime.is_open){ %>
-                                    <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.openTime %> -
+                                    <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>">
+                                        <%= optime.openTime %> -
                                         <%= optime.closeTime %> WIB</p>
                                     <% }else{ %>
                                     <p class="no-sp text-red">Tutup</p>
@@ -69,21 +70,22 @@
                 </div>
                 <% if(ctas.gmaps){ %>
                 <a class="btn btn-googlemaps mr-2 my-2" href="<%= ctas.gmaps %>" id="googlemaps" name="btngooglemaps"
-                   target="_blank"><img class="ic-gmaps mr-2" src="/assets/images/icon/emam-host-googlemaps.svg">Telusuri
+                   target="_blank"><img class="ic-gmaps mr-2"
+                                        src="/assets/images/icon/emam-host-googlemaps.svg">Telusuri
                     Lokasi</a>
                 <% } %>
                 <% if(ctas.whatsapp){ %>
                 <a class="btn btn-whatsapp" href="https://wa.me/62<%=ctas.whatsapp%>" id="whatsapp" name="btnwhatsapp"
-                   target="_blank"><img class="ic-wa mr-2" src="/assets/images/icon/emam-host-whatsapp.svg">Chat
+                    target="_blank"><img class="ic-wa mr-2" src="/assets/images/icon/emam-host-whatsapp.svg">Chat
                     Whatsapp</a>
                 <% } %>
                 <div class="social-media-box">
                     <% if(ctas.grabfood || ctas.gofood){ %>
                     <p class="no-sp">Dapat dipesan melalui:</p>
                     <% if(ctas.grabfood){ %>
-                    <a class="order-button mr-2" href="<%= ctas.grabfood %>" style="margin-right: 5px;" target="_blank"><img
-                            alt="Emam - Link Grabfood <%= place.name %>" class="my-2" src="/assets/images/emam-grabfood.svg"
-                            style="max-width: 120px;"></a>
+                    <a class="order-button mr-2" href="<%= ctas.grabfood %>" style="margin-right: 5px;"
+                       target="_blank"><img alt="Emam - Link Grabfood <%= place.name %>" class="my-2"
+                                            src="/assets/images/emam-grabfood.svg" style="max-width: 120px;"></a>
                     <% } %>
                     <% if(ctas.gofood){ %>
                     <a class="order-button" href="<%= ctas.gofood %>" style="margin-right: 5px;" target="_blank"><img
@@ -139,8 +141,8 @@
                     <% } %>
                     <% if(ctas.web){ %>
                     <a href="<%= ctas.web %>" style="margin-right: 5px;" target="_blank"><img
-                            alt="Emam - Link Website <%= place.name %>"
-                            class="img-sosial-media my-2" src="/assets/images/icon/emam-host-website.svg"></a>
+                            alt="Emam - Link Website <%= place.name %>" class="img-sosial-media my-2"
+                            src="/assets/images/icon/emam-host-website.svg"></a>
                     <% } %>
                     <% } else { %>
                     <p>Belum ada info</p>
@@ -150,7 +152,7 @@
         </div>
         <div class="row text-center mt-4">
             <a class="txt-selengkapnya" id="txt-selengkapnya" style="width: 100%;">Info Selengkapnya<i
-                    class="fa fa-caret-down ml-2"></i></a><br/>
+                    class="fa fa-caret-down ml-2"></i></a><br />
         </div>
     </div>
 </header>
@@ -182,17 +184,8 @@
         <section class="section-detail-tempat row justify-content-center" id="foodlist">
             <div class="container">
                 <div class="tab-content">
-                    <!-- <p class="no-sp text-center txt-pesaninformasi">Kami selalu berusaha supaya informasi kami tepat dan akurat. <a href="kasihtau.php?id=Bubur-Malam-Jamika-Bandung">Kasih tahu</a> ya kalau ada yang salah.</p> -->
-                    <!-- <div class="row text-center">
-                        <div class="col-12">
-                            <p class="no-sp text-center txt-pesaninformasi">Kami selalu berusaha supaya informasi kami
-                                tepat
-                                dan
-                                akurat. <a href="kasihtau.php?id=Bubur-Malam-Jamika-Bandung">Kasih tahu</a> ya kalau ada
-                                yang
-                                salah.</p>
-                        </div>
-                    </div> -->
+                    <p class="no-sp text-center txt-pesaninformasi">Kami selalu berusaha supaya informasi kami tepat dan
+                        akurat. <a href="/tell-us/<%- place.slug %>">Kasih tahu</a> ya kalau ada yang salah.</p>
                     <div class="tab-pane fade show active" id="layout-tab-menu">
                         <br>
                         <div class="section-slider-menu">
@@ -200,10 +193,10 @@
                                 <div class="swiper-container">
                                     <div class="swiper-wrapper">
                                         <a class="swiper-slide active" onclick="menuSubNavSwitch('all')"
-                                           style="cursor: pointer;">All</a>
+                                            style="cursor: pointer;">All</a>
                                         <% for(mcat of place.menu_categories){ %>
                                         <a class="swiper-slide" onclick="menuSubNavSwitch('<%= mcat %>')"
-                                           style="cursor: pointer;"><%= mcat %></a>
+                                            style="cursor: pointer;"><%= mcat %></a>
                                         <% } %>
                                     </div>
                                 </div><!-- Add Arrows -->
@@ -211,11 +204,13 @@
                                 <div class="swiper-button-prev"></div>
                             </div>
                         </div>
-                        <!-- <div class="row">
-                            <a class="link-emam mx-auto" href="#">
+                        <% if(ctas.linkmenu) { %>
+                        <div class="row mt-4">
+                            <a class="link-emam mx-auto" href="<%= ctas.linkmenu %>" target="_blank">
                                 <p class="mt-4">Lihat Buku Menu</p>
                             </a>
-                        </div> -->
+                        </div>
+                        <% } %>
                         <% for(menu of menus){ %>
                         <div class="row box-category" data-cat-target="<%= menu.category %>">
                             <div class="col-12">
@@ -224,12 +219,12 @@
                             <% for(detail of menu.menus){ %>
                             <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 col-12 p-2" id="menu-<%= detail._id %>">
                                 <a class="row box-menu" data-target="#popup-menu-<%= detail._id %>" data-toggle="modal"
-                                   href="#">
+                                    href="#">
                                     <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
                                         <div class="layout-gambar">
                                             <img alt="Emam - <%= place.name+' '+detail.name %>"
-                                                 class="img-menu lazyload"
-                                                 loading="lazy" src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>">
+                                                 class="img-menu lazyload" loading="lazy"
+                                                 src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>">
                                         </div>
                                     </div>
                                     <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
@@ -249,8 +244,8 @@
                                 </a>
                             </div>
                             <!-- Modal Popup detail menu -->
-                            <div aria-hidden="true" aria-labelledby="popupmenu" class="modal fade" id="popup-menu-<%= detail._id %>"
-                                 role="dialog" tabindex="-1">
+                            <div aria-hidden="true" aria-labelledby="popupmenu" class="modal fade"
+                                 id="popup-menu-<%= detail._id %>" role="dialog" tabindex="-1">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -265,8 +260,8 @@
                                                     <div class="col-12 popup-img-menu-layout">
                                                         <div class="img-box-layout">
                                                             <img alt="Emam - <%= place.name+' '+detail.name %>"
-                                                                 class="popup-img-menu"
-                                                                 src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>">
+                                                                class="popup-img-menu"
+                                                                src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>">
                                                             <!-- <div class="outofstock-overlay"></div>
                                                                  <div class="txt-outofstock-layout justify-content-center">
                                                                      <p class="txt-outofstock my-auto">Out Of Stock</p>
@@ -298,7 +293,7 @@
                         <div class="row box-photo">
                             <div class="col-12 layout-masih-kosong text-center">
                                 <img alt="" class="gambar-masih-kosong"
-                                     src="/assets/images/emam-gambar-masih-kosong.svg">
+                                    src="/assets/images/emam-gambar-masih-kosong.svg">
                             </div>
                         </div>
                     </div>
@@ -310,6 +305,6 @@
     </div>
 </main>
 <script>
-    var menu_categories = <%- JSON.stringify(place.menu_categories) %>;
+    var menu_categories = <% - JSON.stringify(place.menu_categories) %>;
 </script>
 <%- include('./partials/footer.html') %>

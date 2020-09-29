@@ -11,7 +11,7 @@
         <div class="form-group has-search col-md-4" style="position: absolute; z-index: 99">
             <span class="fa fa-search form-control-cari"></span>
             <input autocomplete="off" class="form-control input-lg food_search" id="search_food"
-                placeholder="Cari tempat makanmu disini" type="text" />
+                   placeholder="Cari tempat makanmu disini" type="text"/>
             <div id="result">
             </div>
         </div>
@@ -26,7 +26,7 @@
                     <div class="row">
                         <h3 class="ml-2 txt-h-title-tempatmakan">Kategori</h3>
                         <% if(locals.category) { %>
-                        <% if(category.length > 4) { %>
+                        <% if(allCategory.length > 4) { %>
                         <a class="ml-auto mr-4 mt-2 txt-lihat-semua" href="/explore/category">
                             <p>Lihat Semua</p>
                         </a>
@@ -37,7 +37,7 @@
                         <div class="col-md-3 col-6 card-container">
                             <a href="/explore/category/<%= idx.name %>" style="text-decoration: none;">
                                 <div class="card-kategori my-2"
-                                    style="background-image: url('/assets/images/<%= idx.image %>');">
+                                     style="background-image: url('/assets/images/<%= idx.image %>');">
                                     <h4 class="txt-kategori" style="color: #fff;"><%= idx.name %></h4>
                                 </div>
                             </a>
@@ -64,7 +64,7 @@
                                     <div class="card-box">
                                         <div class="img-box">
                                             <img alt="Photo Tempat <%= place.name %>" class="img-tempatmakan"
-                                                src="<%= place.photo.path ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>" />
+                                                 src="<%= place.photo.path ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>"/>
                                         </div>
                                         <div class="card-body">
                                             <h4 class="txt-h-nama-tempatmakan"><%= place.name %></h4>

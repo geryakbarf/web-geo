@@ -3,14 +3,15 @@ const Menu = require('../../data/mongo/menus');
 const {PlaceCategory} = require('../../data/mongo/master');
 const dtlib = require('../../libs/datetime');
 const moment = require('moment');
+const nodemailer = require('nodemailer');
 
 const homePage = async (req, res) => {
     res.locals.pageTitle = "Kulineran aman dengan menu digital - emam.id"
     const loadJS = [
-        {src:"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
-        {src:"https://cdn.jsdelivr.net/npm/vuejs-datatable@2.0.0-alpha.7/dist/vuejs-datatable.js"},
-        {src:"https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
-        {src:"https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
+        {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        {src: "https://cdn.jsdelivr.net/npm/vuejs-datatable@2.0.0-alpha.7/dist/vuejs-datatable.js"},
+        {src: "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
+        {src: "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
         {src: '/assets/js/home.js'}
     ];
     try {
@@ -19,7 +20,8 @@ const homePage = async (req, res) => {
             .sort({createdAt: -1})
             .select('name slug photo address');
         const category = await PlaceCategory.find({}).limit(4).select('name image');
-        return res.render('index', {loadJS, newPlaces, category, path: req.route.path})
+        const allCategory = await PlaceCategory.find({}).select('name image');
+        return res.render('index', {loadJS, newPlaces, category, allCategory, path: req.route.path})
     } catch (error) {
         console.log(error);
         return res.send('');
@@ -96,7 +98,7 @@ const claimBusiness = async (req, res) => {
         {src: "https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"},
         {src: "https://unpkg.com/sweetalert/dist/sweetalert.min.js"},
         {src: "/assets/js/claim_form.js"},
-        
+
     ];
     res.locals.pageTitle = "Klaim tempat makan - emam.id"
     const {slug} = req.params;
@@ -111,6 +113,71 @@ const claimBusiness = async (req, res) => {
             return res.status(error.code).send(error.message)
         return res.send('');
     }
+}
+
+const tellUs = async (req, res) => {
+    const loadJS = [
+        {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        {src: "https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit"},
+        {src: "https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"},
+        {src: "https://unpkg.com/sweetalert/dist/sweetalert.min.js"},
+        {src: "/assets/js/tell-us-form.js"},
+    ];
+    const slug = req.params.slug;
+    res.locals.pageTitle = "Kasih tahu kami - emam.id";
+    return res.render('kasihtau', {slug, loadJS})
+}
+
+const sendEmail = async (req, res) => {
+    //Mengambil data dari inputan
+    const json = req.body;
+    const placeID = json.slug;
+    const name = json.nama;
+    const email = json.email;
+    const subject = json.subject;
+    const pesan = json.pesan;
+    try {
+        //Deklarasi Nodemailer
+        let transport = nodemailer.createTransport({
+            service: 'gmail',
+            secure: true,
+            auth: {
+                user: 'laporemam@gmail.com',
+                pass: 'Tanyaemam'
+            }
+        });
+
+        //Opsi Email
+        let mailOptions = {
+            from: name + " <" + email + ">",
+            to: "tanya@emam.id",
+            subject: subject,
+            html: "<p><b>Hallo tim emam.id!</b></p><br>" +
+                "<p>Saya mau ngasih tahu laporan perihal " + subject + "." +
+                "Bahwasannya, " + pesan + ". Terimakasih!</p><hr>" +
+                "<p>Nama Pelapor : <a href='mailto:" + email + "'>" + name + "</a><br>" +
+                "Alamat Email : <a href='mailto:" + email + "'>" + email + "</a><br>" +
+                "Slug Tempat Terlapor : " + placeID + "</p>"
+        };
+
+        //Mengirim Email
+        transport.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log("Sukses Kirim Email");
+            }
+        })
+        return res.json({
+            message: "Sukses mengirim email",
+            data: {id: placeID}
+        })
+    } catch (error) {
+        if (error.code)
+            return res.status(error.code).json(error.message);
+        return res.status(500).json({message: "Error"});
+    }
+
 }
 
 const placeDetailPage = async (req, res) => {
@@ -143,9 +210,16 @@ const placeDetailPage = async (req, res) => {
         const lastUpdate = moment(place.updatedAt).format(dtlib.formats.lastUpdate);
         let payments = place.payments.map(e => (e.name));
         let ctas = {};
+        console.log(place.call_to_actions);
         place.call_to_actions.forEach(e => {
             if (e.value != '') ctas[e.type] = e.value;
+            if (e.draft) {
+                if (e.draft === true) {
+                    ctas[e.type] = '';
+                }
+            }
         })
+        console.log(ctas);
         payments = payments.length > 0 ? payments.join(', ') : 'Belum ada informasi';
         const city = place.city.charAt(0).toUpperCase() + place.city.slice(1);
         res.locals.pageTitle = place.name + ", " + city + " - Info menu digital terbaru dari emam.id"
@@ -170,5 +244,5 @@ const placeDetailPage = async (req, res) => {
 }
 
 module.exports = {
-    homePage, placeDetailPage, allPlace, claimBusiness, getPlaceCategory, categoryPage
+    homePage, placeDetailPage, allPlace, claimBusiness, getPlaceCategory, categoryPage, tellUs, sendEmail
 };

@@ -5,7 +5,7 @@ const web = require("../handlers/v1/web");
 const placeHandler = require("../handlers/v1/places");
 const router = express.Router();
 
-router.use((req,res, next) => {
+router.use((req, res, next) => {
     res.locals.pageTitle = "Kulineran aman dengan menu digital - emam.id";
     next();
 });
@@ -61,6 +61,8 @@ router.get("/coming-soon", (req, res) => {
     res.locals.pageTitle = "Segera hadir - emam.id"
     res.render("coming-soon");
 });
+
+router.get("/tell-us/:slug", web.tellUs)
 
 router.get("/p/:slug", common.commingsoon, web.placeDetailPage);
 
