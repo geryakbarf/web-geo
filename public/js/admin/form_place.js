@@ -195,7 +195,7 @@ var app = new Vue({
                     let _this = this
                     setTimeout(() => {
                         window.removeEventListener('beforeunload', _this.leaving, true)
-                        window.location = "/admin/places"
+                        window.location = "/admin/places/" + this.form._id + "/edit"
                     }, 1000)
                 }
             } catch (error) {
@@ -476,6 +476,5 @@ var app = new Vue({
         this.loadFacilities()
         this.loadCovidProtocols()
         this.loadMenus()
-        window.addEventListener('beforeunload', this.leaving, true);
     }
 })
