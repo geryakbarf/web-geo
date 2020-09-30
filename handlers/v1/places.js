@@ -8,9 +8,10 @@ const serverErrMsg = "Terjadi kesalahan, mohon hubungi admin."
 const createPlace = async (req, res) => {
     try {
         const place = await Place.create(req.body);
+        const data = await Place.findOne({slug: place.slug});
         return res.json({
             message: "Success to create place",
-            data: {id: place._id}
+            data: {id: data._id}
         });
     } catch (error) {
         console.log(error);
