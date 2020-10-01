@@ -19,6 +19,7 @@ const getTodayId = () => {
 
 const isPlaceOpen = (opTime) => {
     if (!opTime.is_open) return false;
+    if(opTime.is_24Hours) return true;
     const today = moment().format(formats.date);
     const open = moment(`${today} ${opTime.openTime}`).format(formats.dateTime);
     const now = moment().format(formats.dateTime);
