@@ -21,6 +21,7 @@ const operationalTimeSchema = new Schema({
     openTime: String,
     closeTime: String,
     is_open: Boolean,
+    is_24Hours: Boolean,
     options: Schema.Types.Mixed
 });
 
