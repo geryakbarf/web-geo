@@ -190,6 +190,9 @@ var app = new Vue({
                 let res = null;
                 if (formData._id) res = await this.updatePlace(formData);
                 else res = await this.createPlace(formData);
+                console.log(res.data);
+                if(this.form._id == null)
+                    this.form._id = res.data.id;
                 toastr.success(res.message)
                 if (close) {
                     let _this = this
