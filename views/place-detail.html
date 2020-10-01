@@ -45,9 +45,11 @@
                         <h5 class="txt-jambukatutup inline">
                             <% if (todayOT.is_24Hours && todayOT.is_open) { %>
                             | Buka 24 Jam
-                            <% } else { %>
+                            <% } else if (todayOT.is_open) { %>
                             | Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime
                             %> WIB
+                            <% } else { %>
+                            | Hari ini tutup
                             <% } %>
                         </h5>
                     </a>
