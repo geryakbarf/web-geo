@@ -16,8 +16,15 @@
             </div>
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-12 pt-3 mb-3">
                 <h4 class="textheader3"><%= place.name %></h4>
-                <a class="no-sp" style="font-weight: bold; font-size: 16px; cursor: pointer;">
-                    <%= place.categories.map(e => (e.name)).join(', ') %></a>
+                <% for(var i=0; i < place.categories.length; i++) { %>
+                <% if (place.categories[i+1]) { %>
+                <a class="no-sp" href="/explore/category/<%= place.categories[i].name %>" style="font-weight: bold; font-size: 16px; cursor: pointer;">
+                    <%= place.categories[i].name %></a>,&nbsp;
+                <% } else { %>
+                <a class="no-sp" href="/explore/category/<%= place.categories[i].name %>" style="font-weight: bold; font-size: 16px; cursor: pointer;">
+                    <%= place.categories[i].name %></a>
+                <% } %>
+                <% } %>
                 <% if(place.is_halal){ %>
                 <p class="text-grey">No Pork / No Lard</p>
                 <% }else{ %>
