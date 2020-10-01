@@ -1,11 +1,11 @@
 <div v-if="sideMenuIndex == 2">
     <h1>Operational Times</h1>
 
-    <div v-for="(op, idx) in form.operational_times"class="columns">
+    <div class="columns" v-for="(op, idx) in form.operational_times">
         <div class="column col-3">
             <div class="form-group">
                 <label class="form-label" v-bind:for="'day-'+idx">Hari</label>
-                <input class="form-input" type="text" v-bind:id="'day-'+idx" readonly v-model="op.day">
+                <input class="form-input" readonly type="text" v-bind:id="'day-'+idx" v-model="op.day">
             </div>
         </div>
         <div class="column col-2">
@@ -20,12 +20,24 @@
                 <input class="form-input" type="time" v-bind:id="'closeTime-'+idx" v-model="op.closeTime">
             </div>
         </div>
-        <div class="column col-3" style="padding-top: 38px;">
-            <div class="form-group">
-                <label class="form-switch">
-                  <input type="checkbox" v-model="op.is_open">
-                  <i class="form-icon"></i> Open
-                </label>
+        <div class="column col-4" style="padding-top: 38px;">
+            <div class="columns">
+                <div class="column col-5">
+                    <div class="form-group">
+                        <label class="form-switch">
+                            <input type="checkbox" v-model="op.is_24Hours" :disabled="!op.is_open">
+                            <i class="form-icon"></i> 24 Hours
+                        </label>
+                    </div>
+                </div>
+                <div class="column col-7">
+                    <div class="form-group">
+                        <label class="form-switch">
+                            <input type="checkbox" v-model="op.is_open">
+                            <i class="form-icon"></i> Open
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
