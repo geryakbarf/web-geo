@@ -42,8 +42,15 @@
                         <!-- Buka Tutup -->
                         <h5 class='txt-jambukatutup inlineblock mr-1 <%= isTodayOpen ? "text-green": "text-red" %>'
                             id='kondisibukatutup'><%= isTodayOpen ? "Buka": "Tutup" %></h5>
-                        <h5 class="txt-jambukatutup inline">| Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime
+                        <h5 class="txt-jambukatutup inline">
+                            <% if (todayOT.is_24Hours && todayOT.is_open) { %>
+                            | Buka 24 Jam
+                            <% } else if (todayOT.is_open) { %>
+                            | Buka jam <%= todayOT.openTime %> - <%= todayOT.closeTime
                             %> WIB
+                            <% } else { %>
+                            | Hari ini tutup
+                            <% } %>
                         </h5>
                     </a>
                     <div aria-labelledby="dropdownMenuLink" class="dropdown-menu" disabled>
@@ -59,18 +66,20 @@
                                 </td>
                                 <td>&nbsp;</td>
                                 <td>
-                                    <% if(optime.is_open){ %>
+                                    <% if(optime.is_24Hours && optime.is_open) { %>
+                                    <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>">
+                                        24 Jam</p>
+                                    <% }else if(optime.is_open) { %>
                                     <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>">
                                         <%= optime.openTime %> -
                                         <%= optime.closeTime %> WIB</p>
-                                    <% }else{ %>
+                                    <% } else { %>
                                     <p class="no-sp text-red">Tutup</p>
                                     <% } %>
                                 </td>
                             </tr>
                             <% } %>
                             <% } %>
-
                             </tbody>
                         </table>
                     </div>

@@ -136,7 +136,9 @@ const _boldStringHtml = (str, strBolded) => {
 const _searchMenuPlace = async (keyword) => {
     try {
         const menus = await Menu.find({$text: {$search: keyword}}).limit(5).select('placeId name photo _id');
-        const places = await Place.find({_id: {$in: menus.map(e => (e.placeId))}}).select('name slug _id');
+        const places = await Place.find({_id: {$in: menus.map(e => (e.placeId))},is_draft: false}).select('name slug _id');
+        if (!places)
+            return Promise.resolve([]);
         const results = menus.map(e => {
             let {name, placeId, photo, _id} = e;
             // name = _boldStringHtml(name, keyword);
@@ -153,7 +155,7 @@ const _searchMenuPlace = async (keyword) => {
 const searchPlacesAndMenus = async (req, res) => {
     try {
         const {keyword} = req.query;
-        const placesQuery = Place.find({$text: {$search: keyword}}).limit(5).select('name slug address photo');
+        const placesQuery = Place.find({$text: {$search: keyword},is_draft: false}).limit(5).select('name slug address photo');
         const menusQuery = _searchMenuPlace(keyword);
         let [places, menus] = await Promise.all([placesQuery, menusQuery]);
         return res.render('partials/search-bar-place', {places, menus, keyword});
