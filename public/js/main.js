@@ -69,3 +69,19 @@
     $("html, body").show();
   }
 })(jQuery);
+
+window.onscroll = function () {
+  myFunction();
+};
+var layout = document.getElementById("layout-slider-menu");
+var navbar = document.getElementById("section-slider-menu");
+var sticky = layout.offsetTop;
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky");
+    navbar.classList.remove("d-none");
+  } else {
+    navbar.classList.remove("sticky");
+    navbar.classList.add("d-none");
+  }
+}
