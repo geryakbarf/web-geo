@@ -137,15 +137,16 @@ const _searchMenuPlace = async (keyword) => {
     try {
         const menus = await Menu.find({$text: {$search: keyword}}).limit(5).select('placeId name photo _id');
         const places = await Place.find({_id: {$in: menus.map(e => (e.placeId))},is_draft: false}).select('name slug _id');
-        if (!places)
-            return Promise.resolve([]);
+        console.log(keyword,menus.map(e => (e.placeId)));
         const results = menus.map(e => {
             let {name, placeId, photo, _id} = e;
+            // console.log(name);
             // name = _boldStringHtml(name, keyword);
             let [place] = places.filter(e1 => (e1._id == placeId));
+            if(!place) return null;
             // place.name = _boldStringHtml(place.name, keyword);
             return {_id, name, photo, placeName: place.name, slug: place.slug};
-        })
+        }).filter(e => e != null)
         return Promise.resolve(results);
     } catch (error) {
         return Promise.reject(error);
