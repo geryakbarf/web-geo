@@ -21,6 +21,7 @@ const operationalTimeSchema = new Schema({
     openTime: String,
     closeTime: String,
     is_open: Boolean,
+    is_24Hours: Boolean,
     options: Schema.Types.Mixed
 });
 
@@ -36,6 +37,13 @@ const schema = new Schema({
     is_partner: Boolean,
     is_draft: Boolean,
     is_halal: Boolean,
+    contact: {
+        numberType: {
+            enum: ["022", "+62"]
+        },
+        number: Number,
+        options: Schema.Types.Mixed
+    },
     payments: Schema.Types.Mixed,
     photo: {
         path: String,
@@ -47,9 +55,9 @@ const schema = new Schema({
     call_to_actions: [callToActionSchema],
     galleries: [gallerySchema],
     covid: [String]
-},{ timestamps:{} });
+}, {timestamps: {}});
 
-schema.index({name: 'text', address:'text', city: 'text'})
+schema.index({name: 'text', address: 'text', city: 'text'})
 
 schema.plugin(mongoose_delete, {overrideMethods: 'all', deletedAt: true})
 

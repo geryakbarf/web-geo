@@ -9,7 +9,7 @@ const formats = {
 
 const getDayId = (dateString) => {
     const dayIdx = moment(dateString).format("e");
-    return dayInId[dayIdx];   
+    return dayInId[dayIdx];
 }
 
 const getTodayId = () => {
@@ -18,11 +18,18 @@ const getTodayId = () => {
 }
 
 const isPlaceOpen = (opTime) => {
-    if(!opTime.is_open) return false;
+    if (!opTime.is_open) return false;
+    if(opTime.is_24Hours) return true;
     const today = moment().format(formats.date);
     const open = moment(`${today} ${opTime.openTime}`).format(formats.dateTime);
-    const close = moment(`${today} ${opTime.closeTime}`).format(formats.dateTime);
-    return moment().isBetween(open, close);
+    const now = moment().format(formats.dateTime);
+    var close = moment(`${today} ${opTime.closeTime}`).format(formats.dateTime);
+    if (open > close) {
+        if (now >= close && now <= open)
+            return false
+        else return true
+    } else
+        return moment(now).isBetween(open, close);
 }
 
 

@@ -3,6 +3,37 @@
   src: url(/assets/fonts/emam.otf);
 }
 
+@keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+#header-detail-tempat .txt-claim {
+  color: #fec75e;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+#header-detail-tempat .txt-claim:hover {
+  color: #fbac18;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.img-loading {
+  max-width: 68px;
+  margin: 120px 0 50px;
+  animation: rotate 4s infinite;
+}
+
+.g-recaptcha div {
+  margin: 0 auto;
+}
+
 .pd-layout {
   padding: 40px 0;
   background-color: #fcfdfb;
@@ -56,6 +87,7 @@
 .section-tempatmakan .card-container .card-layout .card-box {
   text-decoration: none;
   color: #000;
+  height: 100%;
 }
 
 .section-tempatmakan
@@ -105,8 +137,10 @@
 }
 
 .section-tempatmakan .card-container .card-layout .txt-link-detail-tempatmakan {
+  position: relative;
+  top: auto;
   display: inline-block;
-  color: #3498db;
+  color: #28aae1;
 }
 
 .section-tempatmakan
@@ -256,7 +290,7 @@
 .rs-select2 .select2-container {
   width: 100% !important;
   outline: none;
-  background: #fafafa;
+  background: #fff;
   -webkit-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
   box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
@@ -325,10 +359,11 @@
   .select2-container
   .select2-selection--single
   .select2-selection__arrow:after {
-  font-family: "Material-Design-Iconic-Font";
-  content: "\f2f9";
+  font-family: "FontAwesome";
+  font-weight: 900;
+  content: "\f107";
   font-size: 24px;
-  color: #999;
+  color: #707070;
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
 }
@@ -393,6 +428,14 @@
 
 .btn-share {
   display: inline;
+}
+
+a {
+  color: #28aae1;
+}
+
+a:hover {
+  color: #1a82c5;
 }
 
 .layout-button-back {
@@ -470,7 +513,7 @@
 
 hr {
   max-width: 100px;
-  background-color: #f26a76;
+  background-color: #eb3c4c;
   border-color: #fcfdfb;
 }
 
@@ -490,6 +533,67 @@ h3,
 h4 {
   font-family: "Muli", sans-serif;
   font-weight: 900;
+}
+
+.link-emam {
+  color: #28aae1;
+  text-align: center;
+}
+
+.btn-primary-emam {
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 5px 15px;
+  background-color: #e92737;
+  color: #fcfdfb;
+  transition: 0.5s;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.btn-primary-emam:hover {
+  color: #fcfdfb;
+  background-color: #b11f24;
+  text-decoration: none;
+  transform: scale(1.1, 1.1);
+  transition: 0.5s;
+}
+
+.btn-primary-emam:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.btn-primary-emam-lg {
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 5px 25px;
+  background-color: #e92737;
+  color: #fcfdfb;
+  transition: 0.5s;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.btn-primary-emam-lg:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.btn-primary-emam-lg:hover {
+  color: #fcfdfb;
+  background-color: #b11f24;
+  text-decoration: none;
+  transform: scale(1.1, 1.1);
+  transition: 0.5s;
+}
+
+.form-control:focus {
+  color: #707070;
+  background-color: #fff;
+  border-color: #28aae1;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(40, 170, 225, 0.25);
 }
 
 #navigasi-fix {
@@ -530,6 +634,7 @@ h4 {
 }
 
 .custom-toggler.navbar-toggler {
+  padding: 0.1rem 0.5rem;
   border: 2px solid #fe9900;
 }
 
@@ -541,6 +646,7 @@ h4 {
 
 .custom-toggler .navbar-toggler-icon {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(254,153,0, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  max-width: 20px;
 }
 
 .bg-white {
@@ -571,13 +677,34 @@ h4 {
 }
 
 .nav-link.active {
-  color: #fec75e;
-  border-bottom-color: #fec75e;
+  color: #fbac18;
+  border-bottom-color: #fbac18;
 }
 
 .nav-link:hover {
-  color: #fec75e;
-  border-bottom-color: #fec75e;
+  color: #fbac18;
+  border-bottom-color: #fbac18;
+}
+
+.nav-button {
+  font-family: "Karla", sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fcfdfb;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  border-radius: 20px;
+  padding: 10px 15px;
+  background-color: #e92737;
+  transition: 0.5s;
+  margin-bottom: 20px;
+}
+
+.nav-button:hover {
+  color: #fcfdfb;
+  background-color: #dd1f2a;
+  transform: scale(1.02, 1.02);
+  transition: 0.5s;
 }
 
 #header-index {
@@ -712,7 +839,7 @@ h4 {
 }
 
 #header-detail-tempat {
-  padding: 100px 0 50px;
+  padding: 70px 0 50px;
   -webkit-box-shadow: 0px 3px 15px 0px rgba(0, 0, 0, 0.2);
   box-shadow: 0px 3px 15px 0px rgba(0, 0, 0, 0.2);
 }
@@ -755,22 +882,16 @@ h4 {
 }
 
 #header-detail-tempat .txt-info-selengkapnya {
-  display: none;
-  margin: 10px 0;
   font-size: 18px;
 }
 
 #header-detail-tempat a {
-  color: #4999d4;
+  color: #28aae1;
   text-decoration: none;
 }
 
 #header-detail-tempat a:hover {
   color: #358ecd;
-}
-
-#header-detail-tempat .layout-info-lengkap {
-  display: none;
 }
 
 #header-detail-tempat .box-selengkapnya {
@@ -790,14 +911,15 @@ h4 {
 }
 
 #header-detail-tempat .txt-selengkapnya {
-  color: #4999d4;
-  margin: 20px 0;
+  color: #e92737;
+  padding: 10px;
+  font-weight: bold;
   cursor: pointer;
 }
 
 #header-detail-tempat .txt-selengkapnya:hover {
-  color: #358ecd;
-  border-bottom: 1px solid #358ecd;
+  background-color: #f3f3ec;
+  color: #b11f24;
 }
 
 #header-detail-tempat .social-media-box .website-box {
@@ -843,7 +965,7 @@ h4 {
 
 #header-detail-tempat .social-media-box img:hover {
   -webkit-transform: scale(1.2, 1.2);
-  transform: scale(1.1, 1.1);
+  transform: scale(1.2, 1.2);
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }
@@ -919,6 +1041,20 @@ h4 {
 
 #header-detail-tempat .txt-waktu-lastupdate {
   font-size: 14px;
+}
+
+#header-detail-tempat .img-sosial-media {
+  width: 34px;
+  transition: 0.5s;
+}
+
+#header-detail-tempat .img-sosial-media:hover {
+  transform: scale(1.2, 1.2);
+  transition: 0.5s;
+}
+
+#header-detail-tempat .layout-info-lengkap {
+  display: none;
 }
 
 .section-tab-menu .box-tab-menu {
@@ -1040,10 +1176,9 @@ h4 {
 .section-detail-tempat .box-category .box-menu .layout-gambar .img-menu {
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-  object-fit: cover;
   padding: 10px;
   border-radius: 20px;
+  object-fit: cover;
 }
 
 .section-detail-tempat .box-category .box-menu .box-info-menu {
@@ -1806,7 +1941,7 @@ h4 {
 
 .section-foodlist-detail-fl .card-container .card-layout .link-detail-tempat {
   display: inline-block;
-  color: #3498db;
+  color: #28aae1;
 }
 
 .section-foodlist-detail-fl
@@ -1965,7 +2100,7 @@ h4 {
 }
 
 .section-voting .card-container .card-layout .link-detail-tempat {
-  color: #3498db;
+  color: #28aae1;
 }
 
 .section-voting .card-container .card-layout .link-detail-tempat:hover {
@@ -2186,7 +2321,7 @@ h4 {
   .card-container
   .card-layout
   .link-detail-tempat {
-  color: #3498db;
+  color: #28aae1;
 }
 
 .section-detail-voting
@@ -2227,13 +2362,13 @@ h4 {
   border: 2px solid #29abe2;
 }
 
-.section-kasihtau .form-contact .btn-kirim {
+.section-kasihtau .btn-kirim {
   background-color: #e92737;
   color: #fcfdfb;
   border-radius: 5px;
 }
 
-.section-kasihtau .form-contact .btn-kirim:hover {
+.section-kasihtau .btn-kirim:hover {
   background-color: #c72127;
   -webkit-transform: scale(1.02, 1.02);
   transform: scale(1.02, 1.02);
@@ -2291,11 +2426,7 @@ h4 {
 }
 
 .main-about .section-about {
-  padding: 100px 0 0 0;
-}
-
-.main-about .section-about .row-about {
-  height: 100vh;
+  padding: 100px 0 80px 0;
 }
 
 .main-about .section-about .row-about .img-logo-emam-about {
@@ -2316,7 +2447,7 @@ h4 {
 
 .main-about .section-cerita-kami .row-cerita-kami .img-our-story {
   max-width: 400px;
-  margin: 50px;
+  margin: 40px;
 }
 
 .main-about .section-cerita-kami .row-cerita-kami .img-circle-ornament {
@@ -2404,12 +2535,20 @@ h4 {
   max-width: 300px;
 }
 
-.section-404{
+.section-claim {
+  padding: 80px 0 80px;
+}
+
+.section-claim .txt-header {
+  font-size: 18px;
+}
+
+.section-404 {
   padding: 100px 0;
   height: 100vh;
 }
 
-.section-404 .img-404{
+.section-404 .img-404 {
   max-width: 300px;
 }
 
@@ -2418,7 +2557,7 @@ footer {
 }
 
 footer .row-info-footer {
-  margin: 0 0 80px;
+  margin: 0 0 50px;
 }
 
 footer .row-info-footer .ic-social-media {
@@ -2444,6 +2583,7 @@ footer .row-info-footer .btn-social-media {
 
 footer .row-info-footer .link-footer {
   color: #fff;
+  display: inline;
 }
 
 footer .row-info-footer .link-footer:hover {
@@ -2462,7 +2602,12 @@ footer .row-info-footer .text-emam {
 }
 
 @media only screen and (max-width: 320px) {
-  .main-about .section-visi-kami .row-visi {
+  #header-detail-tempat .txt-selengkapnya:hover {
+    color: #e92737;
+    background-color: transparent;
+  }
+
+  .main-about .section-cerita-kami .row-cerita-kami {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -2489,6 +2634,18 @@ footer .row-info-footer .text-emam {
     background-size: cover;
     padding: 5px;
     border-radius: 10px;
+  }
+
+  .section-claim {
+    padding: 20px 0 30px;
+  }
+
+  footer .row-info-footer {
+    margin: 0;
+  }
+
+  footer .row-info-footer p {
+    text-align: center;
   }
 
   .modal-open .modal {
@@ -2567,7 +2724,27 @@ footer .row-info-footer .text-emam {
 }
 
 @media only screen and (max-width: 600px) {
-  .main-about .section-visi-kami .row-visi {
+  footer .row-info-footer p {
+    text-align: center;
+  }
+
+  .section-tempatmakan
+    .card-container
+    .card-layout
+    .card-box
+    .img-box
+    .img-tempatmakan {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 20px 20px 0 0;
+  }
+  #btntoTop {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .main-about .section-cerita-kami .row-cerita-kami {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -2588,6 +2765,7 @@ footer .row-info-footer .text-emam {
     object-fit: cover;
     border-radius: 20px 20px 0 0;
   }
+
   #btntoTop {
     bottom: 20px;
     right: 20px;
@@ -2615,10 +2793,13 @@ footer .row-info-footer .text-emam {
     padding: 5px 5px;
   }
 
-  .section-foodlist-index .card-container .card-layout {
-    height: 100%;
-    border-radius: 7px;
-    background-color: #fcfdfb;
+  .section-foodlist-index
+    .card-container
+    .card-layout
+    .card-box
+    .card-body
+    .desc-text-fl-index {
+    display: none;
   }
 
   .section-foodlist-index .card-container .card-layout:hover {
@@ -2651,7 +2832,7 @@ footer .row-info-footer .text-emam {
   }
 
   #header-detail-tempat {
-    padding: 70px 0 50px;
+    padding: 60px 0 50px;
   }
 
   #header-detail-tempat .btn-googlemaps {
@@ -2662,16 +2843,8 @@ footer .row-info-footer .text-emam {
     padding: 10px 15px;
   }
 
-  .search-box {
-    width: 100% !important;
-  }
-
-  footer .text-emam {
-    font-size: 22px;
-  }
-
-  .section-foodlist .card-container {
-    padding: 5px 5px;
+  .section-claim {
+    padding: 30px 0 30px;
   }
 
   .section-foodlist
@@ -2698,12 +2871,23 @@ footer .row-info-footer .text-emam {
     display: none;
   }
 
-  .section-voting .card-container {
-    padding: 10px 10px;
+  .section-foodlist .card-container {
+    padding: 5px 5px;
   }
 
-  .section-voting .card-container .card-layout .img-box .col-12 .box-voters {
-    padding: 5px;
+  .section-foodlist
+    .card-container
+    .card-layout
+    .card-box
+    .card-body
+    .h-text-fl-index {
+    font-size: 18px;
+    color: #000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
   }
 
   .section-voting
@@ -2714,6 +2898,29 @@ footer .row-info-footer .text-emam {
     .box-voters
     .txt-voters {
     font-size: 14px;
+  }
+
+  .section-voting .card-container {
+    padding: 10px 10px;
+  }
+
+  .section-detail-voting
+    .layout-voting
+    .card-container
+    .card-layout
+    .card-box
+    .card-body
+    .h-text-tempatmakan {
+    font-size: 16px;
+  }
+
+  .section-detail-voting
+    .layout-voting
+    .card-container
+    .card-layout
+    .card-box
+    .txtalamat-tempatmakan {
+    display: none;
   }
 
   .section-voting .card-container .card-layout .card-box .txtalamat-voting {
@@ -2737,10 +2944,6 @@ footer .row-info-footer .text-emam {
     .card-box
     .txtalamat-tempatmakan {
     display: none;
-  }
-
-  .modal-open .modal {
-    z-index: 99999;
   }
 
   .modal-open
@@ -2833,6 +3036,10 @@ footer .row-info-footer .text-emam {
     margin: 20px auto;
   }
 
+  .section-claim {
+    padding: 50px 0 30px;
+  }
+
   footer .text-emam {
     font-size: 24px;
   }
@@ -2911,6 +3118,14 @@ footer .row-info-footer .text-emam {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {
+  #header-detail-tempat {
+    padding: 60px 0 50px;
+  }
+
+  footer .row-info-footer p {
+    text-align: center;
+  }
+
   .bg-transparan {
     background-color: #ea2336;
   }
