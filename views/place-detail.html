@@ -12,16 +12,18 @@
         <div class="row">
             <div class="col-lg-4 col-md-8 col-sm-6 col-xs-12 col-12 pt-3 mb-3">
                 <img alt="Photo <%= place.name %>" class="gambar-header-tempat"
-                     src="<%= place.photo.path ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>">
+                    src="<%= place.photo.path ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>">
             </div>
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-12 pt-3 mb-3">
                 <h4 class="textheader3"><%= place.name %></h4>
                 <% for(var i=0; i < place.categories.length; i++) { %>
                 <% if (place.categories[i+1]) { %>
-                <a class="no-sp" href="/explore/category/<%= place.categories[i].name %>" style="font-weight: bold; font-size: 16px; cursor: pointer;">
+                <a class="no-sp" href="/explore/category/<%= place.categories[i].name %>"
+                    style="font-weight: bold; font-size: 16px; cursor: pointer;">
                     <%= place.categories[i].name %></a>,&nbsp;
                 <% } else { %>
-                <a class="no-sp" href="/explore/category/<%= place.categories[i].name %>" style="font-weight: bold; font-size: 16px; cursor: pointer;">
+                <a class="no-sp" href="/explore/category/<%= place.categories[i].name %>"
+                    style="font-weight: bold; font-size: 16px; cursor: pointer;">
                     <%= place.categories[i].name %></a>
                 <% } %>
                 <% } %>
@@ -38,7 +40,7 @@
                 </p>
                 <div class="dropdown show">
                     <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown"
-                       href="#" id="dropdownMenuLink" role="button">
+                        href="#" id="dropdownMenuLink" role="button">
                         <!-- Buka Tutup -->
                         <h5 class='txt-jambukatutup inlineblock mr-1 <%= isTodayOpen ? "text-green": "text-red" %>'
                             id='kondisibukatutup'><%= isTodayOpen ? "Buka": "Tutup" %></h5>
@@ -63,31 +65,31 @@
                                     <td>
                                         <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>"><%= optime.day
                                         %>&nbsp;</p>
-                                </td>
-                                <td>&nbsp;</td>
-                                <td>
-                                    <% if(optime.is_24Hours && optime.is_open) { %>
-                                    <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>">
-                                        24 Jam</p>
-                                    <% }else if(optime.is_open) { %>
-                                    <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>">
-                                        <%= optime.openTime %> -
-                                        <%= optime.closeTime %> WIB</p>
-                                    <% } else { %>
-                                    <p class="no-sp text-red">Tutup</p>
-                                    <% } %>
-                                </td>
-                            </tr>
-                            <% } %>
-                            <% } %>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <% if(optime.is_24Hours && optime.is_open) { %>
+                                        <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>">
+                                            24 Jam</p>
+                                        <% }else if(optime.is_open) { %>
+                                        <p class="no-sp <%= optime.day == day ? 'text-bold' : ''%>">
+                                            <%= optime.openTime %> -
+                                            <%= optime.closeTime %> WIB</p>
+                                        <% } else { %>
+                                        <p class="no-sp text-red">Tutup</p>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                <% } %>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <% if(ctas.gmaps){ %>
                 <a class="btn btn-googlemaps mr-2 my-2" href="<%= ctas.gmaps %>" id="googlemaps" name="btngooglemaps"
-                   target="_blank"><img class="ic-gmaps mr-2"
-                                        src="/assets/images/icon/emam-host-googlemaps.svg">Telusuri
+                    target="_blank"><img class="ic-gmaps mr-2"
+                        src="/assets/images/icon/emam-host-googlemaps.svg">Telusuri
                     Lokasi</a>
                 <% } %>
                 <% if(ctas.whatsapp){ %>
@@ -100,8 +102,8 @@
                     <p class="no-sp">Dapat dipesan melalui:</p>
                     <% if(ctas.grabfood){ %>
                     <a class="order-button mr-2" href="<%= ctas.grabfood %>" style="margin-right: 5px;"
-                       target="_blank"><img alt="Emam - Link Grabfood <%= place.name %>" class="my-2"
-                                            src="/assets/images/emam-grabfood.svg" style="max-width: 120px;"></a>
+                        target="_blank"><img alt="Emam - Link Grabfood <%= place.name %>" class="my-2"
+                            src="/assets/images/emam-grabfood.svg" style="max-width: 120px;"></a>
                     <% } %>
                     <% if(ctas.gofood){ %>
                     <a class="order-button" href="<%= ctas.gofood %>" style="margin-right: 5px;" target="_blank"><img
@@ -204,20 +206,24 @@
                         akurat. <a href="/tell-us/<%- place.slug %>">Kasih tahu</a> ya kalau ada yang salah.</p>
                     <div class="tab-pane fade show active" id="layout-tab-menu">
                         <br>
-                        <div class="section-slider-menu">
-                            <div class="col-12">
-                                <div class="swiper-container">
-                                    <div class="swiper-wrapper">
-                                        <a class="swiper-slide active" onclick="menuSubNavSwitch('all')"
-                                            style="cursor: pointer;">All</a>
-                                        <% for(mcat of place.menu_categories){ %>
-                                        <a class="swiper-slide" onclick="menuSubNavSwitch('<%= mcat %>')"
-                                            style="cursor: pointer;"><%= mcat %></a>
-                                        <% } %>
+                        <div id="layout-slider-menu"></div>
+                        <div class="section-slider-menu d-none d-lg-block" id="section-slider-menu">
+                            <div class="container no-pd">
+                                <div class="col-12">
+                                    <div class="swiper-container">
+                                        <div class="swiper-wrapper">
+                                            <a class="swiper-slide active" onclick="menuSubNavSwitch('all')">All</a>
+                                            <% for(mcat of place.menu_categories){ %>
+                                            <a class="swiper-slide"
+                                                onclick="menuSubNavSwitch('<%= mcat %>')"><%= mcat %></a>
+                                            <% } %>
+                                        </div>
+                                    </div><!-- Add Arrows -->
+                                    <div class="swiper-button-next" style="border-radius: 5px;">
                                     </div>
-                                </div><!-- Add Arrows -->
-                                <div class="swiper-button-next"></div>
-                                <div class="swiper-button-prev"></div>
+                                    <div class="swiper-button-prev" style="border-radius: 5px;">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <% if(ctas.linkmenu) { %>
@@ -239,8 +245,8 @@
                                     <div class="no-pd col-lg-4 col-md-4 col-sm-3 col-xs-4 col-4">
                                         <div class="layout-gambar">
                                             <img alt="Emam - <%= place.name+' '+detail.name %>"
-                                                 class="img-menu lazyload" loading="lazy"
-                                                 src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>">
+                                                class="img-menu lazyload" loading="lazy"
+                                                src="<%= detail.photo.path ? detail.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>">
                                         </div>
                                     </div>
                                     <div class="col-lg-8 col-md-8 col-sm-9 col-xs-8 col-8">
@@ -261,7 +267,7 @@
                             </div>
                             <!-- Modal Popup detail menu -->
                             <div aria-hidden="true" aria-labelledby="popupmenu" class="modal fade"
-                                 id="popup-menu-<%= detail._id %>" role="dialog" tabindex="-1">
+                                id="popup-menu-<%= detail._id %>" role="dialog" tabindex="-1">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -321,6 +327,6 @@
     </div>
 </main>
 <script>
-    var menu_categories = <%- JSON.stringify(place.menu_categories) %>;
+    var menu_categories = <% - JSON.stringify(place.menu_categories) %>;
 </script>
 <%- include('./partials/footer.html') %>
