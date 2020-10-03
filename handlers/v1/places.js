@@ -137,14 +137,17 @@ const _searchMenuPlace = async (keyword) => {
     try {
         const menus = await Menu.find({$text: {$search: keyword}}).limit(5).select('placeId name photo _id');
         const places = await Place.find({_id: {$in: menus.map(e => (e.placeId))},is_draft: false}).select('name slug _id');
-        if (!places)
-            return Promise.resolve([]);
+        console.log('Tempat : '+places);
         const results = menus.map(e => {
             let {name, placeId, photo, _id} = e;
             // name = _boldStringHtml(name, keyword);
             let [place] = places.filter(e1 => (e1._id == placeId));
+            let [menu] = menus.filter(e2 => place._id.includes(e2.placeId))
+            //ini kalau lihat dari algoritma kang Ala sebelumnya, pas mapping nyatuin place dan menu
+            //si menu yang dari tempat yang is_draftnya true, harus di skip, itu saya pakai filter kedua malah tetap
+            //error kang yang undefined nya jadi ._id
             // place.name = _boldStringHtml(place.name, keyword);
-            return {_id, name, photo, placeName: place.name, slug: place.slug};
+            return {_id: menu._id, name: menu.name, photo: menu.photo, placeName: place.name, slug: place.slug};
         })
         return Promise.resolve(results);
     } catch (error) {
