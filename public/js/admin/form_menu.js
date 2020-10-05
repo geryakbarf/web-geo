@@ -9,8 +9,8 @@ var app = new Vue({
             description: '',
             placeId: null,
             prices: {
-                normal_price: 0,
-                sale_price: 0,
+                normal_price: '',
+                sale_price: '',
             },
             is_draft: false,
             photo: null,
@@ -117,6 +117,12 @@ var app = new Vue({
                     toastr.error("Duh format harga tidak benar")
                     return
                 }
+                //Null Check
+                if(this.form.prices.normal_price == null || this.form.prices.normal_price === '')
+                    this.form.prices.normal_price = 0;
+                if(this.form.prices.sale_price == null || this.form.prices.sale_price === '')
+                    this.form.prices.sale_price = 0;
+                //
                 this.loading = true;
                 const formData = await this._onSaveParams();
                 let res = null;
@@ -146,6 +152,12 @@ var app = new Vue({
                     toastr.error("Duh format harga tidak benar")
                     return
                 }
+                //Null Check
+                if(this.form.prices.normal_price == null || this.form.prices.normal_price === '')
+                    this.form.prices.normal_price = 0;
+                if(this.form.prices.sale_price == null || this.form.prices.sale_price === '')
+                    this.form.prices.sale_price = 0;
+                //
                 this.loading = true;
                 const formData = await this._onSaveParams();
                 let res = null;
@@ -252,6 +264,11 @@ var app = new Vue({
                 const res = await fetch(`/api/v1/menus/${menuId}`);
                 const {data} = await res.json();
                 this.form = data;
+                //zero check validation
+                if(this.form.prices.sale_price == 0)
+                    this.form.prices.sale_price = ''
+                if(this.form.prices.normal_price == 0)
+                    this.form.prices.normal_price = ''
                 const [selectedCat] = this.formFieldValues.menu_categories.filter(e => e.name == data.category);
                 this.form.category = selectedCat;
                 this.loadPhotoFromData();
