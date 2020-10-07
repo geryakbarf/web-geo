@@ -508,6 +508,15 @@ var app = new Vue({
                 }
             }
             return condition;
+        },
+        hasDebit() {
+            var condition = false;
+            for (var i = 0; i < this.form.payments.length; i++) {
+                if (this.form.payments[i].text == 'Kartu Debit') {
+                    condition = true;
+                }
+            }
+            return condition;
         }
     }
 })
