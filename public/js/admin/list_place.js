@@ -2,15 +2,23 @@
 var app = new Vue({
     el: '#list-place',
     data: {
+        sideMenuIndex: 0,
         filter: '',
+        filterdraft: '',
         placeCols: [
             {label: '#'},
             {label: 'Place Name', field:"name"},
-            {label: 'Location', field:"city"},
             {label: 'Last Update', field:"updatedAt"},
             {label: 'Action'}
         ],
-        places: []
+        placeColsDraft: [
+            {label: '#'},
+            {label: 'Place Name', field:"name"},
+            {label: 'Last Update', field:"updatedAt"},
+            {label: 'Action'}
+        ],
+        places: [],
+        places_draft: []
     },
     methods: {
         onDeleteData: async function(id) {
@@ -24,7 +32,14 @@ var app = new Vue({
             }else{
                 return;
             }
-            
+
+        },
+
+        setSideMenuIndex: function (idx) {
+            this.sideMenuIndex = idx
+        },
+        isActiveSideMenu: function (id) {
+            return this.sideMenuIndex == id
         },
 
         updateTime: async function(id, name) {
@@ -34,13 +49,15 @@ var app = new Vue({
                 this.loadPlaces();
             }
             else toastr.error("Failed to delete data");
-        
+
         },
         loadPlaces: async function() {
             const res = await fetch('/api/v1/places');
             const data = await res.json();
-            if(res.ok) this.places = data.data;
-            else toastr.error("Failed to retrive data"); 
+            if(res.ok) {
+                this.places = data.data;
+                this.places_draft = data.data.filter(e => e.is_draft);;
+            } else toastr.error("Failed to retrive data");
         }
     },
     filters: {
