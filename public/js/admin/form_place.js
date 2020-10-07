@@ -40,7 +40,8 @@ var app = new Vue({
                 {type: "gofood", value: '', draft: false},
                 {type: "checkin", value: '', draft: false},
                 {type: "linkmenu", value: '', draft: false},
-            ]
+            ],
+            payment_detail: []
         },
         formTmp: {
             place_categories: '',
@@ -191,7 +192,7 @@ var app = new Vue({
                 if (formData._id) res = await this.updatePlace(formData);
                 else res = await this.createPlace(formData);
                 console.log(res.data);
-                if(this.form._id == null)
+                if (this.form._id == null)
                     this.form._id = res.data.id;
                 toastr.success(res.message)
                 if (close) {
@@ -450,6 +451,8 @@ var app = new Vue({
                     this.form.call_to_actions.push({type: "linkmenu", value: ''});
                 if (!this.form.call_to_actions[1].draft)
                     this.form.call_to_actions[1].draft = false;
+                if (!this.form.payment_detail)
+                    this.form.payment_detail = [];
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
             } catch (error) {
@@ -465,6 +468,13 @@ var app = new Vue({
             } catch (error) {
                 console.log(error);
             }
+        },
+        addPaymentDetail: function (tipe) {
+            let id = CryptoJS.MD5(new Date().toString()).toString();
+            this.form.payment_detail.push({id: id, type: tipe, name: '', condition: ''})
+        },
+        deletePaymentDetail: function (id) {
+            this.form.payment_detail = this.form.payment_detail.filter(e => e.id != id);
         },
         leaving: function (event) {
             event.preventDefault();
@@ -488,5 +498,16 @@ var app = new Vue({
         this.loadFacilities()
         this.loadCovidProtocols()
         this.loadMenus()
+    },
+    computed: {
+        hasQRIS() {
+            var condition = false;
+            for (var i = 0; i < this.form.payments.length; i++) {
+                if (this.form.payments[i].text == 'QRIS') {
+                    condition = true;
+                }
+            }
+            return condition;
+        }
     }
 })
