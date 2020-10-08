@@ -1,4 +1,3 @@
-
 var app = new Vue({
     el: '#list-place',
     data: {
@@ -6,31 +5,73 @@ var app = new Vue({
         filter: '',
         filterdraft: '',
         filterpublish: '',
+        filterupdated: '',
         placeCols: [
             {label: '#'},
-            {label: 'Place Name', field:"name"},
-            {label: 'Verified', field:"is_partner"},
-            {label: 'QR Sticker', field:"is_sticker"},
-            {label: 'Last Update', field:"updatedAt"},
+            {label: 'Place Name', field: "name"},
+            {label: 'Verified', field: "is_partner"},
+            {label: 'QR Sticker', field: "is_sticker"},
+            {label: 'Last Update', field: "updatedAt"},
             {label: 'Action'}
         ],
         places: [],
         places_draft: [],
-        places_publish: []
+        places_publish: [],
+        places_updated: []
     },
     methods: {
-        onDeleteData: async function(id) {
-            if(confirm('Are you sure want to delete this data?')){
+        onDeleteData: async function (id) {
+            if (confirm('Are you sure want to delete this data?')) {
                 const res = await fetch(`/api/v1/places/${id}`, {method: "DELETE"});
-                if(res.ok) {
+                if (res.ok) {
                     toastr.success("Success to delete data")
                     this.loadPlaces();
-                }
-                else toastr.error("Failed to delete data");
-            }else{
+                } else toastr.error("Failed to delete data");
+            } else {
                 return;
             }
 
+        },
+
+        formatToday: function (date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+            return [year, month, day].join('-');
+        },
+
+        compareDate: function (lastUpdate, condiiton) {
+            var updatedAt = '';
+            const unformatToday = this.formatToday(new Date());
+            //Format date to YYYY-MM-DD
+            const formattedDate = lastUpdate.substring(0, 10);
+            const formattedToday = unformatToday.substring(0, 10);
+            const hour = lastUpdate.substring(11, 16);
+            const formatdate1 = formattedDate.split("-");
+            const formatdate2 = formattedToday.split("-");
+            //Compare Days Between Date
+            const one_day = 1000 * 60 * 60 * 24;
+            const date1 = new Date(formatdate1[0], (formatdate1[1] - 1), formatdate1[2]);
+            const date2 = new Date(formatdate2[0], (formatdate2[1] - 1), formatdate2[2]);
+            const diff = Math.ceil(parseInt((date2.getTime() - date1.getTime()) / (one_day)));
+            //If Condition
+            if (diff === 0)
+                updatedAt = 'Today at ' + hour
+            else if (diff === 1)
+                updatedAt = 'Yesterday at ' + hour
+            else if (diff === 2)
+                updatedAt = diff + ' days ago at ' + hour
+            else
+                updatedAt = lastUpdate
+            if (condiiton)
+                return updatedAt;
+            else
+                return diff;
         },
 
         setSideMenuIndex: function (idx) {
@@ -40,27 +81,34 @@ var app = new Vue({
             return this.sideMenuIndex == id
         },
 
-        updateTime: async function(id, name) {
-            const res = await fetch('/api/v1/places',{method: "PUT", body: JSON.stringify({_id: id, name}), headers:{'Content-Type':"application/json"}});
-            if(res.ok) {
+        updateTime: async function (id, name) {
+            const res = await fetch('/api/v1/places', {
+                method: "PUT",
+                body: JSON.stringify({_id: id, name}),
+                headers: {'Content-Type': "application/json"}
+            });
+            if (res.ok) {
                 toastr.success("Success to update time")
                 this.loadPlaces();
-            }
-            else toastr.error("Failed to delete data");
+            } else toastr.error("Failed to delete data");
 
         },
-        loadPlaces: async function() {
+        loadPlaces: async function () {
             const res = await fetch('/api/v1/places');
             const data = await res.json();
-            if(res.ok) {
+            if (res.ok) {
                 this.places = data.data;
-                for (var i = 0; i < this.places.length; i++){
+                for (var i = 0; i < this.places.length; i++) {
                     //Anti undefined
                     if (!this.places[i].is_sticker)
                         this.places[i].is_sticker = false
+                    this.places[i].lastUpdate = this.compareDate(this.places[i].updatedAt, false);
+                    this.places[i].updatedAt = this.compareDate(this.places[i].updatedAt, true);
+                    console.log(this.places[i].lastUpdate + this.places[i].name);
                 }
                 this.places_draft = this.places.filter(e => e.is_draft);
                 this.places_publish = this.places.filter(e => !e.is_draft);
+                this.places_updated = this.places.filter(e => e.lastUpdate <= 2);
             } else toastr.error("Failed to retrive data");
         }
     },

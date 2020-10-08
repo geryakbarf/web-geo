@@ -1,15 +1,15 @@
-<div v-if="sideMenuIndex == 2">
-<h3>Published Places</h3>
+<div v-if="sideMenuIndex == 3">
+<h3>Updated Places within 2 days ago</h3>
 <div class="columns" style="margin: 10px 0;">
     <div class="column col-2">
         <div class="form-group">
-            <label class="form-label" for="filterpublish">Filter</label>
-            <input class="form-input" type="text" id="filterpublish" placeholder="filter..." v-model="filterpublish">
+            <label class="form-label" for="filterupdated">Filter</label>
+            <input class="form-input" type="text" id="filterupdated" placeholder="filter..." v-model="filterupdated">
         </div>
     </div>
 </div>
 <div style="max-height: 400px;overflow-y: auto;overflow-x: hidden; margin-bottom: 20px">
-    <datatable :columns="placeCols" :data="places_publish" class="table" :filter="filterpublish">
+    <datatable :columns="placeCols" :data="places_updated" class="table" :filter="filterupdated">
         <template scope="{ row, column, index }">
             <tr>
                 <td class="text-center">{{ index + 1 }}</td>
