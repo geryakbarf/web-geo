@@ -1,15 +1,15 @@
-<div v-if="sideMenuIndex == 1">
+<div v-if="sideMenuIndex == 2">
 <h3>Drafted Places</h3>
 <div class="columns" style="margin: 10px 0;">
     <div class="column col-2">
         <div class="form-group">
-            <label class="form-label" for="filterdraft">Filter</label>
-            <input class="form-input" type="text" id="filterdraft" placeholder="filter..." v-model="filterdraft">
+            <label class="form-label" for="filterpublish">Filter</label>
+            <input class="form-input" type="text" id="filterpublish" placeholder="filter..." v-model="filterpublish">
         </div>
     </div>
 </div>
 <div style="max-height: 400px;overflow-y: auto;overflow-x: hidden; margin-bottom: 20px">
-    <datatable :columns="placeCols" :data="places_draft" class="table" :filter="filterdraft">
+    <datatable :columns="placeCols" :data="places_publish" class="table" :filter="filterpublish">
         <template scope="{ row, column, index }">
             <tr>
                 <td class="text-center">{{ index + 1 }}</td>

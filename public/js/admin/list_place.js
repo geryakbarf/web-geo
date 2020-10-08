@@ -5,20 +5,18 @@ var app = new Vue({
         sideMenuIndex: 0,
         filter: '',
         filterdraft: '',
+        filterpublish: '',
         placeCols: [
             {label: '#'},
             {label: 'Place Name', field:"name"},
-            {label: 'Last Update', field:"updatedAt"},
-            {label: 'Action'}
-        ],
-        placeColsDraft: [
-            {label: '#'},
-            {label: 'Place Name', field:"name"},
+            {label: 'Verified', field:"is_partner"},
+            {label: 'QR Sticker', field:"is_sticker"},
             {label: 'Last Update', field:"updatedAt"},
             {label: 'Action'}
         ],
         places: [],
-        places_draft: []
+        places_draft: [],
+        places_publish: []
     },
     methods: {
         onDeleteData: async function(id) {
@@ -56,7 +54,13 @@ var app = new Vue({
             const data = await res.json();
             if(res.ok) {
                 this.places = data.data;
-                this.places_draft = data.data.filter(e => e.is_draft);;
+                for (var i = 0; i < this.places.length; i++){
+                    //Anti undefined
+                    if (!this.places[i].is_sticker)
+                        this.places[i].is_sticker = false
+                }
+                this.places_draft = this.places.filter(e => e.is_draft);
+                this.places_publish = this.places.filter(e => !e.is_draft);
             } else toastr.error("Failed to retrive data");
         }
     },
