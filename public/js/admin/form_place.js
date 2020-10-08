@@ -15,6 +15,7 @@ var app = new Vue({
             is_draft: true,
             is_partner: false,
             is_halal: true,
+            is_sticker: false,
             photo: null,
             cuisines: [],
             contact: '',
@@ -453,6 +454,8 @@ var app = new Vue({
                     this.form.call_to_actions[1].draft = false;
                 if (!this.form.payment_detail)
                     this.form.payment_detail = [];
+                if(!this.form.is_sticker)
+                    this.form.is_sticker = false;
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
             } catch (error) {
@@ -513,6 +516,15 @@ var app = new Vue({
             var condition = false;
             for (var i = 0; i < this.form.payments.length; i++) {
                 if (this.form.payments[i].text == 'Kartu Debit') {
+                    condition = true;
+                }
+            }
+            return condition;
+        },
+        hasCredit() {
+            var condition = false;
+            for (var i = 0; i < this.form.payments.length; i++) {
+                if (this.form.payments[i].text == 'Kartu Kredit') {
                     condition = true;
                 }
             }

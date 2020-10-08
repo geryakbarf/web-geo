@@ -44,6 +44,7 @@ const schema = new Schema({
     is_partner: Boolean,
     is_draft: Boolean,
     is_halal: Boolean,
+    is_sticker: Boolean,
     contact: {
         numberType: {
             enum: ["022", "+62"]
