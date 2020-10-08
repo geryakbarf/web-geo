@@ -529,6 +529,15 @@ var app = new Vue({
                 }
             }
             return condition;
+        },
+        hasCash() {
+            var condition = false;
+            for (var i = 0; i < this.form.payments.length; i++) {
+                if (this.form.payments[i].text == 'Tunai') {
+                    condition = true;
+                }
+            }
+            return condition;
         }
     }
 })

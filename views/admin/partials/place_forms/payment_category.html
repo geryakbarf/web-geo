@@ -13,7 +13,24 @@
             </div>
         </div>
     </div>
-    <div v-if="hasQRIS">
+    <div v-if="hasCash">
+        <h2>Cash Condition</h2>
+        <button class="btn" v-on:click="addPaymentDetail('Tunai')">Add Cash Condition</button>
+        <div class="columns" v-for="paycat in form.payment_detail" v-if="paycat.type === 'Tunai'">
+            <div class="column col-10">
+                <div class="form-group">
+                    <label class="form-label" v-bind:for="'paycatcondition'+paycat.id">Cash Condition*</label>
+                    <input class="form-input" placeholder="*Minimal beli 100.000 dapat cashback 10%" type="text"
+                           v-bind:id="'paycatname'+paycat.id"
+                           v-model="paycat.condition">
+                </div>
+            </div>
+            <div class="column col-1" style="padding-top: 37.5px;">
+                <button class="btn" v-on:click="deletePaymentDetail(paycat.id)">Delete</button>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 10px" v-if="hasQRIS">
         <h2>QRIS Options</h2>
         <button class="btn" v-on:click="addPaymentDetail('QRIS')">Add QRIS Options</button>
         <div class="columns" v-for="paycat in form.payment_detail" v-if="paycat.type === 'QRIS'">
