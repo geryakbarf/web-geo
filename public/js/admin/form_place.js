@@ -15,6 +15,7 @@ var app = new Vue({
             is_draft: true,
             is_partner: false,
             is_halal: true,
+            is_sticker: false,
             photo: null,
             cuisines: [],
             contact: '',
@@ -40,7 +41,8 @@ var app = new Vue({
                 {type: "gofood", value: '', draft: false},
                 {type: "checkin", value: '', draft: false},
                 {type: "linkmenu", value: '', draft: false},
-            ]
+            ],
+            payment_detail: []
         },
         formTmp: {
             place_categories: '',
@@ -191,7 +193,7 @@ var app = new Vue({
                 if (formData._id) res = await this.updatePlace(formData);
                 else res = await this.createPlace(formData);
                 console.log(res.data);
-                if(this.form._id == null)
+                if (this.form._id == null)
                     this.form._id = res.data.id;
                 toastr.success(res.message)
                 if (close) {
@@ -450,6 +452,10 @@ var app = new Vue({
                     this.form.call_to_actions.push({type: "linkmenu", value: ''});
                 if (!this.form.call_to_actions[1].draft)
                     this.form.call_to_actions[1].draft = false;
+                if (!this.form.payment_detail)
+                    this.form.payment_detail = [];
+                if(!this.form.is_sticker)
+                    this.form.is_sticker = false;
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
             } catch (error) {
@@ -466,6 +472,13 @@ var app = new Vue({
                 console.log(error);
             }
         },
+        addPaymentDetail: function (tipe) {
+            let id = CryptoJS.MD5(new Date().toString()).toString();
+            this.form.payment_detail.push({id: id, type: tipe, name: '', condition: ''})
+        },
+        deletePaymentDetail: function (id) {
+            this.form.payment_detail = this.form.payment_detail.filter(e => e.id != id);
+        },
         leaving: function (event) {
             event.preventDefault();
             event.returnValue = '';
@@ -479,6 +492,18 @@ var app = new Vue({
             window.addEventListener('beforeunload', this.leaving, true);
             window.location = `/admin/places`
         },
+        onDeleteData: async function () {
+            if (confirm('Are you sure want to delete this data?')) {
+                const res = await fetch(`/api/v1/places/${placeId}`, {method: "DELETE"});
+                if (res.ok) {
+                    toastr.success("Success to delete data")
+                    window.location = `/admin/places`
+                } else toastr.error("Failed to delete data");
+            } else {
+                return;
+            }
+
+        },
     },
     mounted() {
         this.loadPlace()
@@ -488,5 +513,43 @@ var app = new Vue({
         this.loadFacilities()
         this.loadCovidProtocols()
         this.loadMenus()
+    },
+    computed: {
+        hasQRIS() {
+            var condition = false;
+            for (var i = 0; i < this.form.payments.length; i++) {
+                if (this.form.payments[i].text == 'QRIS') {
+                    condition = true;
+                }
+            }
+            return condition;
+        },
+        hasDebit() {
+            var condition = false;
+            for (var i = 0; i < this.form.payments.length; i++) {
+                if (this.form.payments[i].text == 'Kartu Debit') {
+                    condition = true;
+                }
+            }
+            return condition;
+        },
+        hasCredit() {
+            var condition = false;
+            for (var i = 0; i < this.form.payments.length; i++) {
+                if (this.form.payments[i].text == 'Kartu Kredit') {
+                    condition = true;
+                }
+            }
+            return condition;
+        },
+        hasCash() {
+            var condition = false;
+            for (var i = 0; i < this.form.payments.length; i++) {
+                if (this.form.payments[i].text == 'Tunai') {
+                    condition = true;
+                }
+            }
+            return condition;
+        }
     }
 })

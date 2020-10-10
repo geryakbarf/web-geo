@@ -6,6 +6,12 @@ html, body{
     width: 50px;
 }
 
+/*.btn-emam-primary{*/
+/*    background-color: #e92737;*/
+/*    color: #FFF !important;*/
+/*    margin: 10px 5px;*/
+/*}*/
+
 .btn-upload{
     padding: 0!important;
     height: auto!important;
@@ -24,9 +30,9 @@ html, body{
 }
 
 .upload-zone {
-    width: 100%; 
-    height:300px; 
-    border: 1px solid #000; 
+    width: 100%;
+    height:300px;
+    border: 1px solid #000;
     display: block;
     overflow-y: auto;
 }
