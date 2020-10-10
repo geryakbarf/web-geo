@@ -1,5 +1,5 @@
 <div v-if="sideMenuIndex == 1">
-<h3>Drafted Places</h3>
+<h3 class="mt-2">Drafted Places</h3>
 <div class="columns" style="margin: 10px 0;">
     <div class="column col-2">
         <div class="form-group">
@@ -20,9 +20,8 @@
                 <td v-if="!row.is_sticker">No</td>
                 <td>{{ row.updatedAt }}</td>
                 <td class="text-center">
-                    <button class="btn btn-primary" v-on:click="updateTime(row._id, row.name)">Update Time</button>
-                    <a v-bind:href="'/admin/places/'+row._id+'/edit'" class="btn">Update</a>
-                    <button class="btn btn-primary" v-on:click="onDeleteData(row._id)">Delete</button>
+                    <button class="btn btn-primary my-2" v-on:click="updateTime(row._id, row.name)">Update Time</button>
+                    <a v-bind:href="'/admin/places/'+row._id+'/edit'" class="btn my-2">Update</a>
                 </td>
             </tr>
         </template>
