@@ -492,6 +492,18 @@ var app = new Vue({
             window.addEventListener('beforeunload', this.leaving, true);
             window.location = `/admin/places`
         },
+        onDeleteData: async function () {
+            if (confirm('Are you sure want to delete this data?')) {
+                const res = await fetch(`/api/v1/places/${placeId}`, {method: "DELETE"});
+                if (res.ok) {
+                    toastr.success("Success to delete data")
+                    window.location = `/admin/places`
+                } else toastr.error("Failed to delete data");
+            } else {
+                return;
+            }
+
+        },
     },
     mounted() {
         this.loadPlace()

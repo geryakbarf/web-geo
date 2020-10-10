@@ -20,19 +20,6 @@ var app = new Vue({
         places_updated: []
     },
     methods: {
-        onDeleteData: async function (id) {
-            if (confirm('Are you sure want to delete this data?')) {
-                const res = await fetch(`/api/v1/places/${id}`, {method: "DELETE"});
-                if (res.ok) {
-                    toastr.success("Success to delete data")
-                    this.loadPlaces();
-                } else toastr.error("Failed to delete data");
-            } else {
-                return;
-            }
-
-        },
-
         formatToday: function (date) {
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
