@@ -91,11 +91,10 @@ var app = new Vue({
                         this.places[i].is_sticker = false
                     this.places[i].lastUpdate = this.compareDate(this.places[i].updatedAt, false);
                     this.places[i].updatedAt = this.compareDate(this.places[i].updatedAt, true);
-                    console.log(this.places[i].lastUpdate + this.places[i].name);
                 }
                 this.places_draft = this.places.filter(e => e.is_draft);
-                this.places_publish = this.places.filter(e => !e.is_draft);
-                this.places_updated = this.places.filter(e => e.lastUpdate <= 2);
+                this.places_publish = this.places.filter(e => !e.is_draft && e.lastUpdate > 2);
+                this.places_updated = this.places.filter(e => e.lastUpdate <= 2 && !e.is_draft);
             } else toastr.error("Failed to retrive data");
         }
     },
