@@ -1,8 +1,9 @@
-const { QRCanvas: QrCanvas } = qrcanvas.vue;
+const {QRCanvas: QrCanvas} = qrcanvas.vue;
 var app = new Vue({
     el: '#form-place',
     data: {
         sideMenuIndex: 0,
+        search: '',
         form: {
             _id: null,
             name: '',
@@ -557,6 +558,18 @@ var app = new Vue({
                 }
             }
             return condition;
+        },
+        filteredMenu() {
+            return this.menus.filter(menu => {
+                return menu.name.toLowerCase().includes(this.search.toLowerCase())
+            })
+        },
+        filteredCategory() {
+            return this.form.menu_categories.filter(cate => {
+                return this.filteredMenu.map((sel) => {
+                    return sel.category
+                }).includes(cate)
+            })
         }
     },
     created() {

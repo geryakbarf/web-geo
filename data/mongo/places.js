@@ -46,9 +46,7 @@ const schema = new Schema({
     is_halal: Boolean,
     is_sticker: Boolean,
     contact: {
-        numberType: {
-            enum: ["022", "+62"]
-        },
+        numberType: String,
         number: Number,
         options: Schema.Types.Mixed
     },
