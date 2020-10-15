@@ -13,6 +13,7 @@ const formPageJS = [
     {src:"https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"},
     {src:"https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
     {src:"https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
+    {src:"https://cdn.jsdelivr.net/combine/npm/qrcanvas@3,npm/qrcanvas-vue@2"},
     {src:"/assets/js/admin/form_place.js"},
 ];
 const formPageCSS = [
@@ -93,11 +94,11 @@ router.get('/places/:placeId/menus/new', async (req, res) => {
             {src:"https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
             {src:"/assets/js/admin/form_menu.js"},
         ]
-        return res.render('admin/new-menu', {loadJS, loadCSS: formPageCSS, placeId})    
+        return res.render('admin/new-menu', {loadJS, loadCSS: formPageCSS, placeId})
     } catch (error) {
         return res.redirect('/admin/places');
     }
-    
+
 })
 
 router.get('/places/:placeId/menus/:menuId', async (req, res) => {
@@ -115,11 +116,11 @@ router.get('/places/:placeId/menus/:menuId', async (req, res) => {
             {src:"https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
             {src:"/assets/js/admin/form_menu.js"},
         ]
-        return res.render('admin/edit-menu', {loadJS, loadCSS: formPageCSS, placeId, menuId})    
+        return res.render('admin/edit-menu', {loadJS, loadCSS: formPageCSS, placeId, menuId})
     } catch (error) {
         return res.redirect('/admin/places');
     }
-    
+
 })
 
 module.exports = router

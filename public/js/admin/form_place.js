@@ -1,3 +1,4 @@
+const { QRCanvas: QrCanvas } = qrcanvas.vue;
 var app = new Vue({
     el: '#form-place',
     data: {
@@ -43,6 +44,11 @@ var app = new Vue({
                 {type: "linkmenu", value: '', draft: false},
             ],
             payment_detail: []
+        },
+        options: {
+            cellSize: 8,
+            correctLevel: 'H',
+            data: '',
         },
         formTmp: {
             place_categories: '',
@@ -443,6 +449,7 @@ var app = new Vue({
                 const res = await fetch(`/api/v1/places/${placeId}`);
                 const data = await res.json();
                 this.form = data.data;
+                this.options.data = 'https://emam.id/qr/' + this.form.slug;
                 this.form.categories = this.form.categories.map(e => ({id: e.id, text: e.name}));
                 this.form.payments = this.form.payments.map(e => ({code: e.code, text: e.name}));
                 if (this.form.parkir)
@@ -454,7 +461,7 @@ var app = new Vue({
                     this.form.call_to_actions[1].draft = false;
                 if (!this.form.payment_detail)
                     this.form.payment_detail = [];
-                if(!this.form.is_sticker)
+                if (!this.form.is_sticker)
                     this.form.is_sticker = false;
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
@@ -500,7 +507,7 @@ var app = new Vue({
                     window.location = `/admin/places`
                 } else toastr.error("Failed to delete data");
             } else {
-                return;
+
             }
 
         },
@@ -551,5 +558,19 @@ var app = new Vue({
             }
             return condition;
         }
-    }
+    },
+    created() {
+        const image = new Image();
+        image.src = 'https://i.ibb.co/0tGxK4T/Logo-Emam-11.png';
+        image.onload = () => {
+            this.options = Object.assign({}, this.options, {
+                logo: {
+                    image,
+                },
+            });
+        };
+    },
+    components: {
+        QrCanvas,
+    },
 })
