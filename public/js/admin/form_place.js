@@ -20,7 +20,6 @@ var app = new Vue({
             is_sticker: false,
             photo: null,
             cuisines: [],
-            contact: '',
             payments: [],
             facilities: [],
             covid: [],
@@ -73,13 +72,8 @@ var app = new Vue({
                     name: "Motor & Mobil"
                 }
             ],
-            contact: [
-                {
-                    numberType: "022"
-                }, {
-                    numberType: "+62"
-                }
-            ]
+            contactType : '',
+            contactNumber: ''
         },
         menus: []
     },
@@ -464,10 +458,9 @@ var app = new Vue({
                     this.form.payment_detail = [];
                 if (!this.form.is_sticker)
                     this.form.is_sticker = false;
-                if(!this.form.contact){
-                    this.form.contact = [];
-                    this.form.contact.push({numberType: '+62'});
-                    this.form.contact.push({numberType: '022'});
+                if (!this.form.contactType) {
+                    this.form.contactType = '';
+                    this.form.contactNumber = '';
                 }
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
