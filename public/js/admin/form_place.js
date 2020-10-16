@@ -456,6 +456,11 @@ var app = new Vue({
                     this.form.payment_detail = [];
                 if(!this.form.is_sticker)
                     this.form.is_sticker = false;
+                if(!this.form.contact){
+                    this.form.contact = [];
+                    this.form.contact.push({numberType: '+62'});
+                    this.form.contact.push({numberType: '022'});
+                }
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
             } catch (error) {
