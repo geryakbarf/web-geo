@@ -79,11 +79,10 @@
         <div class="column col-6">
             <div class="form-group">
                 <label class="form-label" for="contact">Contact Type*</label>
-                <select class="form-select" id="contact" required v-model="form.contact.numberType">
-                    <option selected value="">Choose an option</option>
-                    <option v-bind:value="contact.numberType" v-for="contact in formFieldValues.contact">
-                        {{contact.numberType}}
-                    </option>
+                <select class="form-select" id="contact" v-model="form.contactType">
+                    <option selected value="" disabled>Choose an option</option>
+                    <option value="022">022</option>
+                    <option value="+62">+62</option>
                 </select>
             </div>
         </div>
@@ -91,7 +90,7 @@
             <div class="form-group">
                 <label class="form-label" for="contact">Contact Number*</label>
                 <input class="form-input" id="contactNumber" placeholder="Ex: 85156" required type="number"
-                       v-model="form.contact.number">
+                       v-model="form.contactNumber">
             </div>
         </div>
         <div class="column col-12">

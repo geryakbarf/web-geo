@@ -19,7 +19,7 @@ const gallerySchema = new Schema({
 const paymentDetailSchema = new Schema({
     id: String,
     type: String,
-    name : String,
+    name: String,
     condition: String
 })
 
@@ -45,11 +45,8 @@ const schema = new Schema({
     is_draft: Boolean,
     is_halal: Boolean,
     is_sticker: Boolean,
-    contact: {
-        numberType: String,
-        number: Number,
-        options: Schema.Types.Mixed
-    },
+    contactType: String,
+    contactNumber: Number,
     payments: Schema.Types.Mixed,
     photo: {
         path: String,

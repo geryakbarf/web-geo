@@ -66,6 +66,8 @@ router.get("/tell-us/:slug", web.tellUs)
 
 router.get("/p/:slug", common.commingsoon, web.placeDetailPage);
 
+router.get("/qr/:slug", common.commingsoon, web.placeDetailPage);
+
 router.get("/images/:key", imageHandler.getImage);
 
 module.exports = router;

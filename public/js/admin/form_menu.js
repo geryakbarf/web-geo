@@ -6,6 +6,7 @@ var app = new Vue({
         form: {
             _id: null,
             name: '',
+            category: '',
             description: '',
             placeId: null,
             prices: {
