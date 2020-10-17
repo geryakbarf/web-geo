@@ -1,7 +1,9 @@
+const {QRCanvas: QrCanvas} = qrcanvas.vue;
 var app = new Vue({
     el: '#form-place',
     data: {
         sideMenuIndex: 0,
+        search: '',
         form: {
             _id: null,
             name: '',
@@ -18,7 +20,6 @@ var app = new Vue({
             is_sticker: false,
             photo: null,
             cuisines: [],
-            contact: '',
             payments: [],
             facilities: [],
             covid: [],
@@ -44,6 +45,11 @@ var app = new Vue({
             ],
             payment_detail: []
         },
+        options: {
+            cellSize: 8,
+            correctLevel: 'H',
+            data: '',
+        },
         formTmp: {
             place_categories: '',
             payment: '',
@@ -66,13 +72,8 @@ var app = new Vue({
                     name: "Motor & Mobil"
                 }
             ],
-            contact: [
-                {
-                    numberType: "022"
-                }, {
-                    numberType: "+62"
-                }
-            ]
+            contactType : '',
+            contactNumber: ''
         },
         menus: []
     },
@@ -443,6 +444,7 @@ var app = new Vue({
                 const res = await fetch(`/api/v1/places/${placeId}`);
                 const data = await res.json();
                 this.form = data.data;
+                this.options.data = 'https://emam.id/qr/' + this.form.slug;
                 this.form.categories = this.form.categories.map(e => ({id: e.id, text: e.name}));
                 this.form.payments = this.form.payments.map(e => ({code: e.code, text: e.name}));
                 if (this.form.parkir)
@@ -454,12 +456,11 @@ var app = new Vue({
                     this.form.call_to_actions[1].draft = false;
                 if (!this.form.payment_detail)
                     this.form.payment_detail = [];
-                if(!this.form.is_sticker)
+                if (!this.form.is_sticker)
                     this.form.is_sticker = false;
-                if(!this.form.contact){
-                    this.form.contact = [];
-                    this.form.contact.push({numberType: '+62'});
-                    this.form.contact.push({numberType: '022'});
+                if (!this.form.contactType) {
+                    this.form.contactType = '';
+                    this.form.contactNumber = '';
                 }
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
@@ -505,7 +506,7 @@ var app = new Vue({
                     window.location = `/admin/places`
                 } else toastr.error("Failed to delete data");
             } else {
-                return;
+
             }
 
         },
@@ -555,6 +556,32 @@ var app = new Vue({
                 }
             }
             return condition;
+        },
+        filteredMenu() {
+            return this.menus.filter(menu => {
+                return menu.name.toLowerCase().includes(this.search.toLowerCase())
+            })
+        },
+        filteredCategory() {
+            return this.form.menu_categories.filter(cate => {
+                return this.filteredMenu.map((sel) => {
+                    return sel.category
+                }).includes(cate)
+            })
         }
-    }
+    },
+    created() {
+        const image = new Image();
+        image.src = 'https://i.ibb.co/0tGxK4T/Logo-Emam-11.png';
+        image.onload = () => {
+            this.options = Object.assign({}, this.options, {
+                logo: {
+                    image,
+                },
+            });
+        };
+    },
+    components: {
+        QrCanvas,
+    },
 })

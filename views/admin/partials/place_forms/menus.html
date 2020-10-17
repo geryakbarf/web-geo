@@ -1,10 +1,18 @@
 <div v-if="sideMenuIndex == 6">
     <h1>Menus</h1>
     <a class="btn btn-primary" v-bind:href="'/admin/places/'+form._id+'/menus/new'">New Menu</a>
-    <div v-for="cate in form.menu_categories">
+    <div class="columns" style="margin: 10px 0;">
+        <div class="column col-2">
+            <div class="form-group">
+                <label class="form-label" for="search">Search</label>
+                <input class="form-input" type="text" id="search" placeholder="Search Menu" v-model="search">
+            </div>
+        </div>
+    </div>
+    <div v-for="cate in filteredCategory">
         <h2 style="margin: 50px 0 30px;">{{ cate }}</h2>
         <div class="columns" style="margin-top: 10px;">
-            <div class="column col-4" style="padding: 10px;" v-for="menu in menus" v-if="menu.category === cate">
+            <div class="column col-4" style="padding: 10px;" v-for="menu in filteredMenu" v-if="menu.category === cate">
                 <div class="card" style="height: 100%; border-radius: 15px;" v-on:click="editMenu(form._id,menu._id)">
                     <div class="columns">
                         <div class="column col-5">
