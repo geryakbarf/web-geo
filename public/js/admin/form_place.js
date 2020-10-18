@@ -60,6 +60,7 @@ var app = new Vue({
             place_categories: [],
             cuisines: [],
             payments: [],
+            paymentscat: [],
             facilities: [],
             covid_prot: [],
             parkirs: [
@@ -72,7 +73,7 @@ var app = new Vue({
                     name: "Motor & Mobil"
                 }
             ],
-            contactType : '',
+            contactType: '',
             contactNumber: ''
         },
         menus: []
@@ -118,6 +119,15 @@ var app = new Vue({
     methods: {
         setSideMenuIndex: function (idx) {
             this.sideMenuIndex = idx
+        },
+        isExist: function (text) {
+            var condition = false;
+            for (var i = 0; i < this.form.payment_detail.length; i++) {
+                if (this.form.payment_detail[i].name == text) {
+                    condition = true;
+                }
+            }
+            return condition;
         },
         isActiveSideMenu: function (id) {
             return this.sideMenuIndex == id
@@ -372,6 +382,16 @@ var app = new Vue({
                 console.log(error);
             }
         },
+        loadPaymentsCat: async function () {
+            try {
+                const res = await fetch('/api/v1/paymentscat');
+                const data = await res.json();
+                this.formFieldValues.paymentscat = data.map(e => ({name: e.name, type: e.type}));
+                console.log(this.formFieldValues.paymentscat);
+            } catch (error) {
+                console.log(error);
+            }
+        },
         loadFacilities: async function () {
             try {
                 const res = await fetch('/api/v1/facilities');
@@ -519,6 +539,7 @@ var app = new Vue({
         this.loadFacilities()
         this.loadCovidProtocols()
         this.loadMenus()
+        this.loadPaymentsCat()
     },
     computed: {
         hasQRIS() {
