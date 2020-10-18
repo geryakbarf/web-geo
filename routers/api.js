@@ -16,6 +16,7 @@ const webHandler = require('../handlers/v1/web');
 v1.get('/place-categories', placeCatHandler.getAll)
 v1.get('/cuisines', cuisineHandler.getAll)
 v1.get('/payments', paymentHandler.getAll)
+v1.get('/paymentscat', paymentHandler.getPaymentCategory)
 v1.get('/facilities', facilityHandler.getAll)
 v1.get('/covid-protocols', covidHandler.getAll)
 
