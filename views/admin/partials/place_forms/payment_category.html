@@ -40,7 +40,7 @@
                     <select class="form-select" v-bind:id="'paycatname'+paycat.id" v-model="paycat.name">
                         <option disabled selected value="">Choose an option</option>
                         <option v-bind:value="paycatlist.name" v-for="paycatlist in formFieldValues.paymentscat"
-                                v-if="paycat.type == 'QRIS'">{{paycatlist.name}}
+                                v-if="paycatlist.type == 'QRIS'">{{paycatlist.name}}
                         </option>
                     </select>
                 </div>
@@ -65,8 +65,12 @@
             <div class="column col-5">
                 <div class="form-group">
                     <label class="form-label" v-bind:for="'paycatname'+paycat.id">Debit Category Name*</label>
-                    <input class="form-input" placeholder="*BNI" type="text" v-bind:id="'paycatname'+paycat.id"
-                           v-model="paycat.name">
+                    <select class="form-select" v-bind:id="'paycatname'+paycat.id" v-model="paycat.name">
+                        <option disabled selected value="">Choose an option</option>
+                        <option v-bind:value="paycatlist.name" v-for="paycatlist in formFieldValues.paymentscat"
+                                v-if="paycatlist.type == 'Kartu Debit'">{{paycatlist.name}}
+                        </option>
+                    </select>
                 </div>
             </div>
             <div class="column col-5">
