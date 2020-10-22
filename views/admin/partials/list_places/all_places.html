@@ -14,18 +14,12 @@
                 <tr>
                     <td class="text-center">{{ index + 1 }}</td>
                     <td>{{ row.name }}</td>
+                    <td>{{ row.idx }}</td>
                     <td v-if="row.is_partner">Yes</td>
                     <td v-if="!row.is_partner">No</td>
                     <td v-if="row.is_sticker">Yes</td>
                     <td v-if="!row.is_sticker">No</td>
                     <td>{{ row.updatedAt }}</td>
-<!--                    <tr>-->
-<!--                        <td colspan="5">-->
-<!--                            <button class="btn btn-primary" v-on:click="updateTime(row._id, row.name)">Update Time</button>-->
-<!--                            <a v-bind:href="'/admin/places/'+row._id+'/edit'" class="btn">Update</a>-->
-<!--                            <button class="btn btn-primary" v-on:click="onDeleteData(row._id)">Delete</button>-->
-<!--                        </td>-->
-<!--                    </tr>-->
                     <td class="text-center">
                         <button class="btn btn-primary my-2" v-on:click="updateTime(row._id, row.name)">Update Time</button>
                         <a v-bind:href="'/admin/places/'+row._id+'/edit'" class="btn my-2">Update</a>
