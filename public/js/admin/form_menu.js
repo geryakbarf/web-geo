@@ -43,7 +43,7 @@ var app = new Vue({
         },
         addvariant: function () {
             let id = CryptoJS.MD5(new Date().toString()).toString();
-            this.form.variant.push({id, name: ''})
+            this.form.variant.push({id, name: '', prices: ''})
         },
         deletevariant: function (id) {
             this.form.variant = this.form.variant.filter(e => e.id != id);
@@ -119,9 +119,9 @@ var app = new Vue({
                     return
                 }
                 //Null Check
-                if(this.form.prices.normal_price == null || this.form.prices.normal_price === '')
+                if (this.form.prices.normal_price == null || this.form.prices.normal_price === '')
                     this.form.prices.normal_price = 0;
-                if(this.form.prices.sale_price == null || this.form.prices.sale_price === '')
+                if (this.form.prices.sale_price == null || this.form.prices.sale_price === '')
                     this.form.prices.sale_price = 0;
                 //
                 this.loading = true;
@@ -154,9 +154,9 @@ var app = new Vue({
                     return
                 }
                 //Null Check
-                if(this.form.prices.normal_price == null || this.form.prices.normal_price === '')
+                if (this.form.prices.normal_price == null || this.form.prices.normal_price === '')
                     this.form.prices.normal_price = 0;
-                if(this.form.prices.sale_price == null || this.form.prices.sale_price === '')
+                if (this.form.prices.sale_price == null || this.form.prices.sale_price === '')
                     this.form.prices.sale_price = 0;
                 //
                 this.loading = true;
@@ -266,10 +266,12 @@ var app = new Vue({
                 const {data} = await res.json();
                 this.form = data;
                 //zero check validation
-                if(this.form.prices.sale_price == 0)
+                if (this.form.prices.sale_price == 0)
                     this.form.prices.sale_price = ''
-                if(this.form.prices.normal_price == 0)
+                if (this.form.prices.normal_price == 0)
                     this.form.prices.normal_price = ''
+                if (!this.form.variant)
+                    this.form.variant = [];
                 const [selectedCat] = this.formFieldValues.menu_categories.filter(e => e.name == data.category);
                 this.form.category = selectedCat;
                 this.loadPhotoFromData();
