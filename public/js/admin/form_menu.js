@@ -88,6 +88,17 @@ var app = new Vue({
                 return true
             else
                 return false
+        }, variantValidation: function () {
+            var condition = false;
+            if (this.form.variant.length > 0) {
+                for (var i = 0; i < this.form.variant.length; i++) {
+                    if (isNaN(this.form.variant[i].prices)) {
+                        condition = true
+                        break;
+                    }
+                }//endfor
+            }
+            return condition;
         },
         _onSaveParams: async function () {
             let formData = {...this.form};
@@ -116,6 +127,11 @@ var app = new Vue({
                 const check = this.validation();
                 if (check) {
                     toastr.error("Duh format harga tidak benar")
+                    return
+                }
+                const checkVariant = this.variantValidation();
+                if(checkVariant){
+                    toastr.error("Duh format harga varian tidak benar")
                     return
                 }
                 //Null Check
@@ -151,6 +167,11 @@ var app = new Vue({
                 const check = this.validation();
                 if (check) {
                     toastr.error("Duh format harga tidak benar")
+                    return
+                }
+                const checkVariant = this.variantValidation();
+                if(checkVariant){
+                    toastr.error("Duh format harga varian tidak benar")
                     return
                 }
                 //Null Check
