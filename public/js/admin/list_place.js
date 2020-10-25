@@ -9,8 +9,9 @@ var app = new Vue({
         placeCols: [
             {label: '#'},
             {label: 'Place Name', field: "name"},
+            {label: 'Index', field: "idx"},
             {label: 'Verified', field: "is_partner"},
-            {label: 'QR Sticker', field: "is_sticker"},
+            {label: 'Sticker', field: "is_sticker"},
             {label: 'Last Update', field: "updatedAt"},
             {label: 'Action'}
         ],
@@ -48,15 +49,15 @@ var app = new Vue({
             const diff = Math.ceil(parseInt((date2.getTime() - date1.getTime()) / (one_day)));
             //If Condition
             if (diff === 0)
-                updatedAt = 'Today at ' + hour
+                updatedAt = 'Today'
             else if (diff === 1)
-                updatedAt = 'Yesterday at ' + hour
+                updatedAt = 'Yesterday'
             else if (diff === 2)
-                updatedAt = diff + ' days ago at ' + hour
+                updatedAt = diff + ' days ago'
             else
                 updatedAt = lastUpdate
             if (condiiton)
-                return updatedAt;
+                return updatedAt.substring(0,10);
             else
                 return diff;
         },
@@ -91,6 +92,7 @@ var app = new Vue({
                         this.places[i].is_sticker = false
                     this.places[i].lastUpdate = this.compareDate(this.places[i].updatedAt, false);
                     this.places[i].updatedAt = this.compareDate(this.places[i].updatedAt, true);
+                    this.places[i].idx = i+1;
                 }
                 this.places_draft = this.places.filter(e => e.is_draft);
                 this.places_publish = this.places.filter(e => !e.is_draft && e.lastUpdate > 2);

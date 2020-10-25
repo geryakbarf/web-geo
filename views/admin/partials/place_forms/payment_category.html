@@ -40,14 +40,14 @@
                     <select class="form-select" v-bind:id="'paycatname'+paycat.id" v-model="paycat.name">
                         <option disabled selected value="">Choose an option</option>
                         <option v-bind:value="paycatlist.name" v-for="paycatlist in formFieldValues.paymentscat"
-                                v-if="paycat.type == 'QRIS'">{{paycatlist.name}}
+                                v-if="paycatlist.type == 'QRIS'">{{paycatlist.name}}
                         </option>
                     </select>
                 </div>
             </div>
             <div class="column col-5">
                 <div class="form-group">
-                    <label class="form-label" v-bind:for="'paycatcondition'+paycat.id">QRIS Condition*</label>
+                    <label class="form-label" v-bind:for="'paycatcondition'+paycat.id">QRIS Condition</label>
                     <input class="form-input" placeholder="*Minimal total bayar 70.000" type="text"
                            v-bind:id="'paycatname'+paycat.id"
                            v-model="paycat.condition">
@@ -64,14 +64,20 @@
         <div class="columns" v-for="paycat in form.payment_detail" v-if="paycat.type === 'Kartu Debit'">
             <div class="column col-5">
                 <div class="form-group">
-                    <label class="form-label" v-bind:for="'paycatname'+paycat.id">Debit Category Name*</label>
-                    <input class="form-input" placeholder="*BNI" type="text" v-bind:id="'paycatname'+paycat.id"
+                    <label class="form-label" v-bind:for="'paycatname'+paycat.id">Debit Category Name</label>
+                    <!--                    <select class="form-select" v-bind:id="'paycatname'+paycat.id" v-model="paycat.name">-->
+                    <!--                        <option disabled selected value="">Choose an option</option>-->
+                    <!--                        <option v-bind:value="paycatlist.name" v-for="paycatlist in formFieldValues.paymentscat"-->
+                    <!--                                v-if="paycatlist.type == 'Kartu Debit'">{{paycatlist.name}}-->
+                    <!--                        </option>-->
+                    <!--                    </select>-->
+                    <input class="form-input" placeholder="*BNI" v-binf:id="'paycatname'+paycat.id"
                            v-model="paycat.name">
                 </div>
             </div>
             <div class="column col-5">
                 <div class="form-group">
-                    <label class="form-label" v-bind:for="'paycatcondition'+paycat.id">Debit Condition*</label>
+                    <label class="form-label" v-bind:for="'paycatcondition'+paycat.id">Debit Condition</label>
                     <input class="form-input" placeholder="*Minimal total bayar 70.000" type="text"
                            v-bind:id="'paycatname'+paycat.id"
                            v-model="paycat.condition">
@@ -88,7 +94,7 @@
         <div class="columns" v-for="paycat in form.payment_detail" v-if="paycat.type === 'Kartu Kredit'">
             <div class="column col-5">
                 <div class="form-group">
-                    <label class="form-label" v-bind:for="'paycatname'+paycat.id">Credit Card Name*</label>
+                    <label class="form-label" v-bind:for="'paycatname'+paycat.id">Credit Card Name</label>
                     <input class="form-input" placeholder="*BNI" type="text" v-bind:id="'paycatname'+paycat.id"
                            v-model="paycat.name">
                 </div>
