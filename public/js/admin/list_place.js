@@ -49,11 +49,11 @@ var app = new Vue({
             const diff = Math.ceil(parseInt((date2.getTime() - date1.getTime()) / (one_day)));
             //If Condition
             if (diff === 0)
-                updatedAt = 'Today at ' + hour
+                updatedAt = 'Today'
             else if (diff === 1)
-                updatedAt = 'Yesterday at ' + hour
+                updatedAt = 'Yesterday'
             else if (diff === 2)
-                updatedAt = diff + ' days ago at ' + hour
+                updatedAt = diff + ' days ago'
             else
                 updatedAt = lastUpdate
             if (condiiton)
