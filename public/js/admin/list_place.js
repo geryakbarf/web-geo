@@ -11,7 +11,7 @@ var app = new Vue({
             {label: 'Place Name', field: "name"},
             {label: 'Index', field: "idx"},
             {label: 'Verified', field: "is_partner"},
-            {label: 'QR Sticker', field: "is_sticker"},
+            {label: 'Sticker', field: "is_sticker"},
             {label: 'Last Update', field: "updatedAt"},
             {label: 'Action'}
         ],
@@ -57,7 +57,7 @@ var app = new Vue({
             else
                 updatedAt = lastUpdate
             if (condiiton)
-                return updatedAt;
+                return updatedAt.substring(0,10);
             else
                 return diff;
         },
