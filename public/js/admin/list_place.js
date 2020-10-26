@@ -83,26 +83,29 @@ var app = new Vue({
         },
         updateTimeAll: async function () {
             var success = false;
-            for (var i = 0; i < this.places_publish.length; i++) {
-                const res = await fetch('/api/v1/places', {
-                    method: "PUT",
-                    body: JSON.stringify({
-                        _id: this.places_publish[i]._id,
-                        name: this.places_publish[i].name
-                    }),
-                    headers: {'Content-Type': "application/json"}
-                });
-                if (res.ok)
-                    success = true
-                else {
-                    success = false;
-                    break;
+            if (this.places_publish.length > 0) {
+                for (var i = 0; i < this.places_publish.length; i++) {
+                    const res = await fetch('/api/v1/places', {
+                        method: "PUT",
+                        body: JSON.stringify({
+                            _id: this.places_publish[i]._id,
+                            name: this.places_publish[i].name
+                        }),
+                        headers: {'Content-Type': "application/json"}
+                    });
+                    if (res.ok)
+                        success = true
+                    else {
+                        success = false;
+                        break;
+                    }
                 }
-            }
-            if (success) {
-                toastr.success("Success to update time")
-                this.loadPlaces();
-            } else toastr.error("Failed to delete data");
+                if (success) {
+                    toastr.success("Success to update time")
+                    this.loadPlaces();
+                } else toastr.error("Failed to update data");
+            } else
+                toastr.error("There are no places to be updated :/")
         },
         loadPlaces: async function () {
             const res = await fetch('/api/v1/places');
