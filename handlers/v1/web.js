@@ -210,7 +210,6 @@ const placeDetailPage = async (req, res) => {
         const lastUpdate = moment(place.updatedAt).format(dtlib.formats.lastUpdate);
         let payments = place.payments.map(e => (e.name));
         let ctas = {};
-        console.log(place.call_to_actions);
         place.call_to_actions.forEach(e => {
             if (e.value != '') ctas[e.type] = e.value;
             if (e.draft) {
@@ -219,9 +218,39 @@ const placeDetailPage = async (req, res) => {
                 }
             }
         })
-        console.log(ctas);
         payments = payments.length > 0 ? payments.join(', ') : 'Belum ada informasi';
         const city = place.city.charAt(0).toUpperCase() + place.city.slice(1);
+        var paymentscat = [];
+        place.payment_detail.forEach(e => {
+            var feed = {
+                type: e.type,
+                detail: []
+            };
+            paymentscat.push(feed);
+        });
+        //remove duplicate
+        var seenNames = {};
+        paymentscat = paymentscat.filter(function (currentObject) {
+            if (currentObject.type in seenNames) {
+                return false;
+            } else {
+                seenNames[currentObject.type] = true;
+                return true;
+            }
+        });
+        //Push Detail
+        for (var i = 0; i < paymentscat.length; i++) {
+            place.payment_detail.forEach(a => {
+                if (paymentscat[i].type === a.type) {
+                    var feed = {
+                        name: a.name,
+                        condition: a.condition
+                    };
+                    paymentscat[i].detail.push(feed);
+                }
+            });
+        }
+        //
         res.locals.pageTitle = place.name + ", " + city + " - Info menu digital terbaru dari emam.id"
         return res.render('place-detail', {
             place,
@@ -232,6 +261,7 @@ const placeDetailPage = async (req, res) => {
             lastUpdate,
             payments,
             ctas,
+            paymentscat,
             loadJS,
             loadCSS
         });
