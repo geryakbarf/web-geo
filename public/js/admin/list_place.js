@@ -57,7 +57,7 @@ var app = new Vue({
             else
                 updatedAt = lastUpdate
             if (condiiton)
-                return updatedAt.substring(0,10);
+                return updatedAt.substring(0, 10);
             else
                 return diff;
         },
@@ -81,6 +81,32 @@ var app = new Vue({
             } else toastr.error("Failed to delete data");
 
         },
+        updateTimeAll: async function () {
+            var success = false;
+            if (this.places_publish.length > 0) {
+                for (var i = 0; i < this.places_publish.length; i++) {
+                    const res = await fetch('/api/v1/places', {
+                        method: "PUT",
+                        body: JSON.stringify({
+                            _id: this.places_publish[i]._id,
+                            name: this.places_publish[i].name
+                        }),
+                        headers: {'Content-Type': "application/json"}
+                    });
+                    if (res.ok)
+                        success = true
+                    else {
+                        success = false;
+                        break;
+                    }
+                }
+                if (success) {
+                    toastr.success("Success to update time")
+                    this.loadPlaces();
+                } else toastr.error("Failed to update data");
+            } else
+                toastr.error("There are no places to be updated :/")
+        },
         loadPlaces: async function () {
             const res = await fetch('/api/v1/places');
             const data = await res.json();
@@ -92,7 +118,7 @@ var app = new Vue({
                         this.places[i].is_sticker = false
                     this.places[i].lastUpdate = this.compareDate(this.places[i].updatedAt, false);
                     this.places[i].updatedAt = this.compareDate(this.places[i].updatedAt, true);
-                    this.places[i].idx = i+1;
+                    this.places[i].idx = i + 1;
                 }
                 this.places_draft = this.places.filter(e => e.is_draft);
                 this.places_publish = this.places.filter(e => !e.is_draft && e.lastUpdate > 2);
