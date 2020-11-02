@@ -30,6 +30,18 @@
     }
   });
 
+  //info pembayaran
+  // $(".txt-metode-pembayaran").click(function () {
+  //   $(".layout-pembayaran").toggle();
+  // });
+
+  $(document).ready(function () {
+    $("#tab-pembayaran a").click(function (e) {
+      e.preventDefault();
+      $(this).tab("show");
+    });
+  });
+
   //click gambar
   $("#thumbs img").click(function () {
     $("#img-main").attr("src", $(this).attr("src"));
@@ -59,10 +71,10 @@
     setTimeout(function () {
       $("html, body").scrollTop(0).show();
       $("html, body").animate(
-        {
-          scrollTop: $(window.location.hash).offset().top - 100,
-        },
-        1000
+          {
+            scrollTop: $(window.location.hash).offset().top - 100,
+          },
+          1000
       );
     }, 0);
   } else {
@@ -79,9 +91,7 @@ var sticky = layout.offsetTop;
 function myFunction() {
   if (window.pageYOffset >= sticky) {
     navbar.classList.add("sticky");
-    navbar.classList.remove("d-none");
   } else {
     navbar.classList.remove("sticky");
-    navbar.classList.add("d-none");
   }
 }
