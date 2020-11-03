@@ -8,7 +8,7 @@ var app = new Vue({
             _id: null,
             name: '',
             slug: '',
-            city: '',
+            city: 'bandung',
             address: '',
             categories: [],
             menu_categories: [],
