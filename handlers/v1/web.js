@@ -8,8 +8,6 @@ const nodemailer = require('nodemailer');
 const homePage = async (req, res) => {
     res.locals.pageTitle = "Kulineran aman dengan menu digital - emam.id"
     const loadJS = [
-        {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
-        {src: "https://cdn.jsdelivr.net/npm/vuejs-datatable@2.0.0-alpha.7/dist/vuejs-datatable.js"},
         {src: "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
         {src: "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
         {src: '/assets/js/home.js'}
