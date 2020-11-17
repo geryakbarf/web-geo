@@ -9,5 +9,6 @@ module.exports = (req, res, next)=>{
     res.locals.FB_MESSANGER_SENDER_ID = process.env.FB_MESSANGER_SENDER_ID;
     res.locals.FB_APP_ID = process.env.FB_APP_ID;
     res.locals.FB_MEASUREMENT_ID = process.env.FB_MEASUREMENT_ID;
+    res.locals.API_BACKEND_URL = process.env.API_BACKEND_URL;
     next();
 }

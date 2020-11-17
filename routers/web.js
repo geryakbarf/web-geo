@@ -62,6 +62,19 @@ router.get("/coming-soon", (req, res) => {
     res.render("coming-soon");
 });
 
+router.get("/auth", (req, res) => {
+    const loadJS = [
+        {src:"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        {src:"/assets/js/auth.js"},
+    ]
+    res.render("login", {loadJS});
+});
+
+router.get("/profile", (req, res) => {
+    res.locals.pageTitle = "My Profile"
+    res.render("profile");
+});
+
 router.get("/tell-us/:slug", web.tellUs)
 
 router.get("/p/:slug", common.commingsoon, web.placeDetailPage);

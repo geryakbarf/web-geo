@@ -73,6 +73,9 @@
                 });
         });
     }
+    <% if(locals.API_BACKEND_URL){ %>
+        var emapi_base = '<%=locals.API_BACKEND_URL%>';
+    <% } %>
 </script>
 <% if(locals.FB_ENABLE == 'true'){ %>
     <!-- Firebase -->
