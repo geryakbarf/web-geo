@@ -6,7 +6,7 @@ const _UserSectionTemplate = `
     </div>
     <div class="col-lg-9 layout-data-profile">
         <H4>{{ profile.nama }}</H4>
-        <p class="mb-3">@anggarawfp</p>
+        <p class="mb-3">@{{profile.username}}</p>
         <div class="layout-stats">
             <p class="inline stat-profile"><b>4 </b>foodlist</p>
             <p class="inline stat-profile"><b>110M </b>Followers</p>
