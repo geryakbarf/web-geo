@@ -63,16 +63,25 @@ router.get("/coming-soon", (req, res) => {
 });
 
 router.get("/auth", (req, res) => {
+    res.locals.pageTitle = "Authentikasi";
     const loadJS = [
         {src:"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
         {src:"/assets/js/auth.js"},
-    ]
+    ];
     res.render("login", {loadJS});
 });
 
 router.get("/profile", (req, res) => {
-    res.locals.pageTitle = "My Profile"
-    res.render("profile");
+    res.locals.pageTitle = "My Profile";
+    const loadJS = [
+        {src:"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        {src:"/assets/js/profile/user-section.js"},
+        {src:"/assets/js/profile/wishlist-tab.js"},
+        {src:"/assets/js/profile/foodlist-tab.js"},
+        {src:"/assets/js/profile/tab-section.js"},
+        {src:"/assets/js/profile/main.js"},
+    ];
+    res.render("profile", {loadJS});
 });
 
 router.get("/tell-us/:slug", web.tellUs)

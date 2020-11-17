@@ -98,6 +98,9 @@ var app = new Vue({
                 }).then(function(res){
                     if(res.err_code && res.err_code == "004"){
                         $this.loading = false;
+                    }else if(res.err_code && res.err_code == "400"){
+                        $this.loading = false;
+                        $this.formRegisterErrMessage = res.message;
                     } else {
                         localStorage.setItem("token", res.data.token);
                         window.location = "/"
