@@ -100,6 +100,18 @@ var app = new Vue({
             }
             return condition;
         },
+        isCategoryEmpty: function () {
+            let condition = false;
+            if (this.formFieldValues.menu_categories.length === 0)
+                condition = true;
+            return condition;
+        },
+        isCategoryNotSelected: function () {
+            let condition = false;
+            if (this.form.category === '')
+                condition = true;
+            return condition;
+        },
         _onSaveParams: async function () {
             let formData = {...this.form};
             let photoTmp = this.formTmp.photo;
@@ -124,14 +136,25 @@ var app = new Vue({
         },
         onSave: async function (close = false) {
             try {
+                //Bagian Valiadi
                 const check = this.validation();
                 if (check) {
                     toastr.error("Duh format harga tidak benar")
                     return
                 }
                 const checkVariant = this.variantValidation();
-                if(checkVariant){
+                if (checkVariant) {
                     toastr.error("Duh format harga varian tidak benar")
+                    return
+                }
+                const isCategoryEmpty = this.isCategoryEmpty();
+                if (isCategoryEmpty) {
+                    toastr.error("Duh, kategori masih kosong lur")
+                    return
+                }
+                const isCategoryNotSelected = this.isCategoryNotSelected();
+                if (isCategoryNotSelected) {
+                    toastr.error("Duh, kategori belum dipilih lur")
                     return
                 }
                 //Null Check
@@ -164,14 +187,25 @@ var app = new Vue({
         },
         onSaveNew: async function (close = false) {
             try {
+                //Bagian Validasi
                 const check = this.validation();
                 if (check) {
                     toastr.error("Duh format harga tidak benar")
                     return
                 }
                 const checkVariant = this.variantValidation();
-                if(checkVariant){
+                if (checkVariant) {
                     toastr.error("Duh format harga varian tidak benar")
+                    return
+                }
+                const isCategoryEmpty = this.isCategoryEmpty();
+                if (isCategoryEmpty) {
+                    toastr.error("Duh, kategori masih kosong lur")
+                    return
+                }
+                const isCategoryNotSelected = this.isCategoryNotSelected();
+                if (isCategoryNotSelected) {
+                    toastr.error("Duh, kategori belum dipilih lur")
                     return
                 }
                 //Null Check
