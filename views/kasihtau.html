@@ -13,8 +13,7 @@
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input class="form-control box-text"
-                           v-model="form.email">
+                    <input class="form-control box-text" v-model="form.email">
                 </div>
                 <div class="form-group">
                     <label class="label">Kasih Tau</label>
@@ -32,16 +31,16 @@
                 </div>
                 <div class="form-group mt-3">
                     <label>Pesan</label>
-                    <textarea class="form-control box-text" required="required"
-                              rows="11" style="resize: none;" type="email" v-model="form.pesan"></textarea>
+                    <textarea class="form-control box-text" required="required" rows="11" style="resize: none;"
+                        type="text" v-model="form.pesan"></textarea>
                 </div>
                 <div class="g-recaptcha">
-                    <vue-recaptcha @verify="onVerify"
-                                   ref="recaptcha" sitekey="6LdkWNcUAAAAAE3vhjVJRPX_VxYjkpcY4ih_sR9S">
+                    <vue-recaptcha @verify="onVerify" ref="recaptcha"
+                        sitekey="6LdkWNcUAAAAAE3vhjVJRPX_VxYjkpcY4ih_sR9S">
                     </vue-recaptcha>
                 </div>
                 <button class="btn btn-kirim mt-3" id="kirim" name="kirim" style="display: block; margin: 0 auto;"
-                        type="submit" v-on:click="onSave(true)">
+                    type="submit" v-on:click="onSave(true)">
                     Kirim
                 </button>
             </div>
