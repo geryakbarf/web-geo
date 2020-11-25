@@ -53,6 +53,5 @@ const UserSection = {
         
     },
     mounted(){
-        console.log(this.profile)
     }
 }

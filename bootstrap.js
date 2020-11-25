@@ -4,7 +4,8 @@ const app = express()
 const path = require('path')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload');
-const mongo = require('./data/mongo/index')
+const mongo = require('./data/mongo/index');
+const session = require('cookie-session');
 
 const db = mongo.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -12,6 +13,11 @@ db.once('open', function() {
     console.log("Connection Established");
 });
 
+app.use(session({
+  name: "mames",
+  keys: [process.env.SESSION_KEY],
+  maxAge: 24 * 60 * 60 * 1000 * 720
+}))
 
 // upload
 app.use(fileUpload())

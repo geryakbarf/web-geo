@@ -64,7 +64,7 @@ var app = new Vue({
                     $this.loading = false;
                 } else {
                     localStorage.setItem("token", res.data.token);
-                    window.location = "/"
+                    window.location = "/sess?token="+ res.data.token;
                 }
             }).catch(function(error){
                 console.log(error);
@@ -103,7 +103,7 @@ var app = new Vue({
                         $this.formRegisterErrMessage = res.message;
                     } else {
                         localStorage.setItem("token", res.data.token);
-                        window.location = "/"
+                        window.location = "/sess?token="+ res.data.token;
                     }
                 }).catch(function(error){
                     console.log(error);

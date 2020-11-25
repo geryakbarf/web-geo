@@ -6,7 +6,7 @@ const moment = require('moment');
 const nodemailer = require('nodemailer');
 
 const homePage = async (req, res) => {
-    res.locals.pageTitle = "Kulineran aman dengan menu digital - emam.id"
+    res.locals.pageTitle = "Kulineran aman dengan menu digital - emam.id";
     const loadJS = [
         {src: "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
         {src: "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},

@@ -15,11 +15,11 @@ var profilePageApp = new Vue({
                 </div>
                 <div v-if="!loading">
                     <user-section />
-                    <tab-section /> 
+                    <tab-section :on-tab-change="onTabChange" /> 
                     <section class="section-menu-profile">
                         <div class="tab-content">
-                            <food-list-tab />
-                            <wish-list-tab />
+                            <food-list-tab v-if="tabIndex == 1" />
+                            <wish-list-tab v-if="tabIndex == 2" />
                         </div>
                     </section>
                 </div>
@@ -33,9 +33,13 @@ var profilePageApp = new Vue({
             loading: false,
             error: null,
             profile: {},
+            tabIndex: 1
         }
     },
     methods: {
+        onTabChange: function(index){
+            this.tabIndex = index;
+        },
         loadProfile: function(){
             const token = localStorage.getItem('token');
             const $this = this;
