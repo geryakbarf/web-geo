@@ -104,9 +104,22 @@ router.get("/setting-profile", (req, res) => {
   res.render("setting-profile");
 });
 
-router.get("/edit-foodlist", (req, res) => {
+router.get("/foodlist/new", (req, res) => {
+  res.locals.pageTitle = "Tambah foodlist - emam.id";
+  const loadJS = [
+      {src:"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+      {src:"/assets/js/form-foodlist/main.js"},
+  ];
+  res.render("form-foodlist", {loadJS, isEdit: false});
+});
+
+router.get("/foodlist/:foodListID/edit", (req, res) => {
   res.locals.pageTitle = "Edit foodlist - emam.id";
-  res.render("edit-foodlist");
+  const loadJS = [
+    {src:"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+    {src:"/assets/js/form-foodlist/main.js"},
+  ];
+  res.render("form-foodlist", {loadJS, isEdit: true});
 });
 
 router.get("/foodlist", (req, res) => {

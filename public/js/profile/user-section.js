@@ -8,7 +8,7 @@ const _UserSectionTemplate = `
         <H4>{{ profile.nama }}</H4>
         <p class="mb-3">@{{profile.username}}</p>
         <div class="layout-stats">
-            <p class="inline stat-profile"><b>4 </b>foodlist</p>
+            <p class="inline stat-profile"><b>{{foodlistCount}} </b>foodlist</p>
             <p class="inline stat-profile"><b>110M </b>Followers</p>
             <p class="inline stat-profile"><b>110M </b>Following</p>
         </div>
@@ -44,14 +44,13 @@ const _UserSectionTemplate = `
 `
 const UserSection = {
     template: _UserSectionTemplate,
+    props: {foodlistCount: Number},
     data() {
         return {
-            profile: this.$root.profile
+            profile: this.$root.profile,
         };
     },
-    computed:{
-        
-    },
     mounted(){
+        
     }
 }

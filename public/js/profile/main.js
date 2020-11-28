@@ -14,11 +14,11 @@ var profilePageApp = new Vue({
                     </div>
                 </div>
                 <div v-if="!loading">
-                    <user-section />
+                    <user-section :foodlist-count="foodlistCount" />
                     <tab-section :on-tab-change="onTabChange" /> 
-                    <section class="section-menu-profile">
+                    <section class="section-menu-profile" style="margin-top:0;">
                         <div class="tab-content">
-                            <food-list-tab v-if="tabIndex == 1" />
+                            <food-list-tab :on-food-list-loaded="onFoodListLoaded" v-if="tabIndex == 1" />
                             <wish-list-tab v-if="tabIndex == 2" />
                         </div>
                     </section>
@@ -33,25 +33,29 @@ var profilePageApp = new Vue({
             loading: false,
             error: null,
             profile: {},
-            tabIndex: 1
+            token: localStorage.getItem('token'),
+            tabIndex: 1,
+            foodlistCount: 0
         }
     },
     methods: {
         onTabChange: function(index){
             this.tabIndex = index;
         },
+        onFoodListLoaded: function(foodlist){
+            this.foodlistCount = foodlist.length;
+        },
         loadProfile: function(){
-            const token = localStorage.getItem('token');
             const $this = this;
             this.loading = true;
             fetch(emapi_base+ "/v1/me",{
                 method: "GET",
                 headers: {
                     'Content-Type': "application/json",
-                    'authorization': "Bearer "+token
+                    'authorization': "Bearer "+ this.token
                 }
             }).then(function(res){
-                if(res.status == 500) throw new Error("internal server error");
+                if(res.status != 200) throw new Error("internal server error");
                 return res.json();
             }).then(function(res){
                 $this.loading = false;
@@ -61,13 +65,20 @@ var profilePageApp = new Vue({
                     avatar: data.avatar,
                     bio: data.bio,
                     username: data.username,
+                    _id: data._id
                 }
             }).catch(function(error){
-                $this.loading = false;
+                window.location = "/";
+                console.log(error);
             })
-        }
+        },
     },
     mounted(){
         this.loadProfile();
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabIndex = urlParams.get('ti');
+        if(tabIndex)
+            this.tabIndex = tabIndex;
+
     }
 });

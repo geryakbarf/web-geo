@@ -12,30 +12,32 @@
 
                         <% for(place of allPlaces) { %>
                         <div class="col-lg-3 col-md-4 col-sm-6 col-6 my-1 card-container">
-                            <a href="/p/<%= place.slug %>">
                                 <div class="card-layout">
                                     <div class="card-box">
                                         <div class="img-box">
                                             <div class="layout-btn-absolute">
-                                                <div class="btn-icon inline mx-1">
+                                                <div class="btn-icon inline mx-1" style="cursor: pointer;">
                                                     <img src="/assets/images/icon/emam-host-save-default.svg"
                                                         alt="save button" id="save">
                                                 </div>
-                                                <div class="btn-icon inline mx-1">
-                                                    <img src="/assets/images/icon/emam-host-like-default.svg"
+                                                <div class="btn-icon inline mx-1" style="cursor: pointer;">
+                                                    <img data-is-liked="<%= place.is_liked %>" onclick="onWistListClicked('<%= place._id %>',this)" src="/assets/images/icon/emam-host-like-<%= place.is_liked? 'active': 'default' %>.svg"
                                                         alt="like button" id="like">
                                                 </div>
                                             </div>
-                                            <img alt="Photo Tempat <%= place.name %>" class="img-tempatmakan"
+                                            <a href="/p/<%= place.slug %>">
+                                                <img alt="Photo Tempat <%= place.name %>" class="img-tempatmakan"
                                                 src="<%= place.photo.path ? place.photo.path : '/assets/images/emam-menu-no-photos.jpg' %>" />
+                                            </a>
                                         </div>
-                                        <div class="card-body">
-                                            <h4 class="txt-h-nama-tempatmakan"><%= place.name %></h4>
-                                            <p class="txt-alamat-tempatmakan"><%= place.address %></p>
-                                        </div>
+                                        <a href="/p/<%= place.slug %>">
+                                            <div class="card-body">
+                                                <h4 class="txt-h-nama-tempatmakan"><%= place.name %></h4>
+                                                <p class="txt-alamat-tempatmakan"><%= place.address %></p>
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
-                            </a>
                         </div>
                         <% } %>
                         <% } else if(locals.allMenus.length > 0){ %>

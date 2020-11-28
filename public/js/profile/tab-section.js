@@ -7,10 +7,10 @@ const _TabSectionTemplate = `
                     <div class="card-tabs" style="overflow: auto; white-space: nowrap;">
                         <ul class="nav navbar-tab" id="tab-menu" role="tablist">
                             <li class="nav-item-tab mr-3">
-                                <a class="nav-link-tab" :class="[tabIndex == 1 ? 'active':'']" @click="tabChange(1)" href="javascript:void()">Foodlist</a>
+                                <a class="nav-link-tab" :class="[tabIndex == 1 ? 'active':'']" @click="tabChange(1)" href="javascript:void()">Food list</a>
                             </li>
                             <li class="nav-item-tab mr-3">
-                                <a class="nav-link-tab" :class="[tabIndex == 2 ? 'active':'']" @click="tabChange(2)" href="javascript:void()">Wishlist</a>
+                                <a class="nav-link-tab" :class="[tabIndex == 2 ? 'active':'']" @click="tabChange(2)" href="javascript:void()">Wish list</a>
                             </li>
                         </ul>
                     </div>
