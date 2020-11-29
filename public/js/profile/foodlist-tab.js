@@ -16,8 +16,8 @@ const _FoodListTabTemplate = `
         </div>
         <div class="col-lg-3 col-6 mb-4" v-for="list of foodlist">
             <div class="card-link">
-                <a href="#">
-                    <div class="card-foodlist" :style="placePhoto(list.banner)">
+                <a :href="'/foodlist/'+list._id">
+                    <div class="card-foodlist" :style="foodlistBanner(list.banner)">
                     </div>
                     <h5 class="mt-2"
                         style="font-size: 14px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;">
@@ -42,7 +42,7 @@ const FoodListTab = {
     methods: {
         loadFoodlist: function() {
             const $this = this;
-            const url = emapi_base+"/v1/foodlist?ownerID="+this.$root.profile._id;
+            const url = emapi_base+"/v1/foodlist-my";
             this.loading = true;
             fetch(url, {
                 method: "GET",
@@ -66,8 +66,8 @@ const FoodListTab = {
         placeCount: function(listPlaces){
             return listPlaces ? listPlaces.length: 0;
         },
-        placePhoto: function(banner){
-            let imageURL = banner ? banner: '/assets/images/emam-cafe.png';
+        foodlistBanner: function(banner){
+            let imageURL = banner ? banner.path: '/assets/images/emam-cafe.png';
             return `background-image: url('${imageURL}')` ;
         }
     },

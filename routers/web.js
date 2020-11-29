@@ -4,6 +4,7 @@ const common = require("../middlewares/common");
 const web = require("../handlers/v1/web");
 const axios = require("axios");
 const placeHandler = require("../handlers/v1/places");
+const foodlistHandler = require("../handlers/v1/foodlist");
 const router = express.Router();
 
 router.use(async (req, res, next) => {
@@ -106,26 +107,27 @@ router.get("/setting-profile", (req, res) => {
 
 router.get("/foodlist/new", (req, res) => {
   res.locals.pageTitle = "Tambah foodlist - emam.id";
+  if(!req.session.web) res.redirect("/");
   const loadJS = [
       {src:"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
-      {src:"/assets/js/form-foodlist/main.js"},
+      {src:"/assets/js/foodlist/form.js"},
   ];
-  res.render("form-foodlist", {loadJS, isEdit: false});
+  res.render("form-foodlist", {loadJS, foodListID: null});
 });
 
 router.get("/foodlist/:foodListID/edit", (req, res) => {
   res.locals.pageTitle = "Edit foodlist - emam.id";
+  if(!req.session.web) res.redirect("/");
+  const {foodListID} = req.params;
   const loadJS = [
     {src:"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
-    {src:"/assets/js/form-foodlist/main.js"},
+    {src:"/assets/js/foodlist/form.js"},
   ];
-  res.render("form-foodlist", {loadJS, isEdit: true});
+  res.render("form-foodlist", {loadJS, foodListID});
 });
 
-router.get("/foodlist", (req, res) => {
-  res.locals.pageTitle = "Foodlist - emam.id";
-  res.render("foodlist");
-});
+router.get("/foodlist/:foodListID", foodlistHandler.showFoodlist);
+router.get("/foodlist/:foodListID/add-place", foodlistHandler.addPlace);
 
 router.get("/business", common.commingsoon, (req, res) => {
   res.redirect("/under-construction");

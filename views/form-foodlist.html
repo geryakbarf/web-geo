@@ -9,6 +9,11 @@
     </div>
 </main>
 <script>
-    var isEdit = <%= isEdit %>;
+    <% if (foodListID) {%>
+        var foodListID = "<%= foodListID %>";
+    <% } else {%>
+        var foodListID = null;
+    <% }%>
+
 </script>
 <%- include('./partials/footer.html') %>
