@@ -171,8 +171,7 @@ var formFoodlistApp = new Vue({
                     headers:this.headers, method:"GET"
                 });
                 const {data} = await res.json();
-                const {totalPlaces, listPlaces, is_owned, ...rest} = data;
-                console.log(rest);
+                const {totalPlaces, listPlaces, is_owned, user, ...rest} = data;
                 this.form = rest;
                 this.loadBannerFromData();
             } catch (error) {

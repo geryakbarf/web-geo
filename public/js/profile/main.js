@@ -35,6 +35,7 @@ var profilePageApp = new Vue({
             profile: {},
             token: localStorage.getItem('token'),
             tabIndex: 1,
+            username,
             foodlistCount: 0
         }
     },
@@ -48,7 +49,8 @@ var profilePageApp = new Vue({
         loadProfile: function(){
             const $this = this;
             this.loading = true;
-            fetch(emapi_base+ "/v1/me",{
+            const uri = username? `/v1/profile/${username}`:"/v1/me";
+            fetch(emapi_base+ uri,{
                 method: "GET",
                 headers: {
                     'Content-Type': "application/json",
@@ -67,6 +69,7 @@ var profilePageApp = new Vue({
                     username: data.username,
                     _id: data._id
                 }
+                document.title = `@${data.username} - emam.id`
             }).catch(function(error){
                 window.location = "/";
                 console.log(error);

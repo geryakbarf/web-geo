@@ -54,18 +54,24 @@
                                                 <div class="col-lg-3 col-md-4 col-sm-6 col-6 my-1 card-container">
                                                     <div class="card-group" style="height: 100%;">
                                                         <div class="layout-btn-absolute">
-                                                            <a href="javascript:void(0)">
-                                                                <div class="btn-icon inlineblock mx-1">
-                                                                    <img src="/assets/images/icon/emam-host-save-active.svg" alt="save button">
-                                                                </div>
-                                                            </a>
+                                                            <%if(foodlist.is_owned) {%>
+                                                                <a href="javascript:void(0)" @click="deleteItemFromFoodList('<%= foodlist._id %>','<%= place._id %>')">
+                                                                    <div class="btn-icon inlineblock mx-1" style="margin: 0!important;padding: 1px 6px!important">
+                                                                        <i class="fa fa-close"></i>
+                                                                    </div>
+                                                                </a>
+                                                            <% } %>
                                                             <!-- <a href="#">
                                                                 <div class="btn-icon inlineblock mx-1">
                                                                     <img src="/assets/images/icon/emam-host-like-active.svg" alt="like button">
                                                                 </div>
                                                             </a> -->
                                                         </div>
-                                                        <a href="/p/<%= place.slug %>">
+                                                        <% if(place.slug) {%>
+                                                            <a href="/p/<%= place.slug %>">
+                                                        <% } else { %>
+                                                            <a href="<%= foodlist.is_owned ? `/foodlist/${foodlist._id}/edit-place?placeID=${place._id}` : '#' %>">
+                                                        <% } %>
                                                             <div class="card-layout">
                                                                 <div class="card-box">
                                                                     <div class="img-box">

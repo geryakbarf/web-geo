@@ -109,6 +109,14 @@ function debounce(func, wait = 100) {
 function onWistListClicked(placeID, el){
   const is_liked = el.getAttribute("data-is-liked");
   const token = localStorage.getItem("token");
+  if(!token){
+    Snackbar.show({ pos: 'bottom-center', text: "Anda belum login.", actionTextColor: "#e67e22", duration: 2000 });
+    setTimeout(function(){
+      window.location = "/auth";
+    },2000)
+
+    return;
+  }
   const url = is_liked == "true" ? "/v1/wishlist-remove" : "/v1/wishlist";
   setTimeout(function() {
     fetch(emapi_base + url,{

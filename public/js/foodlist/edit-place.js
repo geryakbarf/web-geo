@@ -1,32 +1,10 @@
-Vue.component('v-select', VueSelect.VueSelect);
-var formFoodlistApp = new Vue({
-    el: "#add-to-foodlist",
+var editPlaceFoodList = new Vue({
+    el: "#edit-place-food-list",
     template: `
         <div>
             <section class="row justify-content-center">
                 <div class="col-lg-6 col-md-8 col-12">
-                    <div class="col-12" v-if="!manualInput">
-                        <div class="form-group mt-30">
-                            <label>Nama Tempat</label>
-                            <v-select v-model="selected" label="name" :filterable="false" :options="options" @search="onSearch">
-                                <template slot="no-options">
-                                    <span v-if="options.length == 0 && searchKeyword.length == 0">ketikan nama tempat yang ingin di cari</span> 
-                                    <span v-if="options.length == 0 && searchKeyword.length > 0">Tempat yang kamu cari ga ada. <a href="javascript:void(0)" @click="toggleManualInput">Klik disini untuk tambah manual.</a></span> 
-                                </template>
-                                <template slot="option" slot-scope="option">
-                                <div class="d-center">
-                                    {{ option.name }} - {{ option.address }}
-                                    </div>
-                                </template>
-                                <template slot="selected-option" slot-scope="option">
-                                    <div class="selected d-center">
-                                        {{ option.name }} - {{ option.address }}
-                                    </div>
-                                </template>
-                            </v-select>
-                        </div>
-                    </div>
-                    <div v-if="manualInput" class="col-12">
+                    <div  class="col-12">
                         <div class="form-group">
                             <label>Nama Tempat</label>
                             <input type="text" name="name" v-model="form.name" :readonly="loading" required class="form-control box-text">
@@ -42,7 +20,6 @@ var formFoodlistApp = new Vue({
                             <input id="photo" style="display:none;" type="file" v-on:change="onPhotoChange"/>
                             <label :for="!loading? 'photo': 'no-photo'" class="mx-auto text-red" style="display: inline;cursor:pointer;">Ubah Gambar</label>
                         </div>
-                        <p>anda Ingin mencoba menggunakan pencarian lagi? <a href="javascript:void(0)" @click="toggleManualInput">Klik disini</a></p>
                         
                     </div>
                     <div class="col-12">
@@ -66,13 +43,10 @@ var formFoodlistApp = new Vue({
             },
             options: [],
             loading: false,
-            selected: null,
-            searchKeyword: "",
-            manualInput: false,
             form: {
-                name: "",
-                address: "",
-                photo: null,
+                name: place.name,
+                address: place.address,
+                photo: place.photo,
             },
             formTmp: {
                 photo: null
@@ -81,8 +55,7 @@ var formFoodlistApp = new Vue({
     },
     methods: {
         async _onSaveParams() {
-            if (!this.manualInput && this.selected) return { placeID: this.selected._id, foodListID };
-            let formData = { manual: this.form, foodListID };
+            let formData = { manual: this.form, foodListID, placeID: place._id };
             let photoTmp = this.formTmp.photo;
             let photo = formData.photo;
             if (photoTmp) {
@@ -116,10 +89,10 @@ var formFoodlistApp = new Vue({
             }
 
         },
-        async addPlace(formData) {
+        async editPlace(formData) {
             try {
-                const res = await fetch(emapi_base + '/v1/foodlist-insert', {
-                    method: "POST",
+                const res = await fetch(emapi_base + '/v1/foodlist/item-update', {
+                    method: "PUT",
                     body: JSON.stringify(formData),
                     headers: this.headers
                 });
@@ -131,6 +104,20 @@ var formFoodlistApp = new Vue({
                 return Promise.reject(error);
             }
         },
+        loadPhotoFromData: async function() {
+            if (!this.form.photo) return;
+            const _this = this;
+            const fileUrl = this.form.photo.path;
+            const res = await fetch(fileUrl);
+            const blob = await res.blob();
+            const file = new File([blob], fileUrl, { type: blob.type });
+            this.formTmp.photo = file;
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                _this.$refs.photo.src = e.target.result
+            }
+            reader.readAsDataURL(file);
+        },
         async onSave() {
             if (!this.isSaveable) return;
             if (this.loading) return;
@@ -139,7 +126,7 @@ var formFoodlistApp = new Vue({
             var $this = this;
             try {
                 const formData = await this._onSaveParams();
-                await this.addPlace(formData);
+                await this.editPlace(formData);
                 this.showSnackbar("Berhasil menambah tempat pada food list", 1000);
                 setTimeout(() => {
                     $this.loading = false;
@@ -154,9 +141,6 @@ var formFoodlistApp = new Vue({
         },
         showSnackbar: function(text, duration = 3000) {
             Snackbar.show({ pos: 'bottom-center', text, actionTextColor: "#e67e22", duration });
-        },
-        toggleManualInput() {
-            this.manualInput = this.manualInput ? false : true;
         },
         onPhotoChange: function(e) {
             try {
@@ -188,11 +172,10 @@ var formFoodlistApp = new Vue({
     },
     computed: {
         isSaveable() {
-            let condition = false;
-            if (!this.manualInput && this.selected) condition = true;
-            else if (this.manualInput && this.form.name != "" && this.formTmp.photo != null) condition = true;
-            return condition;
+            return this.form.name != "" && this.formTmp.photo != null ? true : false;
         }
     },
-    mounted() {}
+    mounted() {
+        this.loadPhotoFromData();
+    }
 });

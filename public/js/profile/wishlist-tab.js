@@ -9,17 +9,17 @@ const _WishListTabTemplate = `
     <div class="row" v-if="!loading">
         <div class="col-lg-12 col-md-12 col-sm-12 col-12 my-1 text-center" v-if="wishlist.length == 0">
             <p>Tidak ada wish list tempat makan :(</p>
-            <a href="/explore" class="btn btn-fill">Cari tempat makan</a>
+            <a href="/explore" v-if="!username" class="btn btn-fill">Cari tempat makan</a>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-12 my-1" v-if="wishlist.length > 0">
-            <a href="/explore" class="btn btn-fill">Tambah wish list</a>
+            <a href="/explore" v-if="!username" class="btn btn-fill">Tambah wish list</a>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 col-6 my-1 card-container" v-for="place of wishlist">
             <div class="card-group" style="height: 100%;">
                 <div class="layout-btn-absolute">
                     <a href="javascript:void(0)" @click="onLoveButtonPressed(place._id)">
                         <div class="btn-icon inlineblock mx-1">
-                            <img src="/assets/images/icon/emam-host-like-active.svg"
+                            <img :src="'/assets/images/icon/emam-host-like-'+(!username ? 'active': 'default')+'.svg'"
                                 alt="like button">
                         </div>
                     </a>
@@ -48,7 +48,8 @@ const WishListTab = {
     data() {
         return {
             wishlist: [],
-            loading: false
+            loading: false,
+            username: this.$root.username
         };
     },
     methods: {
@@ -76,6 +77,14 @@ const WishListTab = {
         },
         onLoveButtonPressed: function(placeID) {
             const $this = this;
+            if(!this.token){
+                Snackbar.show({ pos: 'bottom-center', text: "Anda belum login.", actionTextColor: "#e67e22", duration: 2000 });
+                setTimeout(function(){
+                  window.location = "/auth";
+                },2000)
+            
+                return
+              }
             if(confirm("Apa anda yakin akan menghapus tempat makan ini dari wishlist?")){
                 this.loading = true;
                 fetch(emapi_base + "/v1/wishlist-remove",{

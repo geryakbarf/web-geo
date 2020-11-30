@@ -9,8 +9,6 @@ const _UserSectionTemplate = `
         <p class="mb-3">@{{profile.username}}</p>
         <div class="layout-stats">
             <p class="inline stat-profile"><b>{{foodlistCount}} </b>foodlist</p>
-            <p class="inline stat-profile"><b>110M </b>Followers</p>
-            <p class="inline stat-profile"><b>110M </b>Following</p>
         </div>
         <p class="mt-3 no-sp" style="color: #4C4C4C;">Bandung, Indonesia</p>
         <p class="no-sp">{{profile.bio}}</p>

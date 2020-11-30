@@ -9,10 +9,10 @@ const _FoodListTabTemplate = `
     <div class="row" v-if="!loading">
         <div class="col-lg-12 col-md-12 col-sm-12 col-12 my-1 text-center" v-if="foodlist.length == 0">
             <p>Tidak ada food list tempat makan :(</p>
-            <a href="/foodlist/new" class="btn btn-fill">Buat food list</a>
+            <a href="/foodlist/new" v-if="!username" class="btn btn-fill">Buat food list</a>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-12 my-1" v-if="foodlist.length > 0">
-            <a href="/foodlist/new" class="btn btn-fill" style="margin-bottom: 5px;">Tambah food list</a>
+            <a href="/foodlist/new" v-if="!username" class="btn btn-fill" style="margin-bottom: 5px;">Tambah food list</a>
         </div>
         <div class="col-lg-3 col-6 mb-4" v-for="list of foodlist">
             <div class="card-link">
@@ -36,15 +36,17 @@ const FoodListTab = {
     data() {
         return {
             loading: false,
-            foodlist: []
+            foodlist: [],
+            username: this.$root.username,
+            uid: this.$root.profile._id
         };
     },
     methods: {
         loadFoodlist: function() {
             const $this = this;
-            const url = emapi_base+"/v1/foodlist-my";
+            const uri = username ? `/v1/foodlist?ownerID=${this.uid}` : "/v1/foodlist-my";
             this.loading = true;
-            fetch(url, {
+            fetch(emapi_base+uri, {
                 method: "GET",
                 headers: {
                     'Content-Type': "application/json",

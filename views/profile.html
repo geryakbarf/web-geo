@@ -6,4 +6,11 @@
         <span class="sr-only">Loading...</span>
     </div>
 </main>
+<script>
+    <% if (username) {%>
+        var username = "<%= username %>";
+    <% } else {%>
+        var username = null;
+    <% }%>
+</script>
 <%- include('./partials/footer.html') %>

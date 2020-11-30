@@ -35,6 +35,31 @@ var detailFoodlist = new Vue({
             }
             
         },
+        deleteItemFromFoodList: async function(foodListID, placeID){
+            try {
+                const $this = this;
+                if(this.loading) return;
+                if(!confirm("Anda yakin akan menghapus tempat ini ini dari foodlist?")) return;
+                this.loading = true;
+                const res = await fetch(emapi_base+'/v1/foodlist-removeplace', {
+                    method: "POST",
+                    body: JSON.stringify({foodListID, placeID}),
+                    headers: this.headers
+                });
+                const data = await res.json();
+                if(!res.ok) throw Error(data.message);
+                Snackbar.show({pos: 'bottom-center', text: "Berhasil menghapus tempat dari food list", actionTextColor: "#e67e22", duration: 1000});
+                setTimeout(()=> {
+                    $this.loading = false;
+                    window.location = window.location.href;
+                }, 1000)    
+            } catch (error) {
+                console.log(error);
+                this.loading = false;
+                Snackbar.show({pos: 'bottom-center', text:"Gagal menghapus food list", actionTextColor: "#e67e22", duration: 3000});
+            }
+            
+        },
         shareFoodList: async function(){
             if (navigator.canShare) {
                 navigator.share({
