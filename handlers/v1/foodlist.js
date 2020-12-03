@@ -1,9 +1,10 @@
 const axios = require('axios');
 const { API_BACKEND_URL } = process.env;
+
+let headers = { 'Content-Type': "application/json", 'origin': "https://emam.id" };
 const showFoodlist = async(req, res) => {
 
     const { foodListID } = req.params;
-    let headers = { 'Content-Type': "application/json" };
     if (req.session.web) {
         const { accessToken } = req.session.web;
         if (accessToken) headers.authorization = "Bearer " + accessToken;
@@ -37,7 +38,7 @@ const addPlace = async(req, res) => {
     ];
 
     const { foodListID } = req.params;
-    let headers = { 'Content-Type': "application/json" };
+    
     if (req.session.web) {
         const { accessToken } = req.session.web;
         if (accessToken) headers.authorization = "Bearer " + accessToken;
@@ -62,7 +63,6 @@ const editPlace = async(req, res) => {
     const { foodListID } = req.params;
     const { placeID } = req.query;
 
-    let headers = { 'Content-Type': "application/json" };
     if (req.session.web) {
         const { accessToken } = req.session.web;
         if (accessToken) headers.authorization = "Bearer " + accessToken;

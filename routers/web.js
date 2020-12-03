@@ -17,7 +17,8 @@ router.use(async(req, res, next) => {
             const response = await axios.get(baseURL + "/v1/me", {
                 headers: {
                     'Content-Type': "application/json",
-                    'authorization': "Bearer " + accessToken
+                    'authorization': "Bearer " + accessToken,
+                    'origin': "https://emam.id"
                 }
             });
 
@@ -78,7 +79,8 @@ router.get("/sess", async(req, res) => {
             const response = await axios.get(baseURL + "/v1/me", {
                 headers: {
                     'Content-Type': "application/json",
-                    'authorization': "Bearer " + token
+                    'authorization': "Bearer " + token,
+                    'origin': "https://emam.id"
                 }
             });
 

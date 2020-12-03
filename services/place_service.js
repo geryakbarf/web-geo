@@ -2,7 +2,8 @@ const axios = require('axios');
 const {API_BACKEND_URL} = process.env;
 
 const defaultHeaders = {
-    'Content-Type': "application/json"
+    'Content-Type': "application/json",
+    'origin': "https://emam.id"
 }
 
 const flagWishListedPlace = async ({places, session}) => {
