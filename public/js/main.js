@@ -95,3 +95,53 @@ function myFunction() {
     navbar.classList.remove("sticky");
   }
 }
+
+function debounce(func, wait = 100) {
+  let timeout;
+  return function(...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      func.apply(this, args);
+    }, wait);
+  };
+}
+
+function onWistListClicked(placeID, el){
+  const is_liked = el.getAttribute("data-is-liked");
+  const token = localStorage.getItem("token");
+  if(!token){
+    Snackbar.show({ pos: 'bottom-center', text: "Anda belum login.", actionTextColor: "#e67e22", duration: 2000 });
+    setTimeout(function(){
+      window.location = "/auth";
+    },2000)
+
+    return;
+  }
+  const url = is_liked == "true" ? "/v1/wishlist-remove" : "/v1/wishlist";
+  setTimeout(function() {
+    fetch(emapi_base + url,{
+      method: "POST",
+      body: JSON.stringify({placeID}),
+      headers: {
+          'Content-Type': "application/json",
+          'authorization': "Bearer "+token
+      }
+    }).then(function(res){
+        if(res.status == 500) throw new Error("internal server error");
+        return res.json();
+    }).then(function(res){
+      console.log(res);
+      if(is_liked == "true"){
+        el.src = "/assets/images/icon/emam-host-like-default.svg";
+        el.setAttribute("data-is-liked", false);
+      } else {
+        el.src = "/assets/images/icon/emam-host-like-active.svg";
+        el.setAttribute("data-is-liked", true);
+      }
+    }).catch(function(error){
+      console.log(error);
+    })
+    
+  },200);
+  
+}

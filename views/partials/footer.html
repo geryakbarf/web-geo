@@ -73,7 +73,33 @@
                 });
         });
     }
+    <% if(locals.API_BACKEND_URL){ %>
+        var emapi_base = '<%=locals.API_BACKEND_URL%>';
+    <% } %>
 </script>
+<% if(locals.FB_ENABLE == 'true'){ %>
+    <!-- Firebase -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: '<%- locals.FB_APIKEY %>',
+            authDomain: '<%- locals.FB_AUTH_DOMAIN %>',
+            databaseURL: '<%- locals.FB_DB_URL %>',
+            projectId: '<%- locals.FB_PROJECT_ID %>',
+            storageBucket: '<%- locals.FB_STORAGE_BUCKET %>',
+            messagingSenderId: '<%- locals.FB_MESSANGER_SENDER_ID %>',
+            appId: '<%- locals.FB_APP_ID %>',
+            measurementId: '<%- locals.FB_MEASUREMENT_ID %>'
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+<% } %>
+
 
 <!-- Bootstrap -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -85,7 +111,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
     integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
     crossorigin="anonymous"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js" integrity="sha512-iILlngu0qmiyIkOH6MV1RWSya+DL2uzo0cb/nKR4hqwz9H+Xnop1++f8TMw1j5CdbutXGkBUyfRUfg/hmNBfZg==" crossorigin="anonymous"></script>
 <script src="/assets/js/main.js"></script>
 <% if(locals.loadJS){ %>
 <% locals.loadJS.forEach(e =>{ %>
