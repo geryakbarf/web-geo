@@ -1,5 +1,4 @@
 const express = require('express');
-const session = require('express-session')
 const adm_auth = require('../middlewares/sess_adm_auth')
 const Place = require('../data/mongo/places');
 const Menu = require('../data/mongo/menus');
@@ -22,10 +21,6 @@ const formPageCSS = [
 
 
 const router = express.Router()
-
-router.use(session({
-    secret: process.env.SESSION_KEY,
-}))
 
 router.use((req,res,next) => {
     res.locals.title = "Admin | Emam Indonesia"
