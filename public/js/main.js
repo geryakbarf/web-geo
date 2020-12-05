@@ -85,10 +85,11 @@
 window.onscroll = function () {
   myFunction();
 };
-var layout = document.getElementById("layout-slider-menu");
-var navbar = document.getElementById("section-slider-menu");
-var sticky = layout.offsetTop;
 function myFunction() {
+  var layout = document.getElementById("layout-slider-menu");
+  var navbar = document.getElementById("section-slider-menu");
+  if(!navbar && !layout) return;
+  var sticky = layout.offsetTop;
   if (window.pageYOffset >= sticky) {
     navbar.classList.add("sticky");
   } else {
