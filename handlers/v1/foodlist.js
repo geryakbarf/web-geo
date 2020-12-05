@@ -1,4 +1,5 @@
 const axios = require('axios');
+const frontend = require('../../libs/frontend');
 const { API_BACKEND_URL } = process.env;
 
 let headers = { 'Content-Type': "application/json", 'origin': "https://emam.id" };
@@ -16,7 +17,7 @@ const showFoodlist = async(req, res) => {
     res.locals.pageTitle = `${data.nama} - Food list emam.id`;
 
     const loadJS = [
-        { src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js" },
+        ...frontend.vueDeps,
         { src: "/assets/js/foodlist/detail.js" },
     ]
     res.render("foodlist", { foodlist: data, loadJS });
@@ -31,7 +32,7 @@ const addPlace = async(req, res) => {
         { src: "/assets/styles/add-to-foodlist.css" }
     ]
     const loadJS = [
-        { src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js" },
+        ...frontend.vueDeps,
         { src: "https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js" },
         { src: "https://unpkg.com/vue-select@latest" },
         { src: "/assets/js/foodlist/add_to_list.js" },
@@ -55,7 +56,7 @@ const addPlace = async(req, res) => {
 const editPlace = async(req, res) => {
     if(!req.session.web) return res.redirect('/auth');
     const loadJS = [
-        { src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js" },
+        ...frontend.vueDeps,
         { src: "https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js" },
         { src: "/assets/js/foodlist/edit-place.js" },
     ];

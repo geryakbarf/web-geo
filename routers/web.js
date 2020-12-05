@@ -5,6 +5,7 @@ const web = require("../handlers/v1/web");
 const axios = require("axios");
 const placeHandler = require("../handlers/v1/places");
 const foodlistHandler = require("../handlers/v1/foodlist");
+const frontend = require("../libs/frontend");
 const router = express.Router();
 
 router.use(async(req, res, next) => {
@@ -115,7 +116,7 @@ router.get("/foodlist/new", (req, res) => {
     res.locals.pageTitle = "Tambah foodlist - emam.id";
     if (!req.session.web) res.redirect("/");
     const loadJS = [
-        { src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js" },
+        ...frontend.vueDeps,,
         { src: "/assets/js/foodlist/form.js" },
     ];
     res.render("form-foodlist", { loadJS, foodListID: null });
@@ -126,7 +127,7 @@ router.get("/foodlist/:foodListID/edit", (req, res) => {
     if (!req.session.web) res.redirect("/");
     const { foodListID } = req.params;
     const loadJS = [
-        { src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js" },
+        ...frontend.vueDeps,
         { src: "/assets/js/foodlist/form.js" },
     ];
     res.render("form-foodlist", { loadJS, foodListID });
@@ -159,7 +160,7 @@ router.get("/auth", (req, res) => {
     if(req.session.web) return res.redirect('/');
     res.locals.pageTitle = "Authentikasi";
     const loadJS = [
-        { src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js" },
+        ...frontend.vueDeps,
         { src: "/assets/js/auth.js" },
     ];
     res.render("login", { loadJS });
@@ -169,7 +170,7 @@ router.get("/profile", (req, res) => {
     if(!req.session.web) return res.redirect('/auth');
     res.locals.pageTitle = "Profile - emam.id";
     const loadJS = [
-        { src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js" },
+        ...frontend.vueDeps,
         { src: "/assets/js/profile/user-section.js" },
         { src: "/assets/js/profile/wishlist-tab.js" },
         { src: "/assets/js/profile/foodlist-tab.js" },
@@ -183,7 +184,7 @@ router.get("/profile/:username", (req, res) => {
     res.locals.pageTitle = "Profile - emam.id";
     const {username} = req.params;
     const loadJS = [
-        { src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js" },
+        ...frontend.vueDeps,
         { src: "/assets/js/profile/user-section.js" },
         { src: "/assets/js/profile/wishlist-tab.js" },
         { src: "/assets/js/profile/foodlist-tab.js" },
