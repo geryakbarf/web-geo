@@ -35,7 +35,15 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'html')
 
 //load static file
-app.use('/assets', express.static('public'))
+const staticOptions = {
+  setHeaders: function (res, path, stat) {
+      res.set('Service-Worker-Allowed', '/');
+  },
+};
+app.use('/assets', express.static('public', staticOptions),)
+app.use('/sw.js', (req, res) => {
+  res.sendFile('./public/js/sw.js', { root: __dirname });
+})
 
 //load middleware
 app.use(require('./middlewares/ejs_default'))

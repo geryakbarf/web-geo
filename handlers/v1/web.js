@@ -5,6 +5,7 @@ const dtlib = require('../../libs/datetime');
 const moment = require('moment');
 const nodemailer = require('nodemailer');
 const place_service = require('../../services/place_service');
+const frontend = require('../../libs/frontend');
 
 const homePage = async (req, res) => {
     res.locals.pageTitle = "Kulineran aman dengan menu digital - emam.id";
@@ -95,7 +96,7 @@ const getPlaceCategory = async (req, res) => {
 
 const claimBusiness = async (req, res) => {
     const loadJS = [
-        {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        ...frontend.vueDeps,
         {src: "https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit"},
         {src: "https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"},
         {src: "https://unpkg.com/sweetalert/dist/sweetalert.min.js"},
@@ -119,7 +120,7 @@ const claimBusiness = async (req, res) => {
 
 const tellUs = async (req, res) => {
     const loadJS = [
-        {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        ...frontend.vueDeps,
         {src: "https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit"},
         {src: "https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"},
         {src: "https://unpkg.com/sweetalert/dist/sweetalert.min.js"},
