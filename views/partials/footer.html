@@ -60,19 +60,7 @@
     </div>
 </footer>
 <!-- End Footer -->
-<!-- Service worker -->
 <script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/assets/js/sw.js')
-                .then(registration => {
-                    console.log(`Service Worker registered! Scope: ${registration.scope}`);
-                })
-                .catch(err => {
-                    console.log(`Service Worker registration failed: ${err}`);
-                });
-        });
-    }
     <% if(locals.API_BACKEND_URL){ %>
         var emapi_base = '<%=locals.API_BACKEND_URL%>';
     <% } %>
@@ -118,6 +106,20 @@
 <script src="<%= e.src %>"></script>
 <% }) %>
 <% } %>
+<!-- Service worker -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js', {scope: "../../"})
+                .then(registration => {
+                    console.log(`Service Worker registered! Scope: ${registration.scope}`);
+                })
+                .catch(err => {
+                    console.log(`Service Worker registration failed: ${err}`);
+                });
+        });
+    }
+</script>
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3Z4GRJ" height="0" width="0"
