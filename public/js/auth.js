@@ -13,7 +13,7 @@ var app = new Vue({
             tglLahir:null,
             jenisKelamin: null,
             avatar: null,
-            bio: null,
+            bio: '',
             provider: null
         },
         provider: {id: "", name: ""}
@@ -78,9 +78,8 @@ var app = new Vue({
             else if(!this.user.username) this.formRegisterErrMessage = "Username tidak boleh kosong!";
             else if(!this.user.username.match(/^\w+$/)) this.formRegisterErrMessage = "Username harus berupa huruf, angka dan underscore!";
             else if(!this.user.email) this.formRegisterErrMessage = "E-Mail tidak boleh kosong!";
-            else if(!this.user.tglLahir) this.formRegisterErrMessage = "E-Mail tidak boleh kosong!";
+            else if(!this.user.tglLahir) this.formRegisterErrMessage = "Tanggal lahir tidak boleh kosong!";
             else if(!this.user.jenisKelamin) this.formRegisterErrMessage = "Pilih jenis kelamin!";
-            else if(!this.user.bio) this.formRegisterErrMessage = "Bio tidak boleh kosong!";
         },
         registerUser: function(e) {
             this.validateFormRegister();
