@@ -144,8 +144,14 @@ var formFoodlistApp = new Vue({
             var $this = this;
             try {
                 const formData = await this._onSaveParams();
-                await this.addPlace(formData);
-                this.showSnackbar("Berhasil menambah tempat pada food list", 1000);
+                const data = await this.addPlace(formData);
+                if (data.message === "Tempat sudah ada dalam foodlist anda") {
+                    this.showSnackbar(data.message, 1000)
+                    this.loading = false;
+                    return;
+                }
+                else
+                    this.showSnackbar("Berhasil menambahkan tempat makan ke foodlist", 1000);
                 setTimeout(() => {
                     $this.loading = false;
                     window.location = `/foodlist/${foodListID}`;
