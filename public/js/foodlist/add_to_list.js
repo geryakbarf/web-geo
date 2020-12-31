@@ -40,7 +40,7 @@ var formFoodlistApp = new Vue({
                             <img ref="photo" src="/assets/images/emam-menu-no-photos.jpg" class="image-rectangle mb-3"
                             style="display: block; width: 150px; height: 150px;">
                             <input id="photo" style="display:none;" type="file" v-on:change="onPhotoChange"/>
-                            <label :for="!loading? 'photo': 'no-photo'" class="mx-auto text-red" style="display: inline;cursor:pointer;">Ubah Gambar</label>
+                            <label :for="!loading? 'photo': 'no-photo'" class="mx-auto text-red" style="display: inline;cursor:pointer;">Ubah Gambar (Opsional)</label>
                         </div>
                         <p>anda Ingin mencoba menggunakan pencarian lagi? <a href="javascript:void(0)" @click="toggleManualInput">Klik disini</a></p>
                         
@@ -81,8 +81,8 @@ var formFoodlistApp = new Vue({
     },
     methods: {
         async _onSaveParams() {
-            if (!this.manualInput && this.selected) return { placeID: this.selected._id, foodListID };
-            let formData = { manual: this.form, foodListID };
+            if (!this.manualInput && this.selected) return {placeID: this.selected._id, foodListID};
+            let formData = {manual: this.form, foodListID};
             let photoTmp = this.formTmp.photo;
             let photo = formData.photo;
             if (photoTmp) {
@@ -90,23 +90,21 @@ var formFoodlistApp = new Vue({
                     const images = [photo.path]
                     await fetch('/api/v1/delete-images', {
                         method: "DELETE",
-                        body: JSON.stringify({ images }),
-                        headers: { 'Content-Type': "application/json" }
-                    }, );
+                        body: JSON.stringify({images}),
+                        headers: {'Content-Type': "application/json"}
+                    },);
                     formData.manual.photo = await this.photoUpload();
                 } else if ((!photo) || (!formData._id)) {
                     formData.manual.photo = await this.photoUpload();
                 }
-
             }
-
             return formData;
         },
         async photoUpload() {
             try {
                 let formData = new FormData();
                 formData.append('file', this.formTmp.photo)
-                const params = { method: 'POST', body: formData };
+                const params = {method: 'POST', body: formData};
                 const res = await fetch('/api/v1/upload-image-s3', params);
                 if (res.status != 200) throw Error("Upload photo gagal!");
                 const data = await res.json();
@@ -134,13 +132,26 @@ var formFoodlistApp = new Vue({
         async onSave() {
             if (!this.isSaveable) return;
             if (this.loading) return;
+            //Daerah Validasi
+            if (this.manualInput === true) {
+                if (this.form.name === "" || this.form.name.length < 1) {
+                    swal("Nama tempat tidak boleh kosong!", "Harap untuk mengisi nama tempat makan");
+                    return;
+                }
+            }
             this.showSnackbar("Mohon tunggu...", 1000);
             this.loading = true;
             var $this = this;
             try {
                 const formData = await this._onSaveParams();
-                await this.addPlace(formData);
-                this.showSnackbar("Berhasil menambah tempat pada food list", 1000);
+                const data = await this.addPlace(formData);
+                if (data.message === "Tempat sudah ada dalam foodlist anda") {
+                    this.showSnackbar(data.message, 1000)
+                    this.loading = false;
+                    return;
+                }
+                else
+                    this.showSnackbar("Berhasil menambahkan tempat makan ke foodlist", 1000);
                 setTimeout(() => {
                     $this.loading = false;
                     window.location = `/foodlist/${foodListID}`;
@@ -152,20 +163,20 @@ var formFoodlistApp = new Vue({
             }
 
         },
-        showSnackbar: function(text, duration = 3000) {
-            Snackbar.show({ pos: 'bottom-center', text, actionTextColor: "#e67e22", duration });
+        showSnackbar: function (text, duration = 3000) {
+            Snackbar.show({pos: 'bottom-center', text, actionTextColor: "#e67e22", duration});
         },
         toggleManualInput() {
             this.manualInput = this.manualInput ? false : true;
         },
-        onPhotoChange: function(e) {
+        onPhotoChange: function (e) {
             try {
                 let _this = this;
                 let [file] = e.target.files;
                 if (!file) throw Error("File kosong");
                 this.formTmp.photo = file;
                 let reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     _this.$refs.photo.src = e.target.result
                 }
                 reader.readAsDataURL(file);
@@ -180,7 +191,10 @@ var formFoodlistApp = new Vue({
             this.search(loading, search, this);
         },
         search: _.debounce((loading, search, vm) => {
-            fetch(`${emapi_base}/v1/places?keyword=${escape(search)}&foodListID=${foodListID}`, { method: 'GET', headers: this.headers }).then(res => {
+            fetch(`${emapi_base}/v1/places?keyword=${escape(search)}&foodListID=${foodListID}`, {
+                method: 'GET',
+                headers: this.headers
+            }).then(res => {
                 res.json().then(json => (vm.options = json.data));
                 loading(false);
             });
@@ -190,9 +204,10 @@ var formFoodlistApp = new Vue({
         isSaveable() {
             let condition = false;
             if (!this.manualInput && this.selected) condition = true;
-            else if (this.manualInput && this.form.name != "" && this.formTmp.photo != null) condition = true;
+            else if (this.manualInput) condition = true;
             return condition;
         }
     },
-    mounted() {}
+    mounted() {
+    }
 });
