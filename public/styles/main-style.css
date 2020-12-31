@@ -777,12 +777,16 @@ h4 {
   z-index: 999;
 }
 
+.navbar .container {
+  justify-content: unset !important;
+}
+
 .navbar-brand img {
   max-height: 30px;
 }
 
 .custom-toggler.navbar-toggler {
-  padding: 0.1rem 0.5rem;
+  /* padding: 0.1rem 0.5rem; */
   border: 2px solid #fe9900;
 }
 
@@ -2980,6 +2984,10 @@ footer .row-info-footer .text-emam {
 }
 
 @media only screen and (max-width: 320px) {
+  .nav-button {
+    padding: 8px 20px;
+  }
+
   .image-rectangle {
     margin-bottom: 20px;
     width: 100%;
@@ -3117,6 +3125,10 @@ footer .row-info-footer .text-emam {
 }
 
 @media only screen and (max-width: 600px) {
+  .nav-button {
+    padding: 8px 20px;
+  }
+
   .dropdown-menu {
     width: 100%;
   }
@@ -3554,6 +3566,10 @@ footer .row-info-footer .text-emam {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {
+  .nav-button {
+    padding: 8px 20px;
+  }
+
   #header-detail-tempat {
     padding: 60px 0 50px;
   }
