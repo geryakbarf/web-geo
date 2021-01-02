@@ -20,11 +20,9 @@
                                                     <img src="/assets/images/icon/emam-host-save-default.svg"
                                                         alt="save button" id="save">
                                                 </div> -->
-                                                            <div data-is-liked="<%= place.is_liked %>"
-                                                                onclick="onWistListClicked('<%= place._id %>',this)"
-                                                                class="btn-icon inline mx-1" style="cursor: pointer;">
-                                                                <img src="/assets/images/icon/emam-host-like-<%= place.is_liked? 'active': 'default' %>.svg"
-                                                                    alt="like button" id="like">
+                                                            <div class="btn-icon inline mx-1" style="cursor: pointer;">
+                                                                <img data-is-liked="<%= place.is_liked %>" onclick="onWistListClicked('<%= place._id %>',this)" src="/assets/images/icon/emam-host-like-<%= place.is_liked? 'active': 'default' %>.svg"
+                                                                     alt="like button" id="like">
                                                             </div>
                                                         </div>
                                                         <a href="/p/<%= place.slug %>">
