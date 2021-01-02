@@ -66,11 +66,8 @@
                                                     <!-- <div class="btn-icon inlineblock mx-1">
                                         <img src="/assets/images/icon/emam-host-save-default.svg" alt="save button">
                                     </div> -->
-                                                    <div class="btn-icon inlineblock mx-1"
-                                                        data-is-liked="<%= place.is_liked %>"
-                                                        onclick="onWistListClicked('<%= place._id %>',this)">
-                                                        <img src="/assets/images/icon/emam-host-like-<%= place.is_liked? 'active': 'default' %>.svg"
-                                                            alt="like button">
+                                                    <div class="btn-icon inlineblock mx-1">
+                                                        <img data-is-liked="<%= place.is_liked %>" onclick="onWistListClicked('<%= place._id %>',this)" src="/assets/images/icon/emam-host-like-<%= place.is_liked? 'active': 'default' %>.svg" alt="like button">
                                                     </div>
                                                 </div>
                                                 <a href="/p/<%= place.slug %>">
