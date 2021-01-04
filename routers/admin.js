@@ -62,7 +62,7 @@ router.post('/login', async (req, res) => {
     console.log(login)
     if (login != null) {
         req.session.isAuthenticated = true;
-        req.session.admin = login.name;
+        req.session.admin = login.email;
         //Set Last Login
         let date_ob = new Date();
         let date = ("0" + date_ob.getDate()).slice(-2);
@@ -90,6 +90,7 @@ router.get('/', (req, res) => {
 
 router.get('/logout', (req, res) => {
     delete req.session.isAuthenticated
+    delete req.session.admin
     return res.redirect('admin/login')
 })
 
@@ -104,8 +105,7 @@ router.get('/places', (req, res) => {
     const loadCSS = [
         ...formPageCSS
     ]
-    req.session.name = "Riswandi"
-    return res.render('admin/places', {loadJS, loadCSS, name: req.session.name})
+    return res.render('admin/places', {loadJS, loadCSS, name: req.session.admin})
 })
 
 router.get('/places/:id/edit', (req, res) => {
