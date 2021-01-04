@@ -14,7 +14,12 @@
             <%- include('./partials/list_places/updated_places.html') %>
             <div style="clear: both;"></div>
         </div>
+
     </div>
 </div>
-
+<% if(locals.name){%>
+<script>
+    var username = <%- JSON.stringify(name) %>;
+</script>
+<%}%>
 <%- include('./partials/footer.html') %>
