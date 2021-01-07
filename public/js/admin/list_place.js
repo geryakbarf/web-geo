@@ -1,6 +1,7 @@
 var app = new Vue({
     el: '#list-place',
     data: {
+        admin : username,
         sideMenuIndex: 0,
         filter: '',
         filterdraft: '',
@@ -135,5 +136,5 @@ var app = new Vue({
     },
     mounted() {
         this.loadPlaces();
-    }
+    },
 })
