@@ -10,17 +10,22 @@ const showFoodlist = async (req, res) => {
         const {accessToken} = req.session.web;
         if (accessToken) headers.authorization = "Bearer " + accessToken;
     }
-    const resp = await axios.get(`${API_BACKEND_URL}/v1/foodlist-detail?foodlistID=${foodListID}`, {headers});
-    const {data} = resp.data;
-    if (resp.status != 200) return res.status(404).render('404');
-    if (data.is_private && !data.is_owned) return res.status(404).render('404');
-    res.locals.pageTitle = `${data.nama} - Food list emam.id`;
+    try {
+        const resp = await axios.get(`${API_BACKEND_URL}/v1/foodlist-detail?foodlistID=${foodListID}`, {headers});
+        const {data} = resp.data;
+        if (resp.status != 200) return res.status(404).render('404');
+        if (data.is_private && !data.is_owned) return res.status(404).render('404');
+        res.locals.pageTitle = `${data.nama} - Food list emam.id`;
 
-    const loadJS = [
-        ...frontend.vueDeps,
-        {src: "/assets/js/foodlist/detail.js"},
-    ]
-    res.render("foodlist", {foodlist: data, loadJS});
+        const loadJS = [
+            ...frontend.vueDeps,
+            {src: "/assets/js/foodlist/detail.js"},
+        ]
+        return res.render("foodlist", {foodlist: data, loadJS});    
+    } catch (error) {
+        return res.status(404).render('404-foodlist');
+    }
+    
 }
 
 const addPlace = async (req, res) => {
