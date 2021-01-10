@@ -77,7 +77,7 @@ const WishListTab = {
         },
         onLoveButtonPressed: function(placeID) {
             const $this = this;
-            if(!this.token){
+            if(!this.$root.token){
                 Snackbar.show({ pos: 'bottom-center', text: "Anda belum login.", actionTextColor: "#e67e22", duration: 2000 });
                 setTimeout(function(){
                   window.location = "/auth";
@@ -92,7 +92,7 @@ const WishListTab = {
                     body: JSON.stringify({placeID}),
                     headers: {
                         'Content-Type': "application/json",
-                        'authorization': "Bearer "+this.token
+                        'authorization': "Bearer "+this.$root.token
                     }
                   }).then(function(res){
                       if(res.status == 500) throw new Error("internal server error");
