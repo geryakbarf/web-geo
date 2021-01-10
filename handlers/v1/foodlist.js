@@ -29,7 +29,7 @@ const showFoodlist = async (req, res) => {
 }
 
 const addPlace = async (req, res) => {
-    let headers = {'Content-Type': "application/json", , 'origin': "https://emam.id"};
+    let headers = {'Content-Type': "application/json", 'origin': "https://emam.id"};
     if (!req.session.web) return res.redirect('/auth');
     res.locals.pageTitle = `Tambah tempat - Food list emam.id`;
 
@@ -61,7 +61,7 @@ const addPlace = async (req, res) => {
 
 
 const editPlace = async (req, res) => {
-    let headers = {'Content-Type': "application/json", , 'origin': "https://emam.id"};
+    let headers = {'Content-Type': "application/json", 'origin': "https://emam.id"};
     if (!req.session.web) return res.redirect('/auth');
     const loadJS = [
         ...frontend.vueDeps,
