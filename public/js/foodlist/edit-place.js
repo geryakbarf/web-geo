@@ -43,6 +43,7 @@ var editPlaceFoodList = new Vue({
             },
             options: [],
             loading: false,
+            manualInput: true,
             form: {
                 name: place.name,
                 address: place.address,
@@ -172,7 +173,10 @@ var editPlaceFoodList = new Vue({
     },
     computed: {
         isSaveable() {
-            return this.form.name != "" && this.formTmp.photo != null ? true : false;
+            let condition = false;
+            if (!this.manualInput && this.selected) condition = true;
+            else if (this.manualInput) condition = true;
+            return condition;
         }
     },
     mounted() {
