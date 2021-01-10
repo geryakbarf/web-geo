@@ -167,6 +167,7 @@ var formFoodlistApp = new Vue({
             Snackbar.show({pos: 'bottom-center', text, actionTextColor: "#e67e22", duration});
         },
         toggleManualInput() {
+            this.form.name = this.searchKeyword;
             this.manualInput = this.manualInput ? false : true;
         },
         onPhotoChange: function (e) {
