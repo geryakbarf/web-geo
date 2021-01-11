@@ -124,18 +124,5 @@ var app = new Vue({
                 }
             });
         })
-        // firebase.auth().getRedirectResult().then(function(result) {
-        //     const user = result.user;
-        //     const token = result.credential.accessToken;
-        //     console.log(token);
-        //     alert(`user login: ${user.uid}`);
-            
-        // }).catch(function(error) {
-        //     if(error == "TypeError: Cannot read property 'accessToken' of undefined"){
-        //         return
-        //     }else {
-        //         alert(error);
-        //     }
-        // });
     }
 })
