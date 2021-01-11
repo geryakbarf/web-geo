@@ -29,24 +29,8 @@ var app = new Vue({
     },
     methods: {
         signInWithGoogle: function(){
-            const $this = this; 
             this.loading = true;
-            firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(function(result) {
-                const user = result.user;
-                const provider = {id: user.uid, name: "google.com"};
-                $this.user.nama = user.displayName;
-                $this.user.email = user.email;
-                $this.user.avatar = user.photoURL;
-                $this.provider = provider;
-                $this.authenticate(provider);
-            }).catch(function(error) {
-                var errorCode = error.code;
-                $this.loading = false;
-                console.log(error);
-                if(errorCode != "auth/popup-closed-by-user"){
-                    $this.loginErrMessage = "Terjadi kesalahan, mohon hubungi admin";
-                }
-            });
+            firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider())
         },
         authenticate: function(provider) {
             const $this = this;
@@ -116,6 +100,42 @@ var app = new Vue({
     filters: {
     },
     mounted() {
-        
+        const $this = this;
+        this.loading = true;
+        this.$nextTick(function () {
+            firebase.auth().getRedirectResult().then(function(result) {
+                const token = result.credential.accessToken;
+                const user = result.user;
+                const provider = {id: user.uid, name: "google.com"};
+                $this.user.nama = user.displayName;
+                $this.user.email = user.email;
+                $this.user.avatar = user.photoURL;
+                $this.provider = provider;
+                $this.authenticate(provider);
+            }).catch(function(error) {
+                $this.loading = false;
+                if(error == "TypeError: Cannot read property 'accessToken' of undefined"){
+                    return;
+                }
+                var errorCode = error.code;
+                console.log(error);
+                if(errorCode != "auth/popup-closed-by-user"){
+                    $this.loginErrMessage = "Terjadi kesalahan, mohon hubungi admin";
+                }
+            });
+        })
+        // firebase.auth().getRedirectResult().then(function(result) {
+        //     const user = result.user;
+        //     const token = result.credential.accessToken;
+        //     console.log(token);
+        //     alert(`user login: ${user.uid}`);
+            
+        // }).catch(function(error) {
+        //     if(error == "TypeError: Cannot read property 'accessToken' of undefined"){
+        //         return
+        //     }else {
+        //         alert(error);
+        //     }
+        // });
     }
 })
