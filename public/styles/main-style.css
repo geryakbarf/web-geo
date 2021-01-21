@@ -283,6 +283,19 @@
   box-shadow: none;
 }
 
+.dropdown-toggle::after{
+  display: none !important;
+}
+
+.ic-arrow-up{
+  width: 20px; 
+  height: 20px;
+}
+
+.ic-arrow-up:hover{
+  background-image: url(/assets/images/icon/emam-host-arrow-up-white.svg);
+}
+
 .select--no-search .select2-search {
   display: none !important;
 }
