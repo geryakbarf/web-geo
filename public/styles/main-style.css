@@ -283,6 +283,19 @@
   box-shadow: none;
 }
 
+.dropdown-toggle::after{
+  display: none !important;
+}
+
+.ic-arrow-up{
+  width: 20px; 
+  height: 20px;
+}
+
+.ic-arrow-up:hover{
+  background-image: url(/assets/images/icon/emam-host-arrow-up-white.svg);
+}
+
 .select--no-search .select2-search {
   display: none !important;
 }
@@ -918,10 +931,10 @@ h4 {
   position: absolute;
   z-index: 2;
   display: block;
-  width: 2.375rem;
-  height: 2.375rem;
-  line-height: 2.375rem;
-  text-align: center;
+  max-width: 16px;
+  margin: auto;
+  top: 12px;
+  left: 30px;
   pointer-events: none;
   color: #aaa;
 }
