@@ -11,9 +11,17 @@
             <!-- <li v-bind:class="[isActiveSideMenu(3) ? 'active' : '', 'nav-item']">
                 <a href="javascript:void(0)" v-on:click="setSideMenuIndex(3)">Banners</a>
             </li> -->
+            <li v-bind:class="[isActiveSideMenu(4) ? 'active' : '', 'nav-item']">
+                <a href="javascript:void(0)" v-on:click="setSideMenuIndex(4)">Payment Category</a>
+            </li>
             <li v-bind:class="[isActiveSideMenu(5) ? 'active' : '', 'nav-item']">
                 <a href="javascript:void(0)" v-on:click="setSideMenuIndex(5)">Call to Actions</a>
             </li>
+            <% if(locals.id){ %>
+            <li v-bind:class="[isActiveSideMenu(10) ? 'active' : '', 'nav-item']">
+                <a href="javascript:void(0)" v-on:click="setSideMenuIndex(10)">QR Generator</a>
+            </li>
+            <%}%>
         </ul>
     </li>
     <% if(locals.id){ %>
@@ -27,4 +35,10 @@
     <li v-bind:class="[isActiveSideMenu(8) ? 'active' : '', 'nav-item']">
         <a href="javascript:void(0)" v-on:click="setSideMenuIndex(8)">Covid-19</a>
     </li>
+    <% if(locals.id){ %>
+    <li v-bind:class="[isActiveSideMenu(9) ? 'active' : '', 'nav-item']">
+        <a href="javascript:void(0)" v-on:click="setSideMenuIndex(9)">Options</a>
+    </li>
+    <%}%>
+
 </ul>

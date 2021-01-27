@@ -1,12 +1,14 @@
+const {QRCanvas: QrCanvas} = qrcanvas.vue;
 var app = new Vue({
     el: '#form-place',
     data: {
         sideMenuIndex: 0,
+        search: '',
         form: {
             _id: null,
             name: '',
             slug: '',
-            city: '',
+            city: 'bandung',
             address: '',
             categories: [],
             menu_categories: [],
@@ -15,9 +17,9 @@ var app = new Vue({
             is_draft: true,
             is_partner: false,
             is_halal: true,
+            is_sticker: false,
             photo: null,
             cuisines: [],
-            contact: '',
             payments: [],
             facilities: [],
             covid: [],
@@ -40,7 +42,13 @@ var app = new Vue({
                 {type: "gofood", value: '', draft: false},
                 {type: "checkin", value: '', draft: false},
                 {type: "linkmenu", value: '', draft: false},
-            ]
+            ],
+            payment_detail: []
+        },
+        options: {
+            cellSize: 8,
+            correctLevel: 'H',
+            data: '',
         },
         formTmp: {
             place_categories: '',
@@ -52,6 +60,7 @@ var app = new Vue({
             place_categories: [],
             cuisines: [],
             payments: [],
+            paymentscat: [],
             facilities: [],
             covid_prot: [],
             parkirs: [
@@ -64,13 +73,8 @@ var app = new Vue({
                     name: "Motor & Mobil"
                 }
             ],
-            contact: [
-                {
-                    numberType: "022"
-                }, {
-                    numberType: "+62"
-                }
-            ]
+            contactType: '',
+            contactNumber: ''
         },
         menus: []
     },
@@ -115,6 +119,15 @@ var app = new Vue({
     methods: {
         setSideMenuIndex: function (idx) {
             this.sideMenuIndex = idx
+        },
+        isExist: function (text) {
+            var condition = false;
+            for (var i = 0; i < this.form.payment_detail.length; i++) {
+                if (this.form.payment_detail[i].name == text) {
+                    condition = true;
+                }
+            }
+            return condition;
         },
         isActiveSideMenu: function (id) {
             return this.sideMenuIndex == id
@@ -191,7 +204,7 @@ var app = new Vue({
                 if (formData._id) res = await this.updatePlace(formData);
                 else res = await this.createPlace(formData);
                 console.log(res.data);
-                if(this.form._id == null)
+                if (this.form._id == null)
                     this.form._id = res.data.id;
                 toastr.success(res.message)
                 if (close) {
@@ -369,6 +382,16 @@ var app = new Vue({
                 console.log(error);
             }
         },
+        loadPaymentsCat: async function () {
+            try {
+                const res = await fetch('/api/v1/paymentscat');
+                const data = await res.json();
+                this.formFieldValues.paymentscat = data.map(e => ({name: e.name, type: e.type}));
+                console.log(this.formFieldValues.paymentscat);
+            } catch (error) {
+                console.log(error);
+            }
+        },
         loadFacilities: async function () {
             try {
                 const res = await fetch('/api/v1/facilities');
@@ -441,6 +464,7 @@ var app = new Vue({
                 const res = await fetch(`/api/v1/places/${placeId}`);
                 const data = await res.json();
                 this.form = data.data;
+                this.options.data = 'https://emam.id/qr/' + this.form.slug;
                 this.form.categories = this.form.categories.map(e => ({id: e.id, text: e.name}));
                 this.form.payments = this.form.payments.map(e => ({code: e.code, text: e.name}));
                 if (this.form.parkir)
@@ -450,6 +474,14 @@ var app = new Vue({
                     this.form.call_to_actions.push({type: "linkmenu", value: ''});
                 if (!this.form.call_to_actions[1].draft)
                     this.form.call_to_actions[1].draft = false;
+                if (!this.form.payment_detail)
+                    this.form.payment_detail = [];
+                if (!this.form.is_sticker)
+                    this.form.is_sticker = false;
+                if (!this.form.contactType) {
+                    this.form.contactType = '';
+                    this.form.contactNumber = '';
+                }
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
             } catch (error) {
@@ -466,6 +498,13 @@ var app = new Vue({
                 console.log(error);
             }
         },
+        addPaymentDetail: function (tipe) {
+            let id = CryptoJS.MD5(new Date().toString()).toString();
+            this.form.payment_detail.push({id: id, type: tipe, name: '', condition: ''})
+        },
+        deletePaymentDetail: function (id) {
+            this.form.payment_detail = this.form.payment_detail.filter(e => e.id != id);
+        },
         leaving: function (event) {
             event.preventDefault();
             event.returnValue = '';
@@ -479,6 +518,18 @@ var app = new Vue({
             window.addEventListener('beforeunload', this.leaving, true);
             window.location = `/admin/places`
         },
+        onDeleteData: async function () {
+            if (confirm('Are you sure want to delete this data?')) {
+                const res = await fetch(`/api/v1/places/${placeId}`, {method: "DELETE"});
+                if (res.ok) {
+                    toastr.success("Success to delete data")
+                    window.location = `/admin/places`
+                } else toastr.error("Failed to delete data");
+            } else {
+
+            }
+
+        },
     },
     mounted() {
         this.loadPlace()
@@ -488,5 +539,70 @@ var app = new Vue({
         this.loadFacilities()
         this.loadCovidProtocols()
         this.loadMenus()
-    }
+        this.loadPaymentsCat()
+    },
+    computed: {
+        hasQRIS() {
+            var condition = false;
+            for (var i = 0; i < this.form.payments.length; i++) {
+                if (this.form.payments[i].text == 'QRIS') {
+                    condition = true;
+                }
+            }
+            return condition;
+        },
+        hasDebit() {
+            var condition = false;
+            for (var i = 0; i < this.form.payments.length; i++) {
+                if (this.form.payments[i].text == 'Kartu Debit') {
+                    condition = true;
+                }
+            }
+            return condition;
+        },
+        hasCredit() {
+            var condition = false;
+            for (var i = 0; i < this.form.payments.length; i++) {
+                if (this.form.payments[i].text == 'Kartu Kredit') {
+                    condition = true;
+                }
+            }
+            return condition;
+        },
+        hasCash() {
+            var condition = false;
+            for (var i = 0; i < this.form.payments.length; i++) {
+                if (this.form.payments[i].text == 'Tunai') {
+                    condition = true;
+                }
+            }
+            return condition;
+        },
+        filteredMenu() {
+            return this.menus.filter(menu => {
+                return menu.name.toLowerCase().includes(this.search.toLowerCase())
+            })
+        },
+        filteredCategory() {
+            return this.form.menu_categories.filter(cate => {
+                return this.filteredMenu.map((sel) => {
+                    return sel.category
+                }).includes(cate)
+            })
+        }
+    },
+    created() {
+        const image = new Image();
+        image.src = 'https://i.ibb.co/0tGxK4T/Logo-Emam-11.png';
+        image.onload = () => {
+            this.options = Object.assign({}, this.options, {
+                logo: {
+                    image,
+                },
+            });
+        };
+    },
+    components: {
+        QrCanvas,
+    },
 })

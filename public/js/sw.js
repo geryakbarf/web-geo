@@ -14,29 +14,29 @@ self.addEventListener("message", (event) => {
   }
 });
 
-workbox.routing.registerRoute(
-  ({event}) => event.request.destination === 'document',
-  new workbox.strategies.NetworkFirst({
-    cacheName: HTML_CACHE,
-    plugins: [
-      new workbox.expiration.ExpirationPlugin({
-        maxEntries: 10,
-      }),
-    ],
-  })
-);
+// workbox.routing.registerRoute(
+//   ({event}) => event.request.destination === 'document',
+//   new workbox.strategies.NetworkFirst({
+//     cacheName: HTML_CACHE,
+//     plugins: [
+//       new workbox.expiration.ExpirationPlugin({
+//         maxAgeSeconds: 24 * 60 * 60,
+//       }),
+//     ],
+//   })
+// );
 
-workbox.routing.registerRoute(
-  ({event}) => event.request.destination === 'script',
-  new workbox.strategies.StaleWhileRevalidate({
-    cacheName: JS_CACHE,
-    plugins: [
-      new workbox.expiration.ExpirationPlugin({
-        maxEntries: 15,
-      }),
-    ],
-  })
-);
+// workbox.routing.registerRoute(
+//   ({event}) => event.request.destination === 'script',
+//   new workbox.strategies.StaleWhileRevalidate({
+//     cacheName: JS_CACHE,
+//     plugins: [
+//       new workbox.expiration.ExpirationPlugin({
+//         maxAgeSeconds: 24 * 60 * 60,
+//       }),
+//     ],
+//   })
+// );
 
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'style',
@@ -44,7 +44,7 @@ workbox.routing.registerRoute(
     cacheName: STYLE_CACHE,
     plugins: [
       new workbox.expiration.ExpirationPlugin({
-        maxEntries: 15,
+        maxAgeSeconds: 24 * 60 * 60,
       }),
     ],
   })
@@ -56,7 +56,7 @@ workbox.routing.registerRoute(
     cacheName: IMAGE_CACHE,
     plugins: [
       new workbox.expiration.ExpirationPlugin({
-        maxEntries: 15,
+        maxAgeSeconds: 24 * 60 * 60,
       }),
     ],
   })
@@ -68,7 +68,7 @@ workbox.routing.registerRoute(
     cacheName: FONT_CACHE,
     plugins: [
       new workbox.expiration.ExpirationPlugin({
-        maxEntries: 15,
+        maxAgeSeconds: 24 * 60 * 60,
       }),
     ],
   })

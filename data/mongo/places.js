@@ -16,6 +16,13 @@ const gallerySchema = new Schema({
     options: Schema.Types.Mixed
 });
 
+const paymentDetailSchema = new Schema({
+    id: String,
+    type: String,
+    name: String,
+    condition: String
+})
+
 const operationalTimeSchema = new Schema({
     day: String,
     openTime: String,
@@ -37,13 +44,9 @@ const schema = new Schema({
     is_partner: Boolean,
     is_draft: Boolean,
     is_halal: Boolean,
-    contact: {
-        numberType: {
-            enum: ["022", "+62"]
-        },
-        number: Number,
-        options: Schema.Types.Mixed
-    },
+    is_sticker: Boolean,
+    contactType: String,
+    contactNumber: Number,
     payments: Schema.Types.Mixed,
     photo: {
         path: String,
@@ -54,7 +57,8 @@ const schema = new Schema({
     facilities: [facilitySchema],
     call_to_actions: [callToActionSchema],
     galleries: [gallerySchema],
-    covid: [String]
+    covid: [String],
+    payment_detail: [paymentDetailSchema]
 }, {timestamps: {}});
 
 schema.index({name: 'text', address: 'text', city: 'text'})

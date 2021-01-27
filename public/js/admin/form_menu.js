@@ -6,6 +6,7 @@ var app = new Vue({
         form: {
             _id: null,
             name: '',
+            category: '',
             description: '',
             placeId: null,
             prices: {
@@ -42,7 +43,7 @@ var app = new Vue({
         },
         addvariant: function () {
             let id = CryptoJS.MD5(new Date().toString()).toString();
-            this.form.variant.push({id, name: ''})
+            this.form.variant.push({id, name: '', prices: ''})
         },
         deletevariant: function (id) {
             this.form.variant = this.form.variant.filter(e => e.id != id);
@@ -87,6 +88,29 @@ var app = new Vue({
                 return true
             else
                 return false
+        }, variantValidation: function () {
+            var condition = false;
+            if (this.form.variant.length > 0) {
+                for (var i = 0; i < this.form.variant.length; i++) {
+                    if (isNaN(this.form.variant[i].prices)) {
+                        condition = true
+                        break;
+                    }
+                }//endfor
+            }
+            return condition;
+        },
+        isCategoryEmpty: function () {
+            let condition = false;
+            if (this.formFieldValues.menu_categories.length === 0)
+                condition = true;
+            return condition;
+        },
+        isCategoryNotSelected: function () {
+            let condition = false;
+            if (this.form.category === '')
+                condition = true;
+            return condition;
         },
         _onSaveParams: async function () {
             let formData = {...this.form};
@@ -112,15 +136,31 @@ var app = new Vue({
         },
         onSave: async function (close = false) {
             try {
+                //Bagian Valiadi
                 const check = this.validation();
                 if (check) {
                     toastr.error("Duh format harga tidak benar")
                     return
                 }
+                const checkVariant = this.variantValidation();
+                if (checkVariant) {
+                    toastr.error("Duh format harga varian tidak benar")
+                    return
+                }
+                const isCategoryEmpty = this.isCategoryEmpty();
+                if (isCategoryEmpty) {
+                    toastr.error("Duh, kategori masih kosong lur")
+                    return
+                }
+                const isCategoryNotSelected = this.isCategoryNotSelected();
+                if (isCategoryNotSelected) {
+                    toastr.error("Duh, kategori belum dipilih lur")
+                    return
+                }
                 //Null Check
-                if(this.form.prices.normal_price == null || this.form.prices.normal_price === '')
+                if (this.form.prices.normal_price == null || this.form.prices.normal_price === '')
                     this.form.prices.normal_price = 0;
-                if(this.form.prices.sale_price == null || this.form.prices.sale_price === '')
+                if (this.form.prices.sale_price == null || this.form.prices.sale_price === '')
                     this.form.prices.sale_price = 0;
                 //
                 this.loading = true;
@@ -147,15 +187,31 @@ var app = new Vue({
         },
         onSaveNew: async function (close = false) {
             try {
+                //Bagian Validasi
                 const check = this.validation();
                 if (check) {
                     toastr.error("Duh format harga tidak benar")
                     return
                 }
+                const checkVariant = this.variantValidation();
+                if (checkVariant) {
+                    toastr.error("Duh format harga varian tidak benar")
+                    return
+                }
+                const isCategoryEmpty = this.isCategoryEmpty();
+                if (isCategoryEmpty) {
+                    toastr.error("Duh, kategori masih kosong lur")
+                    return
+                }
+                const isCategoryNotSelected = this.isCategoryNotSelected();
+                if (isCategoryNotSelected) {
+                    toastr.error("Duh, kategori belum dipilih lur")
+                    return
+                }
                 //Null Check
-                if(this.form.prices.normal_price == null || this.form.prices.normal_price === '')
+                if (this.form.prices.normal_price == null || this.form.prices.normal_price === '')
                     this.form.prices.normal_price = 0;
-                if(this.form.prices.sale_price == null || this.form.prices.sale_price === '')
+                if (this.form.prices.sale_price == null || this.form.prices.sale_price === '')
                     this.form.prices.sale_price = 0;
                 //
                 this.loading = true;
@@ -265,10 +321,12 @@ var app = new Vue({
                 const {data} = await res.json();
                 this.form = data;
                 //zero check validation
-                if(this.form.prices.sale_price == 0)
+                if (this.form.prices.sale_price == 0)
                     this.form.prices.sale_price = ''
-                if(this.form.prices.normal_price == 0)
+                if (this.form.prices.normal_price == 0)
                     this.form.prices.normal_price = ''
+                if (!this.form.variant)
+                    this.form.variant = [];
                 const [selectedCat] = this.formFieldValues.menu_categories.filter(e => e.name == data.category);
                 this.form.category = selectedCat;
                 this.loadPhotoFromData();

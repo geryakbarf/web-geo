@@ -4,21 +4,22 @@ const {PlaceCategory} = require('../../data/mongo/master');
 const dtlib = require('../../libs/datetime');
 const moment = require('moment');
 const nodemailer = require('nodemailer');
+const place_service = require('../../services/place_service');
+const frontend = require('../../libs/frontend');
 
 const homePage = async (req, res) => {
-    res.locals.pageTitle = "Kulineran aman dengan menu digital - emam.id"
+    res.locals.pageTitle = "Kulineran aman dengan menu digital - emam.id";
     const loadJS = [
-        {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
-        {src: "https://cdn.jsdelivr.net/npm/vuejs-datatable@2.0.0-alpha.7/dist/vuejs-datatable.js"},
         {src: "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
         {src: "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
         {src: '/assets/js/home.js'}
     ];
     try {
-        const newPlaces = await Place.find({is_draft: false})
+        let newPlaces = await Place.find({is_draft: false})
             .limit(4)
             .sort({createdAt: -1})
-            .select('name slug photo address');
+            .select('name slug photo address _id');
+        newPlaces = await place_service.flagWishListedPlace({places:newPlaces, session: req.session});
         const category = await PlaceCategory.find({}).limit(4).select('name image');
         const allCategory = await PlaceCategory.find({}).select('name image');
         return res.render('index', {loadJS, newPlaces, category, allCategory, path: req.route.path})
@@ -65,7 +66,8 @@ const allPlace = async (req, res) => {
         if (search_place) filter['$text'] = {$search: search_place};
         let allPlaces = await Place.find(filter)
             .sort({createdAt: -1})
-            .select('name slug photo address');
+            .select('name slug photo address _id');
+        allPlaces = await place_service.flagWishListedPlace({places:allPlaces, session: req.session});
         if (search_menu) {
             allMenus = await _searchMenus(search_menu);
             allPlaces = [];
@@ -81,9 +83,10 @@ const allPlace = async (req, res) => {
 const getPlaceCategory = async (req, res) => {
     try {
         const {category} = req.params
-        const placeCategory = await Place.find({is_draft: false, "categories.name": category})
+        let placeCategory = await Place.find({is_draft: false, "categories.name": category})
             .sort({createdAt: -1})
-            .select('name slug photo address');
+            .select('name slug photo address _id');
+        placeCategory = await place_service.flagWishListedPlace({places:placeCategory, session: req.session});
         res.locals.pageTitle = "Explore " + category + " - emam.id";
         return res.render('place-category', {placeCategory, category})
     } catch (error) {
@@ -93,7 +96,7 @@ const getPlaceCategory = async (req, res) => {
 
 const claimBusiness = async (req, res) => {
     const loadJS = [
-        {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        ...frontend.vueDeps,
         {src: "https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit"},
         {src: "https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"},
         {src: "https://unpkg.com/sweetalert/dist/sweetalert.min.js"},
@@ -117,7 +120,7 @@ const claimBusiness = async (req, res) => {
 
 const tellUs = async (req, res) => {
     const loadJS = [
-        {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        ...frontend.vueDeps,
         {src: "https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit"},
         {src: "https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js"},
         {src: "https://unpkg.com/sweetalert/dist/sweetalert.min.js"},
@@ -210,7 +213,6 @@ const placeDetailPage = async (req, res) => {
         const lastUpdate = moment(place.updatedAt).format(dtlib.formats.lastUpdate);
         let payments = place.payments.map(e => (e.name));
         let ctas = {};
-        console.log(place.call_to_actions);
         place.call_to_actions.forEach(e => {
             if (e.value != '') ctas[e.type] = e.value;
             if (e.draft) {
@@ -219,9 +221,39 @@ const placeDetailPage = async (req, res) => {
                 }
             }
         })
-        console.log(ctas);
         payments = payments.length > 0 ? payments.join(', ') : 'Belum ada informasi';
         const city = place.city.charAt(0).toUpperCase() + place.city.slice(1);
+        var paymentscat = [];
+        place.payment_detail.forEach(e => {
+            var feed = {
+                type: e.type,
+                detail: []
+            };
+            paymentscat.push(feed);
+        });
+        //remove duplicate
+        var seenNames = {};
+        paymentscat = paymentscat.filter(function (currentObject) {
+            if (currentObject.type in seenNames) {
+                return false;
+            } else {
+                seenNames[currentObject.type] = true;
+                return true;
+            }
+        });
+        //Push Detail
+        for (var i = 0; i < paymentscat.length; i++) {
+            place.payment_detail.forEach(a => {
+                if (paymentscat[i].type === a.type) {
+                    var feed = {
+                        name: a.name,
+                        condition: a.condition
+                    };
+                    paymentscat[i].detail.push(feed);
+                }
+            });
+        }
+        //
         res.locals.pageTitle = place.name + ", " + city + " - Info menu digital terbaru dari emam.id"
         return res.render('place-detail', {
             place,
@@ -232,6 +264,7 @@ const placeDetailPage = async (req, res) => {
             lastUpdate,
             payments,
             ctas,
+            paymentscat,
             loadJS,
             loadCSS
         });

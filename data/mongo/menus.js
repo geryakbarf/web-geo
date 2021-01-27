@@ -11,7 +11,8 @@ const coffeeInfoSchema = new Schema({
 
 const variantSchema = new Schema({
     id: String,
-    name: String
+    name: String,
+    prices: Number
 })
 
 const schema = new Schema({
