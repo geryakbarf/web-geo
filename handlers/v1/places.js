@@ -135,15 +135,23 @@ const _boldStringHtml = (str, strBolded) => {
 
 const _searchMenuPlace = async (keyword) => {
     try {
-        const menus = await Menu.find({$text: {$search: keyword}}).limit(5).select('placeId name photo _id');
-        const places = await Place.find({_id: {$in: menus.map(e => (e.placeId))},is_draft: false}).select('name slug _id');
-        console.log(keyword,menus.map(e => (e.placeId)));
+        const menus = await Menu.find({
+            name: {
+                $regex: keyword,
+                $options: 'i'
+            }
+        }).limit(5).select('placeId name photo _id');
+        const places = await Place.find({
+            _id: {$in: menus.map(e => (e.placeId))},
+            is_draft: false
+        }).select('name slug _id');
+        console.log(keyword, menus.map(e => (e.placeId)));
         const results = menus.map(e => {
             let {name, placeId, photo, _id} = e;
             // console.log(name);
             // name = _boldStringHtml(name, keyword);
             let [place] = places.filter(e1 => (e1._id == placeId));
-            if(!place) return null;
+            if (!place) return null;
             // place.name = _boldStringHtml(place.name, keyword);
             return {_id, name, photo, placeName: place.name, slug: place.slug};
         }).filter(e => e != null)
@@ -156,7 +164,13 @@ const _searchMenuPlace = async (keyword) => {
 const searchPlacesAndMenus = async (req, res) => {
     try {
         const {keyword} = req.query;
-        const placesQuery = Place.find({$text: {$search: keyword},is_draft: false}).limit(5).select('name slug address photo');
+        const placesQuery = Place.find({
+            name: {
+                $regex: keyword,
+                $options: 'i'
+            },
+            is_draft: false
+        }).limit(5).select('name slug address photo');
         const menusQuery = _searchMenuPlace(keyword);
         let [places, menus] = await Promise.all([placesQuery, menusQuery]);
         return res.render('partials/search-bar-place', {places, menus, keyword});

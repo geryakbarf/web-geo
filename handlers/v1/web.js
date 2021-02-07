@@ -19,7 +19,7 @@ const homePage = async (req, res) => {
             .limit(4)
             .sort({createdAt: -1})
             .select('name slug photo address _id');
-        newPlaces = await place_service.flagWishListedPlace({places:newPlaces, session: req.session});
+        newPlaces = await place_service.flagWishListedPlace({places: newPlaces, session: req.session});
         const category = await PlaceCategory.find({}).limit(4).select('name image');
         const allCategory = await PlaceCategory.find({}).select('name image');
         return res.render('index', {loadJS, newPlaces, category, allCategory, path: req.route.path})
@@ -42,7 +42,12 @@ const categoryPage = async (req, res) => {
 
 const _searchMenus = async (keyword) => {
     try {
-        const menus = await Menu.find({$text: {$search: keyword}}).limit(5).select('placeId name photo _id');
+        const menus = await Menu.find({
+            name: {
+                $regex: keyword,
+                $options: 'i'
+            }
+        }).limit(5).select('placeId name photo _id');
         const places = await Place.find({_id: {$in: menus.map(e => (e.placeId))}}).select('name slug _id');
         const results = menus.map(e => {
             let {_id, name, placeId, photo} = e;
@@ -63,11 +68,11 @@ const allPlace = async (req, res) => {
         const {search_place, search_menu} = req.query;
         let filter = {is_draft: false};
         let allMenus = [];
-        if (search_place) filter['$text'] = {$search: search_place};
+        if (search_place) filter = {is_draft: false, name: {$regex: search_place, $options: 'i'}};
         let allPlaces = await Place.find(filter)
             .sort({createdAt: -1})
             .select('name slug photo address _id');
-        allPlaces = await place_service.flagWishListedPlace({places:allPlaces, session: req.session});
+        allPlaces = await place_service.flagWishListedPlace({places: allPlaces, session: req.session});
         if (search_menu) {
             allMenus = await _searchMenus(search_menu);
             allPlaces = [];
@@ -86,7 +91,7 @@ const getPlaceCategory = async (req, res) => {
         let placeCategory = await Place.find({is_draft: false, "categories.name": category})
             .sort({createdAt: -1})
             .select('name slug photo address _id');
-        placeCategory = await place_service.flagWishListedPlace({places:placeCategory, session: req.session});
+        placeCategory = await place_service.flagWishListedPlace({places: placeCategory, session: req.session});
         res.locals.pageTitle = "Explore " + category + " - emam.id";
         return res.render('place-category', {placeCategory, category})
     } catch (error) {
