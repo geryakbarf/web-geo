@@ -202,7 +202,7 @@ const placeDetailPage = async (req, res) => {
         const {slug} = req.params;
         const place = await Place.findOne({is_draft: false, slug});
         if (!place) throw {code: 404, message: "404 Not Found"};
-        let menus = await Menu.find({placeId: place._id});
+        let menus = await Menu.find({placeId: place._id, is_draft: false});
         menus = place.menu_categories.map(e => {
             let menu_docs = menus.filter(e1 => (e == e1.category)).map(e1 => {
                 let doc = e1._doc;
