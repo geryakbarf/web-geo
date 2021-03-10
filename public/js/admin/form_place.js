@@ -4,7 +4,7 @@ var app = new Vue({
     data: {
         sideMenuIndex: 0,
         search: '',
-        bio: 'Ini adalah testing',
+        isLoading: true,
         form: {
             _id: null,
             name: '',
@@ -487,6 +487,7 @@ var app = new Vue({
                 }
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
+                this.isLoading = false;
             } catch (error) {
                 console.log(error);
             }
