@@ -4,6 +4,7 @@ var app = new Vue({
     data: {
         sideMenuIndex: 0,
         search: '',
+        bio: 'Ini adalah testing',
         form: {
             _id: null,
             name: '',
@@ -13,7 +14,7 @@ var app = new Vue({
             categories: [],
             menu_categories: [],
             parkir: '',
-            // description: '',
+            bio: '',
             is_draft: true,
             is_partner: false,
             is_halal: true,
@@ -478,6 +479,8 @@ var app = new Vue({
                     this.form.payment_detail = [];
                 if (!this.form.is_sticker)
                     this.form.is_sticker = false;
+                if (!this.form.bio)
+                    this.form.bio = '';
                 if (!this.form.contactType) {
                     this.form.contactType = '';
                     this.form.contactNumber = '';
@@ -604,5 +607,6 @@ var app = new Vue({
     },
     components: {
         QrCanvas,
+        'tinymce': VueEasyTinyMCE,
     },
 })

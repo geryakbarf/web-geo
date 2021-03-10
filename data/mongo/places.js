@@ -36,6 +36,7 @@ const schema = new Schema({
     name: String,
     slug: {type: String, unique: true},
     description: String,
+    bio: String,
     city: String,
     address: String,
     cuisines: [String],
