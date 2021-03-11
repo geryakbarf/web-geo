@@ -284,7 +284,11 @@
 }
 
 .dropdown-toggle::after{
-  display: none !important;
+  display: none;
+}
+
+.dropdown-visible .dropdown-toggle::after{
+    display: inline-block !important;
 }
 
 .ic-arrow-up{
