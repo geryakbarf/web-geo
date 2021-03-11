@@ -5,6 +5,7 @@ var app = new Vue({
         sideMenuIndex: 0,
         search: '',
         isLoading: true,
+        operationalTimesStatus: true,
         form: {
             _id: null,
             name: '',
@@ -174,6 +175,7 @@ var app = new Vue({
 
         },
         _onSaveParams: async function () {
+            this.form.operationalTimesStatus = this.operationalTimesStatus;
             let formData = {...this.form};
             let photoTmp = this.formTmp.photo;
             let photo = formData.photo;
@@ -467,8 +469,8 @@ var app = new Vue({
                 const data = await res.json();
                 this.form = data.data;
                 //
-                if (this.form.operationalTimesStatus === undefined)
-                    this.form.operationalTimesStatus = true;
+                if (data.data.operationalTimesStatus !== undefined)
+                    this.operationalTimesStatus = this.form.operationalTimesStatus;
                 //
                 this.options.data = 'https://emam.id/qr/' + this.form.slug;
                 this.form.categories = this.form.categories.map(e => ({id: e.id, text: e.name}));
@@ -590,7 +592,7 @@ var app = new Vue({
             return condition;
         },
         hasOperationalTimes() {
-            return this.form.operationalTimesStatus;
+            return this.operationalTimesStatus;
         },
         filteredMenu() {
             return this.menus.filter(menu => {
