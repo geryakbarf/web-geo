@@ -1,7 +1,14 @@
 <div v-if="sideMenuIndex == 2">
     <h1>Operational Times</h1>
-
-    <div class="columns" v-for="(op, idx) in form.operational_times">
+    <div class="column">
+        <div class="form-group">
+            <label class="form-switch">
+                <input type="checkbox" v-model="form.operationalTimesStatus">
+                <i class="form-icon"></i> Operational Times Status
+            </label>
+        </div>
+    </div>
+    <div v-if="hasOperationalTimes" class="columns" v-for="(op, idx) in form.operational_times">
         <div class="column col-3">
             <div class="form-group">
                 <label class="form-label" v-bind:for="'day-'+idx">Hari</label>

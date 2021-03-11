@@ -54,6 +54,7 @@ const schema = new Schema({
         options: Schema.Types.Mixed
     },
     menu_categories: [String],
+    operationalTimesStatus: Boolean,
     operational_times: [operationalTimeSchema],
     facilities: [facilitySchema],
     call_to_actions: [callToActionSchema],

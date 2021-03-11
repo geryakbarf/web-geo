@@ -25,6 +25,7 @@ var app = new Vue({
             facilities: [],
             covid: [],
             galleries: [],
+            operationalTimesStatus: true,
             operational_times: [
                 {day: 'Senin', openTime: '00:00', closeTime: '00:00', is_open: true, is_24Hours: false},
                 {day: 'Selasa', openTime: '00:00', closeTime: '00:00', is_open: true, is_24Hours: false},
@@ -465,12 +466,17 @@ var app = new Vue({
                 const res = await fetch(`/api/v1/places/${placeId}`);
                 const data = await res.json();
                 this.form = data.data;
+                //
+                if (this.form.operationalTimesStatus === undefined)
+                    this.form.operationalTimesStatus = true;
+                //
                 this.options.data = 'https://emam.id/qr/' + this.form.slug;
                 this.form.categories = this.form.categories.map(e => ({id: e.id, text: e.name}));
                 this.form.payments = this.form.payments.map(e => ({code: e.code, text: e.name}));
                 if (this.form.parkir)
                     this.form.parkir = this.form.parkir.id;
                 this.formFieldValues.payments = this.form.payments;
+                //
                 if (!this.form.call_to_actions[7])
                     this.form.call_to_actions.push({type: "linkmenu", value: ''});
                 if (!this.form.call_to_actions[1].draft)
@@ -485,6 +491,7 @@ var app = new Vue({
                     this.form.contactType = '';
                     this.form.contactNumber = '';
                 }
+                //
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
                 this.isLoading = false;
@@ -581,6 +588,9 @@ var app = new Vue({
                 }
             }
             return condition;
+        },
+        hasOperationalTimes() {
+            return this.form.operationalTimesStatus;
         },
         filteredMenu() {
             return this.menus.filter(menu => {
