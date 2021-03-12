@@ -54,137 +54,165 @@
                                                                     <!-- validasi no telp -->
                                                                     <a href="tel:"></a>
                                                                 </p>
-                                                                <div class="dropdown dropdown-visible show">
-                                                                    <a aria-expanded="false" aria-haspopup="true"
-                                                                        class="dropdown-toggle" data-toggle="dropdown"
-                                                                        href="#" id="dropdownMenuLink" role="button">
-                                                                        <!-- Buka Tutup -->
-                                                                        <h5 class='txt-jambukatutup inlineblock mr-1 <%= isTodayOpen ? "text-green": "text-red" %>'
-                                                                            id='kondisibukatutup'>
-                                                                            <%= isTodayOpen ? "Buka" : "Tutup" %>
-                                                                        </h5>
-                                                                        <h5 class="txt-jambukatutup inline">
-                                                                            <% if (todayOT.is_24Hours &&
-                                                                                todayOT.is_open) { %>
-                                                                                | Buka 24 Jam
-                                                                                <% } else if (todayOT.is_open) { %>
-                                                                                    | Buka jam <%= todayOT.openTime %> -
-                                                                                        <%= todayOT.closeTime %> WIB
-                                                                                            <% } else { %>
-                                                                                                | Hari ini tutup
-                                                                                                <% } %>
-                                                                        </h5>
-                                                                    </a>
-                                                                    <div aria-labelledby="dropdownMenuLink"
-                                                                        class="dropdown-menu" disabled>
-                                                                        <h5 class="mb-3">Jadwal Tempat</h5>
-                                                                        <table class="jadwal-table">
-                                                                            <tbody>
-                                                                                <% if(place.operational_times){ %>
-                                                                                    <% for(optime of
-                                                                                        place.operational_times){ %>
-                                                                                        <tr>
-                                                                                            <td>
-                                                                                                <p
-                                                                                                    class="no-sp <%= optime.day == day ? 'text-bold' : ''%>">
-                                                                                                    <%= optime.day %>
-                                                                                                        &nbsp;
-                                                                                                </p>
-                                                                                            </td>
-                                                                                            <td>&nbsp;</td>
-                                                                                            <td>
-                                                                                                <% if(optime.is_24Hours
-                                                                                                    && optime.is_open) {
-                                                                                                    %>
+                                                                <% if(place.operationalTimesStatus){ %>
+                                                                    <div class="dropdown dropdown-visible show">
+                                                                        <a aria-expanded="false" aria-haspopup="true"
+                                                                            class="dropdown-toggle"
+                                                                            data-toggle="dropdown" href="#"
+                                                                            id="dropdownMenuLink" role="button">
+                                                                            <!-- Buka Tutup -->
+                                                                            <h5 class='txt-jambukatutup inlineblock mr-1 <%= isTodayOpen ? "text-green": "text-red" %>'
+                                                                                id='kondisibukatutup'>
+                                                                                <%= isTodayOpen ? "Buka" : "Tutup" %>
+                                                                            </h5>
+                                                                            <h5 class="txt-jambukatutup inline">
+                                                                                <% if (todayOT.is_24Hours &&
+                                                                                    todayOT.is_open) { %>
+                                                                                    | Buka 24 Jam
+                                                                                    <% } else if (todayOT.is_open) { %>
+                                                                                        | Buka jam <%= todayOT.openTime
+                                                                                            %> -
+                                                                                            <%= todayOT.closeTime %> WIB
+                                                                                                <% } else { %>
+                                                                                                    | Hari ini tutup
+                                                                                                    <% } %>
+                                                                            </h5>
+                                                                        </a>
+                                                                        <div aria-labelledby="dropdownMenuLink"
+                                                                            class="dropdown-menu" disabled>
+                                                                            <h5 class="mb-3">Jadwal Tempat</h5>
+                                                                            <table class="jadwal-table">
+                                                                                <tbody>
+                                                                                    <% if(place.operational_times){ %>
+                                                                                        <% for(optime of
+                                                                                            place.operational_times){ %>
+                                                                                            <tr>
+                                                                                                <td>
                                                                                                     <p
                                                                                                         class="no-sp <%= optime.day == day ? 'text-bold' : ''%>">
-                                                                                                        24 Jam</p>
-                                                                                                    <% }else
-                                                                                                        if(optime.is_open)
+                                                                                                        <%= optime.day
+                                                                                                            %>
+                                                                                                            &nbsp;
+                                                                                                    </p>
+                                                                                                </td>
+                                                                                                <td>&nbsp;</td>
+                                                                                                <td>
+                                                                                                    <% if(optime.is_24Hours
+                                                                                                        &&
+                                                                                                        optime.is_open)
                                                                                                         { %>
                                                                                                         <p
                                                                                                             class="no-sp <%= optime.day == day ? 'text-bold' : ''%>">
-                                                                                                            <%= optime.openTime
-                                                                                                                %> -
-                                                                                                                <%= optime.closeTime
-                                                                                                                    %>
-                                                                                                                    WIB
-                                                                                                        </p>
-                                                                                                        <% } else { %>
+                                                                                                            24 Jam</p>
+                                                                                                        <% }else
+                                                                                                            if(optime.is_open)
+                                                                                                            { %>
                                                                                                             <p
-                                                                                                                class="no-sp text-red">
-                                                                                                                Tutup
+                                                                                                                class="no-sp <%= optime.day == day ? 'text-bold' : ''%>">
+                                                                                                                <%= optime.openTime
+                                                                                                                    %> -
+                                                                                                                    <%= optime.closeTime
+                                                                                                                        %>
+                                                                                                                        WIB
                                                                                                             </p>
-                                                                                                            <% } %>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <% } %>
-                                                                                            <% } %>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
-                                                                <% if(place.bio){ %>
-                                                                    <div class="layout-bio py-2">
-                                                                        <%- place.bio %>
-                                                                    </div>
-                                                                    <% } %>
-                                                                        <% if(ctas.gmaps){ %>
-                                                                            <a class="btn btn-googlemaps mr-2 my-2"
-                                                                                href="<%= ctas.gmaps %>" id="googlemaps"
-                                                                                name="btngooglemaps"
-                                                                                target="_blank"><img
-                                                                                    class="ic-gmaps mr-2"
-                                                                                    src="/assets/images/icon/emam-host-googlemaps.svg">Telusuri
-                                                                                Lokasi</a>
-                                                                            <% } %>
-                                                                                <% if(ctas.whatsapp){ %>
-                                                                                    <a class="btn btn-whatsapp"
-                                                                                        href="https://wa.me/62<%=ctas.whatsapp%>"
-                                                                                        id="whatsapp" name="btnwhatsapp"
-                                                                                        target="_blank"><img
-                                                                                            class="ic-wa mr-2"
-                                                                                            src="/assets/images/icon/emam-host-whatsapp.svg">Chat
-                                                                                        Whatsapp</a>
-                                                                                    <% } %>
-                                                                                        <div class="social-media-box">
-                                                                                            <% if(ctas.grabfood ||
-                                                                                                ctas.gofood){ %>
-                                                                                                <p class="no-sp">
-                                                                                                    Dapat
-                                                                                                    dipesan
-                                                                                                    melalui:</p>
-                                                                                                <% if(ctas.grabfood){ %>
-                                                                                                    <a class="order-button mr-2"
-                                                                                                        href="<%= ctas.grabfood %>"
-                                                                                                        style="margin-right: 5px;"
-                                                                                                        target="_blank"><img
-                                                                                                            alt="Emam - Link Grabfood <%= place.name %>"
-                                                                                                            class="my-2"
-                                                                                                            src="/assets/images/emam-grabfood.svg"
-                                                                                                            style="max-width: 120px;"></a>
-                                                                                                    <% } %>
-                                                                                                        <% if(ctas.gofood){
-                                                                                                            %>
-                                                                                                            <a class="order-button"
-                                                                                                                href="<%= ctas.gofood %>"
-                                                                                                                style="margin-right: 5px;"
-                                                                                                                target="_blank"><img
-                                                                                                                    alt="Emam - Link Gofood <%= place.name %>"
-                                                                                                                    class="my-2"
-                                                                                                                    src="/assets/images/emam-gofood.svg"
-                                                                                                                    style="max-width: 120px;"></a>
-                                                                                                            <% } %>
+                                                                                                            <% } else {
+                                                                                                                %>
+                                                                                                                <p
+                                                                                                                    class="no-sp text-red">
+                                                                                                                    Tutup
+                                                                                                                </p>
                                                                                                                 <% } %>
-                                                                                        </div>
-                                                                                        <p class="no-sp txt-lastupdate">
-                                                                                            Update
-                                                                                            terakhir:</p>
-                                                                                        <p hidden id="update">
-                                                                                            <%= lastUpdate %>
-                                                                                        </p>
-                                                                                        <p class="no-sp txt-waktu-lastupdate"
-                                                                                            id="lastupdate"></p>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <% } %>
+                                                                                                <% } %>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                    <% } else { %>
+                                                                        <%= place.operatinalTimesStatus %>
+                                                                            <p><strong>Menggunakan Sistem
+                                                                                    Pre-Order</strong>
+                                                                            </p>
+                                                                            <% } %>
+                                                                                <% if(place.bio){ %>
+                                                                                    <div class="layout-bio py-2">
+                                                                                        <%- place.bio %>
+                                                                                    </div>
+                                                                                    <% } %>
+                                                                                        <% if(ctas.gmaps){ %>
+                                                                                            <a class="btn btn-googlemaps mr-2 my-2"
+                                                                                                href="<%= ctas.gmaps %>"
+                                                                                                id="googlemaps"
+                                                                                                name="btngooglemaps"
+                                                                                                target="_blank"><img
+                                                                                                    class="ic-gmaps mr-2"
+                                                                                                    src="/assets/images/icon/emam-host-googlemaps.svg">Telusuri
+                                                                                                Lokasi</a>
+                                                                                            <% } %>
+                                                                                                <% if(ctas.whatsapp){ %>
+                                                                                                    <a class="btn btn-whatsapp"
+                                                                                                        href="https://wa.me/62<%=ctas.whatsapp%>"
+                                                                                                        id="whatsapp"
+                                                                                                        name="btnwhatsapp"
+                                                                                                        target="_blank"><img
+                                                                                                            class="ic-wa mr-2"
+                                                                                                            src="/assets/images/icon/emam-host-whatsapp.svg">Chat
+                                                                                                        Whatsapp</a>
+                                                                                                    <% } %>
+                                                                                                        <div
+                                                                                                            class="social-media-box">
+                                                                                                            <% if(ctas.grabfood
+                                                                                                                ||
+                                                                                                                ctas.gofood){
+                                                                                                                %>
+                                                                                                                <p
+                                                                                                                    class="no-sp">
+                                                                                                                    Dapat
+                                                                                                                    dipesan
+                                                                                                                    melalui:
+                                                                                                                </p>
+                                                                                                                <% if(ctas.grabfood){
+                                                                                                                    %>
+                                                                                                                    <a class="order-button mr-2"
+                                                                                                                        href="<%= ctas.grabfood %>"
+                                                                                                                        style="margin-right: 5px;"
+                                                                                                                        target="_blank"><img
+                                                                                                                            alt="Emam - Link Grabfood <%= place.name %>"
+                                                                                                                            class="my-2"
+                                                                                                                            src="/assets/images/emam-grabfood.svg"
+                                                                                                                            style="max-width: 120px;"></a>
+                                                                                                                    <% }
+                                                                                                                        %>
+                                                                                                                        <% if(ctas.gofood){
+                                                                                                                            %>
+                                                                                                                            <a class="order-button"
+                                                                                                                                href="<%= ctas.gofood %>"
+                                                                                                                                style="margin-right: 5px;"
+                                                                                                                                target="_blank"><img
+                                                                                                                                    alt="Emam - Link Gofood <%= place.name %>"
+                                                                                                                                    class="my-2"
+                                                                                                                                    src="/assets/images/emam-gofood.svg"
+                                                                                                                                    style="max-width: 120px;"></a>
+                                                                                                                            <% }
+                                                                                                                                %>
+                                                                                                                                <% }
+                                                                                                                                    %>
+                                                                                                        </div>
+                                                                                                        <p
+                                                                                                            class="no-sp txt-lastupdate">
+                                                                                                            Update
+                                                                                                            terakhir:
+                                                                                                        </p>
+                                                                                                        <p hidden
+                                                                                                            id="update">
+                                                                                                            <%= lastUpdate
+                                                                                                                %>
+                                                                                                        </p>
+                                                                                                        <p class="no-sp txt-waktu-lastupdate"
+                                                                                                            id="lastupdate">
+                                                                                                        </p>
                             </div>
                         </div>
                         <hr class="d-none d-lg-block" style="max-width: 100%; border-top: 1px solid #cacaca;">
@@ -544,6 +572,6 @@
             </div>
         </main>
         <script>
-            var menu_categories = <%- JSON.stringify(place.menu_categories) %>;
+            var menu_categories = <% - JSON.stringify(place.menu_categories) %>;
         </script>
         <%- include('./partials/footer.html') %>
