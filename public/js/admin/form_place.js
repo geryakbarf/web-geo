@@ -531,6 +531,16 @@ var app = new Vue({
             window.addEventListener('beforeunload', this.leaving, true);
             window.location = `/admin/places`
         },
+        sameHours: function () {
+            let openTime = this.form.operational_times[0].openTime;
+            let closeTime = this.form.operational_times[0].closeTime;
+            let is24Hours = this.form.operational_times[0].is_24Hours;
+            for (var i = 1; i <= this.form.operational_times.length; i++) {
+                this.form.operational_times[i].openTime = openTime;
+                this.form.operational_times[i].closeTime = closeTime;
+                this.form.operational_times[i].is_24Hours = is24Hours;
+            }
+        },
         onDeleteData: async function () {
             if (confirm('Are you sure want to delete this data?')) {
                 const res = await fetch(`/api/v1/places/${placeId}`, {method: "DELETE"});

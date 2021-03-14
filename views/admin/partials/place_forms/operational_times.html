@@ -1,11 +1,16 @@
 <div v-if="sideMenuIndex == 2">
     <h1>Operational Times</h1>
-    <div class="column">
-        <div class="form-group">
-            <label class="form-switch">
-                <input type="checkbox" v-model="operationalTimesStatus">
-                <i class="form-icon"></i> Operational Times Status
-            </label>
+    <div class="columns">
+        <div class="column 7">
+            <div class="form-group">
+                <label class="form-switch">
+                    <input type="checkbox" v-model="operationalTimesStatus">
+                    <i class="form-icon"></i> Operational Times Status
+                </label>
+            </div>
+        </div>
+        <div v-if="hasOperationalTimes" style="float:right;">
+            <button class="btn" v-on:click="sameHours">Same Hours</button>
         </div>
     </div>
     <div v-if="hasOperationalTimes" class="columns" v-for="(op, idx) in form.operational_times">
