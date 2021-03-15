@@ -4,6 +4,8 @@ var app = new Vue({
     data: {
         sideMenuIndex: 0,
         search: '',
+        isLoading: true,
+        operationalTimesStatus: true,
         form: {
             _id: null,
             name: '',
@@ -13,7 +15,7 @@ var app = new Vue({
             categories: [],
             menu_categories: [],
             parkir: '',
-            // description: '',
+            bio: '',
             is_draft: true,
             is_partner: false,
             is_halal: true,
@@ -24,6 +26,7 @@ var app = new Vue({
             facilities: [],
             covid: [],
             galleries: [],
+            operationalTimesStatus: true,
             operational_times: [
                 {day: 'Senin', openTime: '00:00', closeTime: '00:00', is_open: true, is_24Hours: false},
                 {day: 'Selasa', openTime: '00:00', closeTime: '00:00', is_open: true, is_24Hours: false},
@@ -172,6 +175,7 @@ var app = new Vue({
 
         },
         _onSaveParams: async function () {
+            this.form.operationalTimesStatus = this.operationalTimesStatus;
             let formData = {...this.form};
             let photoTmp = this.formTmp.photo;
             let photo = formData.photo;
@@ -464,12 +468,17 @@ var app = new Vue({
                 const res = await fetch(`/api/v1/places/${placeId}`);
                 const data = await res.json();
                 this.form = data.data;
+                //
+                if (data.data.operationalTimesStatus !== undefined)
+                    this.operationalTimesStatus = this.form.operationalTimesStatus;
+                //
                 this.options.data = 'https://emam.id/qr/' + this.form.slug;
                 this.form.categories = this.form.categories.map(e => ({id: e.id, text: e.name}));
                 this.form.payments = this.form.payments.map(e => ({code: e.code, text: e.name}));
                 if (this.form.parkir)
                     this.form.parkir = this.form.parkir.id;
                 this.formFieldValues.payments = this.form.payments;
+                //
                 if (!this.form.call_to_actions[7])
                     this.form.call_to_actions.push({type: "linkmenu", value: ''});
                 if (!this.form.call_to_actions[1].draft)
@@ -478,12 +487,16 @@ var app = new Vue({
                     this.form.payment_detail = [];
                 if (!this.form.is_sticker)
                     this.form.is_sticker = false;
+                if (!this.form.bio)
+                    this.form.bio = '';
                 if (!this.form.contactType) {
                     this.form.contactType = '';
                     this.form.contactNumber = '';
                 }
+                //
                 this.loadGalleriesFromData();
                 this.loadPhotoFromData();
+                this.isLoading = false;
             } catch (error) {
                 console.log(error);
             }
@@ -517,6 +530,16 @@ var app = new Vue({
         onCancel: function () {
             window.addEventListener('beforeunload', this.leaving, true);
             window.location = `/admin/places`
+        },
+        sameHours: function () {
+            let openTime = this.form.operational_times[0].openTime;
+            let closeTime = this.form.operational_times[0].closeTime;
+            let is24Hours = this.form.operational_times[0].is_24Hours;
+            for (var i = 1; i <= this.form.operational_times.length; i++) {
+                this.form.operational_times[i].openTime = openTime;
+                this.form.operational_times[i].closeTime = closeTime;
+                this.form.operational_times[i].is_24Hours = is24Hours;
+            }
         },
         onDeleteData: async function () {
             if (confirm('Are you sure want to delete this data?')) {
@@ -578,6 +601,9 @@ var app = new Vue({
             }
             return condition;
         },
+        hasOperationalTimes() {
+            return this.operationalTimesStatus;
+        },
         filteredMenu() {
             return this.menus.filter(menu => {
                 return menu.name.toLowerCase().includes(this.search.toLowerCase())
@@ -604,5 +630,6 @@ var app = new Vue({
     },
     components: {
         QrCanvas,
+        'tinymce': VueEasyTinyMCE,
     },
 })
