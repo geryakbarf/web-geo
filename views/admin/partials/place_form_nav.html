@@ -17,6 +17,9 @@
             <li v-bind:class="[isActiveSideMenu(5) ? 'active' : '', 'nav-item']">
                 <a href="javascript:void(0)" v-on:click="setSideMenuIndex(5)">Call to Actions</a>
             </li>
+            <li v-bind:class="[isActiveSideMenu(5) ? 'active' : '', 'nav-item']">
+                <a href="javascript:void(0)" v-on:click="setSideMenuIndex(11)">Descriptions</a>
+            </li>
             <% if(locals.id){ %>
             <li v-bind:class="[isActiveSideMenu(10) ? 'active' : '', 'nav-item']">
                 <a href="javascript:void(0)" v-on:click="setSideMenuIndex(10)">QR Generator</a>

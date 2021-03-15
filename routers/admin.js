@@ -5,6 +5,7 @@ const Menu = require('../data/mongo/menus');
 const Admin = require('../data/mongo/admin');
 
 const formPageJS = [
+    {src: "https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.4/tinymce.min.js"},
     {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
     {src: "https://unpkg.com/@johmun/vue-tags-input@2.1.0/dist/vue-tags-input.js"},
     {src: "https://cdn.jsdelivr.net/g/lodash@4(lodash.min.js+lodash.fp.min.js)"},
@@ -14,6 +15,7 @@ const formPageJS = [
     {src: "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
     {src: "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
     {src: "https://cdn.jsdelivr.net/combine/npm/qrcanvas@3,npm/qrcanvas-vue@2"},
+    {src: "https://cdn.jsdelivr.net/npm/vue-easy-tinymce/dist/vue-easy-tinymce.min.js"},
     {src: "/assets/js/admin/form_place.js"},
 ];
 const formPageCSS = [
