@@ -3,6 +3,7 @@ const express = require('express')
 const router = express.Router()
 const v1 = express.Router()
 
+const ownerHanlder = require('../handlers/v1/owners');
 const placeCatHandler = require('../handlers/v1/place_categories');
 const cuisineHandler = require('../handlers/v1/cuisines');
 const paymentHandler = require('../handlers/v1/payments');
@@ -19,6 +20,8 @@ v1.get('/payments', paymentHandler.getAll)
 v1.get('/paymentscat', paymentHandler.getPaymentCategory)
 v1.get('/facilities', facilityHandler.getAll)
 v1.get('/covid-protocols', covidHandler.getAll)
+
+v1.get('/owners', ownerHanlder.getAllOwners)
 
 v1.get('/places', placeHandler.getPlaces)
 v1.get('/places/:id', placeHandler.getOnePlace)

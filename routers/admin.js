@@ -110,6 +110,20 @@ router.get('/places', (req, res) => {
     return res.render('admin/places', {loadJS, loadCSS, name: req.session.admin})
 })
 
+router.get('/owners', (req, res) => {
+    const loadJS = [
+        {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        {src: "https://cdn.jsdelivr.net/npm/vuejs-datatable@2.0.0-alpha.7/dist/vuejs-datatable.js"},
+        {src: "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
+        {src: "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
+        {src: "/assets/js/admin/list_owner.js"},
+    ];
+    const loadCSS = [
+        ...formPageCSS
+    ]
+    return res.render('admin/owner', {loadJS, loadCSS, name: req.session.admin})
+})
+
 router.get('/places/:id/edit', (req, res) => {
     const {id} = req.params;
     return res.render('admin/edit-place', {loadJS: formPageJS, loadCSS: formPageCSS, id})
