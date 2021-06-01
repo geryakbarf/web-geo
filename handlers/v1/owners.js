@@ -8,11 +8,21 @@ const serverErrMsg = "Terjadi kesalahan, mohon hubungi admin.";
 const getAllOwners = async (req, res) => {
     try {
         let data = await Owner.find();
+        let place = await Place.find();
+        let date = new Date(Date.parse(data[0].updatedAt) + 12096e5)
         data = data.map(e => {
             let doc = e._doc
             doc.updatedAt = moment(doc.updatedAt).format("YYYY-MM-DD HH:mm")
+            doc.nextUpdate = moment(date).format("YYYY-MM-DD HH:mm")
             return doc;
         });
+        console.log(data)
+        for (let i = 0; i < data.length; i++) {
+            for (let j = 0; j < place.length; j++) {
+                if (data[i].placesId[0] == place[j]._id)
+                    data[i].placeName = place[j].name
+            }
+        }
 
         return res.json({message: "Success to retrive places", data})
     } catch (error) {

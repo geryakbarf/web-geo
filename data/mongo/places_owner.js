@@ -9,7 +9,6 @@ const adminSchema = new Schema({
     addon: String,
     lastUpdate: String,
     placesId: [String],
-    placeName: String,
     options: Schema.Types.Mixed
 }, {timestamps: {}});
 

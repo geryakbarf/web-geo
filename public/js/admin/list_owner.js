@@ -11,6 +11,7 @@ var app = new Vue({
             {label: '#'},
             {label: 'Nama', field: "name"},
             {label: 'Last Update', field: "lastUpdate"},
+            {label : 'Next Update', field: "nextUpdate"},
             {label: 'Nama Restoran', field: "placeName"},
             // {label: 'Update Berikutnya', field: "nextUpdate"},
             {label: 'Action'}
@@ -55,11 +56,11 @@ var app = new Vue({
             else if (diff === 2)
                 updatedAt = diff + ' days ago'
             else
-                updatedAt = lastUpdate
+                updatedAt = lastUpdate.substring(0, 10);
             if (condiiton)
                 return updatedAt.substring(0, 10);
             else
-                return diff;
+                return updatedAt;
         },
 
         setSideMenuIndex: function (idx) {
@@ -115,13 +116,8 @@ var app = new Vue({
             if (res.ok) {
                 this.owner = data.data;
                 for (let i = 0; i < this.owner.length; i++) {
-                    this.owner[i].lastUpdate = this.compareDate(this.owner[i].updatedAt, true);
-                    for (let j = 0; j < placeData.length; j++) {
-                        if (this.owner[i].placesId[0] == placeData.data[j]._id) {
-                            console.log("true");
-                            this.owner[i].placeName = placeData.data[j].name;
-                        }
-                    }
+                    this.owner[i].lastUpdate = this.compareDate(this.owner[i].updatedAt, false);
+                    this.owner[i].nextUpdate = this.compareDate(this.owner[i].nextUpdate,true);
                 }
                 console.log(this.owner[0].placeName);
             } else toastr.error("Failed to retrive data");
