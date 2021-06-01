@@ -111,8 +111,6 @@ var app = new Vue({
         loadOwners: async function () {
             const res = await fetch('/api/v1/owners');
             const data = await res.json();
-            const placeRes = await fetch('/api/v1/places');
-            const placeData = await placeRes.json();
             if (res.ok) {
                 this.owner = data.data;
                 for (let i = 0; i < this.owner.length; i++) {
