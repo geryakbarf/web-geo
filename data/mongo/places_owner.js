@@ -6,9 +6,11 @@ const adminSchema = new Schema({
     name: String,
     contact: String,
     subscription: String,
-    addon: String,
     lastUpdate: String,
     placesId: [String],
+    contactType: String,
+    contactNumber: String,
+    addons: String,
     options: Schema.Types.Mixed
 }, {timestamps: {}});
 

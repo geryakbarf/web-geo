@@ -1,0 +1,56 @@
+<div v-show="sideMenuIndex == 0">
+    <h1>General</h1>
+    <div class="columns">
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label" for="name">Nama Pemilik*</label>
+                <input class="form-input" id="name" placeholder="Ex: Gery Akbar Fauzi" required type="text"
+                       v-model="form.name">
+            </div>
+        </div>
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label" for="subscription">Tipe Subscription*</label>
+                <select class="form-select" id="subscription" required v-model="form.subscription">
+                    <option selected value="" disabled>Choose an option</option>
+                    <option value="Gold">Gold</option>
+                    <option value="Silver">Silver</option>
+                    <option value="Bronze">Bronze</option>
+                </select>
+            </div>
+        </div>
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label" for="contactType">Tipe Nomor*</label>
+                <select class="form-select" id="contactType" v-model="form.contactType">
+                    <option value="" selected disabled>Pilih tipe nomor</option>
+                    <option value="022">022</option>
+                    <option value="+62">+62</option>
+                </select>
+            </div>
+        </div>
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label" for="contactNumber">Nomor Kontak*</label>
+                <input class="form-input" id="contactNumber" placeholder="Ex: 85156" required type="number"
+                       v-model="form.contactNumber">
+            </div>
+        </div>
+        <div class="column col-6">
+            <div class="form-group">
+                <label class="form-label" for="addons">Addons*</label>
+                <select class="form-select" id="addons" required v-model="form.addons">
+                    <option selected value="" disabled>Pilih Salah Satu Addons</option>
+                    <option value="Hype">Hype</option>
+                    <option value="Ultra">Ultra</option>
+                </select>
+            </div>
+        </div>
+        <!-- <div class="column col-12">
+            <div class="form-group">
+                <label class="form-label" for="description">Description*</label>
+                <textarea v-model="form.description" id="description" class="form-input" placeholder="Tell about your place" rows="5"></textarea>
+            </div>
+        </div> -->
+    </div>
+</div>

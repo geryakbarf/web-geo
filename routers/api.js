@@ -22,6 +22,7 @@ v1.get('/facilities', facilityHandler.getAll)
 v1.get('/covid-protocols', covidHandler.getAll)
 
 v1.get('/owners', ownerHanlder.getAllOwners)
+v1.post('/owners',ownerHanlder.addOwner)
 
 v1.get('/places', placeHandler.getPlaces)
 v1.get('/places/:id', placeHandler.getOnePlace)

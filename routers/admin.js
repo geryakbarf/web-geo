@@ -17,6 +17,7 @@ const formPageJS = [
     {src: "https://cdn.jsdelivr.net/combine/npm/qrcanvas@3,npm/qrcanvas-vue@2"},
     {src: "https://cdn.jsdelivr.net/npm/vue-easy-tinymce/dist/vue-easy-tinymce.min.js"},
     {src: "/assets/js/admin/form_place.js"},
+    {src: "/assets/js/admin/form_owner.js"},
 ];
 const formPageCSS = [
     {src: "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"}
@@ -122,6 +123,17 @@ router.get('/owners', (req, res) => {
         ...formPageCSS
     ]
     return res.render('admin/owner', {loadJS, loadCSS, name: req.session.admin})
+})
+
+router.get('/owners/new', async (req, res) => {
+    const loadJS = [
+        {src: "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"},
+        {src: "https://cdn.jsdelivr.net/npm/vuejs-datatable@2.0.0-alpha.7/dist/vuejs-datatable.js"},
+        {src: "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"},
+        {src: "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"},
+        {src: "/assets/js/admin/form_owner.js"},
+    ];
+    return res.render('admin/new-owner', {loadJS: loadJS, loadCSS: formPageCSS})
 })
 
 router.get('/places/:id/edit', (req, res) => {
