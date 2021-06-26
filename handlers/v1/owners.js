@@ -14,7 +14,6 @@ const getAllOwners = async (req, res) => {
             doc.updatedAt = moment(doc.updatedAt).format("YYYY-MM-DD HH:mm")
             return doc;
         });
-        console.log(data)
         for (let i = 0; i < data.length; i++) {
             let date = new Date(Date.parse(data[i].updatedAt) + 12096e5)
             data[i].nextUpdate = moment(date).format("YYYY-MM-DD HH:mm")
@@ -23,7 +22,6 @@ const getAllOwners = async (req, res) => {
                     data[i].placeName = place[j].name
             }
         }
-
         return res.json({message: "Success to retrive places", data})
     } catch (error) {
         console.log(error);
@@ -49,7 +47,38 @@ const addOwner = async (req, res) => {
     }
 }
 
+const getOneOwner = async (req, res) => {
+    try {
+        const data = await Owner.findOne({_id: req.params.id});
+        return res.json({message: "Success to retrive places", data})
+    } catch (error) {
+        console.log(error);
+        if (error.code)
+            return res.status(error.code).json(error.message);
+        return res.status(500).json({message: serverErrMsg});
+    }
+}
+
+const updateOwner = async (req, res) => {
+    try {
+        const {_id, ...data} = req.body;
+        const owner = await Owner.updateOne({_id}, data);
+        return res.json({
+            message: "Success to update place",
+            data: {id: owner._id}
+        });
+    } catch (error) {
+        console.log(error);
+        if (error.code)
+            return res.status(error.code).json(error.message);
+        return res.status(500).json({message: serverErrMsg});
+    }
+
+}
+
 module.exports = {
     getAllOwners,
-    addOwner
+    addOwner,
+    getOneOwner,
+    updateOwner
 }
