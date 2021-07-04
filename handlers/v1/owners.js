@@ -8,7 +8,7 @@ const serverErrMsg = "Terjadi kesalahan, mohon hubungi admin.";
 const getAllOwners = async (req, res) => {
     try {
         let data = await Owner.find();
-        let place = await Place.find();
+        console.log(data);
         data = data.map(e => {
             let doc = e._doc
             doc.updatedAt = moment(doc.updatedAt).format("YYYY-MM-DD HH:mm")
@@ -17,10 +17,9 @@ const getAllOwners = async (req, res) => {
         for (let i = 0; i < data.length; i++) {
             let date = new Date(Date.parse(data[i].updatedAt) + 12096e5)
             data[i].nextUpdate = moment(date).format("YYYY-MM-DD HH:mm")
-            for (let j = 0; j < place.length; j++) {
-                if (data[i].placesId[0] == place[j]._id)
-                    data[i].placeName = place[j].name
-            }
+            let place = await Place.find({_id: {$in: data[i].placesId}});
+            if (place.length > 0)
+                data[i].placeName = place[0].name;
         }
         return res.json({message: "Success to retrive places", data})
     } catch (error) {

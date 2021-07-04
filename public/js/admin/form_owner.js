@@ -12,6 +12,11 @@ var app = new Vue({
             addons: "",
             placesId: []
         },
+        placeForm: {
+            _id: null,
+            name: '',
+            photo: null,
+        }
     },
     methods: {
         setSideMenuIndex: function (idx) {
@@ -61,6 +66,10 @@ var app = new Vue({
                 return Promise.reject(error);
             }
         },
+        deletePlaces: function (id) {
+            this.form.placesId.filter(item => item !== id)
+            this.placeForm.filter(item => item._id !== id)
+        },
         loadOwner: async function () {
             if (!_id) return;
             const urlParams = new URLSearchParams(window.location.search);
@@ -88,9 +97,30 @@ var app = new Vue({
                 return Promise.reject(error);
             }
         },
+        loadPlace: async function () {
+            if (!_id) return;
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('nav'))
+                this.sideMenuIndex = urlParams.get('nav')
+            try {
+                const resultOwner = await fetch(`/api/v1/owners/${_id}`);
+                const dataOwner = await resultOwner.json();
+                let formData = dataOwner.data;
+                const res = await fetch('/api/v1/places/owner', {
+                    method: "POST",
+                    body: JSON.stringify(formData),
+                    headers: {'Content-Type': "application/json"}
+                });
+                const data = await res.json();
+                this.placeForm = data.data;
+            } catch (error) {
+                console.log(error);
+            }
+        },
     },
     mounted() {
         this.loadOwner()
+        this.loadPlace()
     },
     computed: {}
 })

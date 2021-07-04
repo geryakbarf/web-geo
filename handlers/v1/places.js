@@ -53,6 +53,22 @@ const updatePlace = async (req, res) => {
     }
 
 }
+const getOwnerPlace = async (req, res) => {
+    try {
+        const place = req.body;
+        console.log(place);
+        let data = await Place.find({_id: {$in: place.placesId}})
+        console.log(data)
+        return res.json({
+            message: "Sukses", data
+        })
+    } catch (error) {
+        console.log(error);
+        if (error.code)
+            return res.status(error.code).json(error.message);
+        return res.status(500).json({message: serverErrMsg});
+    }
+}
 
 const getPlaces = async (req, res) => {
     try {
@@ -192,5 +208,6 @@ module.exports = {
     getMenuCategoriesPlace,
     saveMenuCategoriesPlace,
     searchPlacesAndMenus,
-    insertClaim
+    insertClaim,
+    getOwnerPlace
 }
