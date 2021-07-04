@@ -199,6 +199,27 @@ const searchPlacesAndMenus = async (req, res) => {
     }
 }
 
+const searchPlace = async (req, res) => {
+    try {
+        const {keyword} = req.query;
+        if (keyword == '' || keyword ==' ') return res.json({
+            message: "Success to retrive places",
+            data: []
+        })
+        let params = {name: {$regex: keyword, $options: 'i'}, is_draft: false};
+        const placesQuery = await Place.find(params).limit(5).select('_id name slug address photo');
+        return res.json({
+            message: "Success to retrive places",
+            data: placesQuery
+        })
+    } catch (error) {
+        console.log(error);
+        if (error.code)
+            return res.status(error.code).json(error.message);
+        return res.status(500).json({message: serverErrMsg});
+    }
+}
+
 module.exports = {
     getPlaces,
     getOnePlace,
@@ -209,5 +230,6 @@ module.exports = {
     saveMenuCategoriesPlace,
     searchPlacesAndMenus,
     insertClaim,
-    getOwnerPlace
+    getOwnerPlace,
+    searchPlace
 }

@@ -67,8 +67,8 @@ var app = new Vue({
             }
         },
         deletePlaces: function (id) {
-            this.form.placesId.filter(item => item !== id)
-            this.placeForm.filter(item => item._id !== id)
+            this.form.placesId = this.form.placesId.filter(e => e !== id);
+            this.placeForm = this.placeForm.filter(e => e._id !== id)
         },
         loadOwner: async function () {
             if (!_id) return;

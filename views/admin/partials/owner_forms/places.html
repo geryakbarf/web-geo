@@ -1,9 +1,8 @@
 <div v-if="sideMenuIndex == 6">
-    <h1>Restaurant</h1>
+    <h1>List Restaurant</h1>
     <a class="btn btn-primary" v-bind:href="'/admin/owners/'+form._id+'/places/new'">Add Restaurant</a>
 
     <div v-for="data in placeForm">
-        <h2 style="margin: 50px 0 30px;">List Restaurant</h2>
         <div class="columns" style="margin-top: 10px;">
             <div class="card" style="height: 100%; border-radius: 15px;">
                 <div class="columns">

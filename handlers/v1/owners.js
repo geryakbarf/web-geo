@@ -72,12 +72,38 @@ const updateOwner = async (req, res) => {
             return res.status(error.code).json(error.message);
         return res.status(500).json({message: serverErrMsg});
     }
+}
 
+const insertPlacetoList = async (req, res) => {
+    try {
+        const value = req.body;
+        //Validasi Jika tempat sudah ada di wishlist
+        if(value.placeID){
+            const check = await Owner.findOne({_id: value.ownerId, "placesId": value.placeID});
+            if (check != null)
+                return res.json({err_code: "004", message: "Tempat sudah ada dalam list anda"});
+        }
+        await Owner.updateOne({_id: value.ownerId}, {
+            $push: {
+                "placesId": value.placeID
+            }
+        });
+        return res.json({
+            message: "Sukses menambahkan tempat ke list",
+            data: value.ownerId
+        });
+    } catch (error) {
+        console.log(error);
+        if (error.code)
+            return res.status(error.code).json(error.message);
+        return res.status(500).json({message: serverErrMsg});
+    }
 }
 
 module.exports = {
     getAllOwners,
     addOwner,
     getOneOwner,
-    updateOwner
+    updateOwner,
+    insertPlacetoList
 }
