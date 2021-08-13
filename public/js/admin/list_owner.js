@@ -11,7 +11,7 @@ var app = new Vue({
             {label: '#'},
             {label: 'Nama', field: "name"},
             {label: 'Last Update', field: "lastUpdate"},
-            {label : 'Next Update', field: "nextUpdate"},
+            {label: 'Next Update', field: "nextUpdate"},
             {label: 'Nama Restoran', field: "placeName"},
             // {label: 'Update Berikutnya', field: "nextUpdate"},
             {label: 'Action'}
@@ -115,10 +115,17 @@ var app = new Vue({
                 this.owner = data.data;
                 for (let i = 0; i < this.owner.length; i++) {
                     this.owner[i].lastUpdate = this.compareDate(this.owner[i].updatedAt, false);
-                    this.owner[i].nextUpdate = this.compareDate(this.owner[i].nextUpdate,true);
+                    this.owner[i].nextUpdate = this.compareDate(this.owner[i].nextUpdate, true);
                 }
                 console.log(this.owner[0].placeName);
             } else toastr.error("Failed to retrive data");
+        },
+        sendWhatsapp: function (number, type) {
+            if(type == "022"){
+                toastr.error("Nomor ini tidak terdaftar di whatsapp");
+            }else{
+                location.href = "https://api.whatsapp.com/send/?phone=62" + number + "&text=Halo.Apakahadapembaruanada?&app_absent=0";
+            }
         }
     },
     filters: {

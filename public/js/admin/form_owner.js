@@ -16,7 +16,16 @@ var app = new Vue({
             _id: null,
             name: '',
             photo: null,
-        }
+        },
+        filter: '',
+        filterdraft: '',
+        filterpublish: '',
+        filterupdated: '',
+        placeCols: [
+            {label: '#'},
+            {label: 'Place Name', field: "name"},
+            {label: 'Action'}
+        ]
     },
     methods: {
         setSideMenuIndex: function (idx) {

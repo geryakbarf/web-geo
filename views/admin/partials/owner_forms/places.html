@@ -2,34 +2,20 @@
     <h1>List Restaurant</h1>
     <a class="btn btn-primary" v-bind:href="'/admin/owners/'+form._id+'/places/new'">Add Restaurant</a>
 
-    <div v-for="data in placeForm">
-        <div class="columns" style="margin-top: 10px;">
-            <div class="card" style="height: 100%; border-radius: 15px;">
-                <div class="columns">
-                    <div class="column col-5">
-                        <div class="card-image" style="height: 120px; width: 120px; border-radius: 15px;"><img
-                                class="img-responsive" style="height: 100%; width: 100%; object-fit: cover;"
-                                v-bind:alt="data.name"
-                                v-bind:src="data.photo?data.photo.path:'/assets/images/emam-menu-no-photos.jpg'">
-                        </div>
-                    </div>
-                    <div class="column col-7">
-                        <div class="card-header">
-                            <!-- <button class="btn btn-primary float-right"><i class="icon icon-plus"></i></button> -->
-                            <div v-if="data.is_draft">
-                                <p style="color: #FBAC18; margin: 0;">Draft</p>
-                            </div>
-                            <div v-else>
-                                <p style="color: #b5d334; margin: 0;">Online</p>
-                            </div>
-                            <div class="card-title h6">{{ data.name }}</div>
-                            <p>{{ data.address }}</p>
-                            <button v-on:click="deletePlaces(data._id)" class="btn btn-primary">
-                                Hapus</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div style="max-height: 400px;overflow-y: auto;overflow-x: hidden;">
+        <datatable :columns="placeCols" :data="placeForm" :filter="filter" class="table">
+            <template scope="{ row, column, index }">
+                <tr>
+                    <td class="text-center">{{ index + 1 }}</td>
+                    <td>{{ row.name }}</td>
+                    <td class="text-center">
+                        <a class="btn my-2" v-bind:href="'/admin/places/'+row._id+'/edit'">Update</a>
+                        <button class="btn btn-primary" v-on:click="deletePlaces(data._id)">
+                            Hapus
+                        </button>
+                    </td>
+                </tr>
+            </template>
+        </datatable>
     </div>
 </div>

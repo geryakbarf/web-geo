@@ -19,7 +19,7 @@
                     <td>{{ row.placeName }}</td>
                     <td class="text-center">
                         <a class="btn btn-primary my-2" v-bind:href="'/admin/owners/'+row._id+'/edit'">Update</a>
-                        <a class="btn my-2" v-bind:href="'/admin/places/'+row._id+'/edit'">Whatsapp</a>
+                        <a class="btn my-2" v-on:click="sendWhatsapp(row.contactNumber,row.contactType)">Whatsapp</a>
                     </td>
                 </tr>
             </template>
