@@ -28,6 +28,7 @@ v1.put('/owners', ownerHanlder.updateOwner)
 v1.post('/owners-insert', ownerHanlder.insertPlacetoList);
 v1.delete('/owners-delete/:id',ownerHanlder.deleteOwner);
 
+v1.get('/places/:id/owner',ownerHanlder.getOwnerPlaceStatus)
 v1.get('/places', placeHandler.getPlaces)
 v1.get('/places/:id', placeHandler.getOnePlace)
 v1.get('/places/:id/menu-categories', placeHandler.getMenuCategoriesPlace)

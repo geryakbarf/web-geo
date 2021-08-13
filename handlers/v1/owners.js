@@ -113,11 +113,27 @@ const deleteOwner = async (req, res) => {
     }
 }
 
+const getOwnerPlaceStatus = async (req, res) => {
+    try {
+        const id = req.params.id;
+        let data = await Owner.find({placesId : id})
+        return res.json({
+            message: "Sukses", data
+        })
+    } catch (error) {
+        console.log(error);
+        if (error.code)
+            return res.status(error.code).json(error.message);
+        return res.status(500).json({message: serverErrMsg});
+    }
+}
+
 module.exports = {
     getAllOwners,
     addOwner,
     getOneOwner,
     updateOwner,
     insertPlacetoList,
-    deleteOwner
+    deleteOwner,
+    getOwnerPlaceStatus
 }

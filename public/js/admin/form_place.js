@@ -79,7 +79,15 @@ var app = new Vue({
             contactType: '',
             contactNumber: ''
         },
-        menus: []
+        menus: [],
+        owner: [],
+        ownerCols: [
+            {label: '#'},
+            {label: 'Nama', field: "name"},
+            {label: 'Nomor Kontak', field: "contactNumber"},
+            // {label: 'Update Berikutnya', field: "nextUpdate"},
+            {label: 'Action'}
+        ],
     },
     watch: {
         'form.name': {
@@ -511,6 +519,23 @@ var app = new Vue({
                 console.log(error);
             }
         },
+        sendWhatsapp: function (number, type) {
+            if(type == "022"){
+                toastr.error("Nomor ini tidak terdaftar di whatsapp");
+            }else{
+                location.href = "https://api.whatsapp.com/send/?phone=62" + number + "&text=Halo.Apakahadapembaruanada?&app_absent=0";
+            }
+        },
+        loadOwner: async function () {
+            if (!placeId) return;
+            try {
+                const res = await fetch(`/api/v1/places/${placeId}/owner`);
+                const data = await res.json();
+                this.owner = data.data;
+            } catch (error) {
+                console.log(error);
+            }
+        },
         addPaymentDetail: function (tipe) {
             let id = CryptoJS.MD5(new Date().toString()).toString();
             this.form.payment_detail.push({id: id, type: tipe, name: '', condition: ''})
@@ -563,6 +588,7 @@ var app = new Vue({
         this.loadCovidProtocols()
         this.loadMenus()
         this.loadPaymentsCat()
+        this.loadOwner()
     },
     computed: {
         hasQRIS() {
