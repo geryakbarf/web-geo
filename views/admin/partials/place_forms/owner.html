@@ -3,7 +3,7 @@
 
     <div v-if="!owner.length">
         <h3>This place has no owner yet.</h3>
-        <a class="btn btn-primary" v-bind:href="'/admin/owners/'+form._id+'/places/new'">Add Owner</a>
+        <a class="btn btn-primary" href="/admin/owners/new">Add Owner</a>
     </div>
 
     <div v-if="owner.length">
