@@ -78,7 +78,7 @@ const insertPlacetoList = async (req, res) => {
     try {
         const value = req.body;
         //Validasi Jika tempat sudah ada di wishlist
-        if(value.placeID){
+        if (value.placeID) {
             const check = await Owner.findOne({_id: value.ownerId, "placesId": value.placeID});
             if (check != null)
                 return res.json({err_code: "004", message: "Tempat sudah ada dalam list anda"});
@@ -100,10 +100,24 @@ const insertPlacetoList = async (req, res) => {
     }
 }
 
+const deleteOwner = async (req, res) => {
+    try {
+        const owner = await Owner.findOne({_id: req.params.id});
+        await owner.delete();
+        return res.json({message: "Success to delete owner"})
+    } catch (error) {
+        console.log(error);
+        if (error.code)
+            return res.status(error.code).json(error.message);
+        return res.status(500).json({message: serverErrMsg});
+    }
+}
+
 module.exports = {
     getAllOwners,
     addOwner,
     getOneOwner,
     updateOwner,
-    insertPlacetoList
+    insertPlacetoList,
+    deleteOwner
 }

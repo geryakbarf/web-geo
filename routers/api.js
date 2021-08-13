@@ -26,6 +26,7 @@ v1.post('/owners', ownerHanlder.addOwner)
 v1.get('/owners/:id', ownerHanlder.getOneOwner)
 v1.put('/owners', ownerHanlder.updateOwner)
 v1.post('/owners-insert', ownerHanlder.insertPlacetoList);
+v1.delete('/owners-delete/:id',ownerHanlder.deleteOwner);
 
 v1.get('/places', placeHandler.getPlaces)
 v1.get('/places/:id', placeHandler.getOnePlace)

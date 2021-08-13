@@ -126,6 +126,18 @@ var app = new Vue({
                 console.log(error);
             }
         },
+        onDeleteData: async function () {
+            if (confirm('Are you sure want to delete this data?')) {
+                const res = await fetch(`/api/v1/owners-delete/${_id}`, {method: "DELETE"});
+                if (res.ok) {
+                    toastr.success("Success to delete data")
+                    window.location = `/admin/owners`
+                } else toastr.error("Failed to delete data");
+            } else {
+
+            }
+
+        },
     },
     mounted() {
         this.loadOwner()
