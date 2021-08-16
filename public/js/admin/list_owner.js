@@ -10,12 +10,14 @@ var app = new Vue({
         ownerCols: [
             {label: '#'},
             {label: 'Nama', field: "name"},
-            {label: 'Last Update', field: "lastUpdate"},
+            {label: 'Last Update', field: "updatedAt"},
             {label: 'Next Update', field: "nextUpdate"},
             {label: 'Nama Restoran', field: "placeName"},
             // {label: 'Update Berikutnya', field: "nextUpdate"},
             {label: 'Action'}
         ],
+        onwer_updated: [],
+        owner_update_soon: [],
         owner: [],
         places_draft: [],
         places_publish: [],
@@ -60,7 +62,7 @@ var app = new Vue({
             if (condiiton)
                 return updatedAt.substring(0, 10);
             else
-                return updatedAt;
+                return diff;
         },
 
         setSideMenuIndex: function (idx) {
@@ -116,14 +118,17 @@ var app = new Vue({
                 for (let i = 0; i < this.owner.length; i++) {
                     this.owner[i].lastUpdate = this.compareDate(this.owner[i].updatedAt, false);
                     this.owner[i].nextUpdate = this.compareDate(this.owner[i].nextUpdate, true);
+                    this.owner[i].updatedAt = this.compareDate(this.owner[i].updatedAt, true);
+                    this.owner[i].nextUpdateDays = this.compareDate(this.owner[i].nextUpdate, false);
                 }
-                console.log(this.owner[0].placeName);
+                this.owner_update_soon = this.owner.filter(e => e.nextUpdateDays >= -2);
+                this.owner_updated = this.owner.filter(e => e.lastUpdate <= 2);
             } else toastr.error("Failed to retrive data");
         },
         sendWhatsapp: function (number, type) {
-            if(type == "022"){
+            if (type == "022") {
                 toastr.error("Nomor ini tidak terdaftar di whatsapp");
-            }else{
+            } else {
                 location.href = "https://api.whatsapp.com/send/?phone=62" + number + "&text=Halo.Apakahadapembaruanada?&app_absent=0";
             }
         }

@@ -1,5 +1,5 @@
-<div v-if="sideMenuIndex == 0">
-    <h3 class="mt-2">All Owners</h3>
+<div v-if="sideMenuIndex == 2">
+    <h3 class="mt-2">Updated Owners</h3>
     <div class="columns" style="margin: 10px 0;">
         <div class="column col-2">
             <div class="form-group">
@@ -9,7 +9,7 @@
         </div>
     </div>
     <div style="max-height: 400px;overflow-y: auto;overflow-x: hidden;">
-        <datatable :columns="ownerCols" :data="owner" :filter="filter" class="table">
+        <datatable :columns="ownerCols" :data="owner_updated" :filter="filter" class="table">
             <template scope="{ row, column, index }">
                 <tr>
                     <td class="text-center">{{ index + 1 }}</td>
